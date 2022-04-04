@@ -319,6 +319,7 @@ public final class PotPvPSI extends JavaPlugin {
             }
         }
         commandHandler.registerCommands();
+        commandHandler.registerPermissions();
     }
 
     // This is here because chunk snapshots are (still) being deserialized, and serialized sometimes.
