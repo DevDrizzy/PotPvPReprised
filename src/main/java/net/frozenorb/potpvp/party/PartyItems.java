@@ -1,14 +1,12 @@
 package net.frozenorb.potpvp.party;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.kt.util.ItemUtils;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import lombok.experimental.UtilityClass;
 
-import static net.frozenorb.potpvp.PotPvPLang.LEFT_ARROW;
-import static net.frozenorb.potpvp.PotPvPLang.RIGHT_ARROW;
 import static org.bukkit.ChatColor.*;
 
 @UtilityClass
@@ -33,7 +31,7 @@ public final class PartyItems {
     public static ItemStack icon(Party party) {
         ItemStack item = new ItemStack(ICON_TYPE);
 
-        String leaderName = PotPvPSI.getInstance().getUuidCache().name(party.getLeader());
+        String leaderName = PotPvPRP.getInstance().getUuidCache().name(party.getLeader());
         String displayName = BLUE.toString() + BOLD + "» " + AQUA.toString() + BOLD + leaderName + AQUA + "'s Party" + BLUE.toString() + BOLD + " «";
 
         ItemUtils.setDisplayName(item, displayName);

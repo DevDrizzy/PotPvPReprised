@@ -3,7 +3,7 @@ package net.frozenorb.potpvp.listener;
 import com.mongodb.Block;
 import com.mongodb.client.MongoCollection;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.match.Match;
 import net.frozenorb.potpvp.match.MatchHandler;
 import net.frozenorb.potpvp.match.MatchTeam;
@@ -45,7 +45,7 @@ public final class RankedMatchQualificationListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST) // LOWEST runs first
     public void onAsyncPlayerPreLogin(AsyncPlayerPreLoginEvent event) {
-        try (Jedis jedis = PotPvPSI.getInstance().redis.getLocalJedisPool().getResource()) {
+        try (Jedis jedis = PotPvPRP.getInstance().redis.getLocalJedisPool().getResource()) {
             String existing = jedis.get(KEY_PREFIX + event.getUniqueId());
 
             if (existing != null && !existing.isEmpty()) {
@@ -75,8 +75,8 @@ public final class RankedMatchQualificationListener implements Listener {
             return;
         }
 
-        Bukkit.getScheduler().runTaskAsynchronously(PotPvPSI.getInstance(), () -> {
-            try (Jedis jedis = PotPvPSI.getInstance().redis.getLocalJedisPool().getResource()) {
+        Bukkit.getScheduler().runTaskAsynchronously(PotPvPRP.getInstance(), () -> {
+            try (Jedis jedis = PotPvPRP.getInstance().redis.getLocalJedisPool().getResource()) {
                 UUID winner = match.getWinner().getFirstAliveMember();
                 rankedMatchQualificationWins.put(winner, jedis.incr(KEY_PREFIX + winner).intValue());
             }
@@ -93,7 +93,7 @@ public final class RankedMatchQualificationListener implements Listener {
     public static void rmqSet(Player sender, @Parameter(name="target") Player target, @Parameter(name="count") int count) {
         rankedMatchQualificationWins.put(target.getUniqueId(), count);
 
-        try (Jedis jedis = PotPvPSI.getInstance().redis.getLocalJedisPool().getResource()) {
+        try (Jedis jedis = PotPvPRP.getInstance().redis.getLocalJedisPool().getResource()) {
             jedis.set(KEY_PREFIX + target.getUniqueId(), String.valueOf(count));
         }
 
@@ -106,7 +106,7 @@ public final class RankedMatchQualificationListener implements Listener {
 
         sender.sendMessage(ChatColor.GOLD + "Starting...");
 
-        try (Jedis jedis = PotPvPSI.getInstance().redis.getLocalJedisPool().getResource()) {
+        try (Jedis jedis = PotPvPRP.getInstance().redis.getLocalJedisPool().getResource()) {
             matchCollection.find(new Document("ranked", false).append("winner", new Document("$gte", 0))).forEach((Block<Document>) match -> {
                 List<Document> teams = (List<Document>) match.get("teams", List.class);
 

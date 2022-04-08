@@ -36,7 +36,7 @@ import com.google.common.collect.Sets;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.arena.Arena;
 import net.frozenorb.potpvp.elo.EloCalculator;
 import net.frozenorb.potpvp.kittype.KitType;
@@ -147,7 +147,7 @@ public final class Match {
     void startCountdown() {
         state = MatchState.COUNTDOWN;
         
-        Map<UUID, Match> playingCache = PotPvPSI.getInstance().getMatchHandler().getPlayingMatchCache();
+        Map<UUID, Match> playingCache = PotPvPRP.getInstance().getMatchHandler().getPlayingMatchCache();
         Set<Player> updateVisiblity = new HashSet<>();
         
         for (MatchTeam team : this.getTeams()) {
@@ -179,8 +179,8 @@ public final class Match {
                 player.teleport(spawn);
                 player.getInventory().setHeldItemSlot(0);
                 
-                PotPvPSI.getInstance().getNameTagEngine().reloadPlayer(player);
-                PotPvPSI.getInstance().getNameTagEngine().reloadOthersFor(player);
+                PotPvPRP.getInstance().getNameTagEngine().reloadPlayer(player);
+                PotPvPRP.getInstance().getNameTagEngine().reloadOthersFor(player);
                 
                 updateVisiblity.add(player);
                 PatchedPlayerUtils.resetInventory(player, GameMode.SURVIVAL);
@@ -216,7 +216,7 @@ public final class Match {
                 countdownTimeRemaining--;
             }
             
-        }.runTaskTimer(PotPvPSI.getInstance(), 0L, 20L);
+        }.runTaskTimer(PotPvPRP.getInstance(), 0L, 20L);
     }
     
     private void startMatch() {
@@ -257,7 +257,7 @@ public final class Match {
         
         int delayTicks = MATCH_END_DELAY_SECONDS * 20;
         if (JavaPlugin.getProvidingPlugin(this.getClass()).isEnabled()) {
-            Bukkit.getScheduler().runTaskLater(PotPvPSI.getInstance(), this::terminateMatch, delayTicks);
+            Bukkit.getScheduler().runTaskLater(PotPvPRP.getInstance(), this::terminateMatch, delayTicks);
         } else {
             this.terminateMatch();
         }
@@ -292,13 +292,13 @@ public final class Match {
         // we have to make a few edits to the document so we use Gson (which has
         // adapters
         // for things like Locations) and then edit it
-        JsonObject document = PotPvPSI.getGson().toJsonTree(this).getAsJsonObject();
+        JsonObject document = PotPvPRP.getGson().toJsonTree(this).getAsJsonObject();
         
         document.addProperty("winner", teams.indexOf(winner)); // replace the full team with their index in the full list
         document.addProperty("arena", arena.getSchematic()); // replace the full arena with its schematic (website doesn't care which copy we
                                                              // used)
         
-        Bukkit.getScheduler().runTaskAsynchronously(PotPvPSI.getInstance(), () -> {
+        Bukkit.getScheduler().runTaskAsynchronously(PotPvPRP.getInstance(), () -> {
             // The Document#parse call really sucks. It generates literally thousands of
             // objects per call.
             // Hopefully we'll be moving to just posting to a web service soon enough (and
@@ -310,15 +310,15 @@ public final class Match {
             MongoUtils.getCollection(MatchHandler.MONGO_COLLECTION_NAME).insertOne(parsedDocument);
         });
         
-        MatchHandler matchHandler = PotPvPSI.getInstance().getMatchHandler();
-        LobbyHandler lobbyHandler = PotPvPSI.getInstance().getLobbyHandler();
+        MatchHandler matchHandler = PotPvPRP.getInstance().getMatchHandler();
+        LobbyHandler lobbyHandler = PotPvPRP.getInstance().getLobbyHandler();
         
         Map<UUID, Match> playingCache = matchHandler.getPlayingMatchCache();
         Map<UUID, Match> spectateCache = matchHandler.getSpectatingMatchCache();
         
         if (kitType.isBuildingAllowed())
             arena.restore();
-        PotPvPSI.getInstance().getArenaHandler().releaseArena(arena);
+        PotPvPRP.getInstance().getArenaHandler().releaseArena(arena);
         matchHandler.removeMatch(this);
         
         getTeams().forEach(team -> {
@@ -383,7 +383,7 @@ public final class Match {
             return;
         }
         
-        Map<UUID, Match> spectateCache = PotPvPSI.getInstance().getMatchHandler().getSpectatingMatchCache();
+        Map<UUID, Match> spectateCache = PotPvPRP.getInstance().getMatchHandler().getSpectatingMatchCache();
         
         spectateCache.put(player.getUniqueId(), this);
         spectators.add(player.getUniqueId());
@@ -404,8 +404,8 @@ public final class Match {
             player.getInventory().setHeldItemSlot(0);
         }
         
-        PotPvPSI.getInstance().getNameTagEngine().reloadPlayer(player);
-        PotPvPSI.getInstance().getNameTagEngine().reloadOthersFor(player);
+        PotPvPRP.getInstance().getNameTagEngine().reloadPlayer(player);
+        PotPvPRP.getInstance().getNameTagEngine().reloadOthersFor(player);
         
         VisibilityUtils.updateVisibility(player);
         PatchedPlayerUtils.resetInventory(player, GameMode.CREATIVE, true); // because we're about to reset their inv on a timer
@@ -422,7 +422,7 @@ public final class Match {
     }
     
     public void removeSpectator(Player player, boolean returnToLobby) {
-        Map<UUID, Match> spectateCache = PotPvPSI.getInstance().getMatchHandler().getSpectatingMatchCache();
+        Map<UUID, Match> spectateCache = PotPvPRP.getInstance().getMatchHandler().getSpectatingMatchCache();
         
         spectateCache.remove(player.getUniqueId());
         spectators.remove(player.getUniqueId());
@@ -431,7 +431,7 @@ public final class Match {
         sendSpectatorMessage(player, ChatColor.AQUA + player.getName() + ChatColor.YELLOW + " is no longer spectating.");
         
         if (returnToLobby) {
-            PotPvPSI.getInstance().getLobbyHandler().returnToLobby(player);
+            PotPvPRP.getInstance().getLobbyHandler().returnToLobby(player);
         }
         
         Bukkit.getPluginManager().callEvent(new MatchSpectatorLeaveEvent(player, this));
@@ -443,7 +443,7 @@ public final class Match {
             return;
         }
         
-        SettingHandler settingHandler = PotPvPSI.getInstance().getSettingHandler();
+        SettingHandler settingHandler = PotPvPRP.getInstance().getSettingHandler();
         
         for (Player online : Bukkit.getOnlinePlayers()) {
             if (online == spectator) {
@@ -466,7 +466,7 @@ public final class Match {
             return;
         }
         
-        Map<UUID, Match> playingCache = PotPvPSI.getInstance().getMatchHandler().getPlayingMatchCache();
+        Map<UUID, Match> playingCache = PotPvPRP.getInstance().getMatchHandler().getPlayingMatchCache();
         
         team.markDead(player.getUniqueId());
         playingCache.remove(player.getUniqueId());
@@ -509,8 +509,8 @@ public final class Match {
             MatchTeam teamB = teams.get(1);
             
             if (teamA.getAliveMembers().size() == 1 && teamB.getAliveMembers().size() == 1) {
-                String nameA = PotPvPSI.getInstance().getUuidCache().name(teamA.getFirstAliveMember());
-                String nameB = PotPvPSI.getInstance().getUuidCache().name(teamB.getFirstAliveMember());
+                String nameA = PotPvPRP.getInstance().getUuidCache().name(teamA.getFirstAliveMember());
+                String nameB = PotPvPRP.getInstance().getUuidCache().name(teamB.getFirstAliveMember());
                 
                 players = nameA + " vs " + nameB;
             } else {

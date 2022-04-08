@@ -1,6 +1,6 @@
 package net.frozenorb.potpvp.kt.util
 
-import net.frozenorb.potpvp.PotPvPSI
+import net.frozenorb.potpvp.PotPvPRP
 import net.frozenorb.potpvp.kt.protocol.InventoryAdapter
 import net.frozenorb.potpvp.kt.protocol.PingAdapter
 import net.minecraft.server.v1_8_R3.*
@@ -123,7 +123,7 @@ object PlayerUtils {
             }
 
             if (hideAfter) {
-                Bukkit.getScheduler().runTaskLater(PotPvPSI.getInstance(), {
+                Bukkit.getScheduler().runTaskLater(PotPvPRP.getInstance(), {
                     for (target in sentTo) {
                         val playerConnection = (target as CraftPlayer).handle.playerConnection
                         val packet = PacketPlayOutEntityDestroy(player.entityId)

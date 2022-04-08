@@ -1,6 +1,6 @@
 package net.frozenorb.potpvp.kittype.command;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.kittype.KitType;
 import net.frozenorb.potpvp.command.Command;
 import net.frozenorb.potpvp.command.param.Parameter;
@@ -26,7 +26,7 @@ public class KitCreateCommand {
 		kitType.saveAsync();
 
 		KitType.getAllTypes().add(kitType);
-		PotPvPSI.getInstance().getQueueHandler().addQueues(kitType);
+		PotPvPRP.getInstance().getQueueHandler().addQueues(kitType);
 
 		player.sendMessage(ChatColor.GREEN + "You've created a new kit-type by the ID \"" + kitType.getId() + "\".");
 	}

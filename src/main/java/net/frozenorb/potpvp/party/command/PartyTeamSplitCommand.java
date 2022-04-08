@@ -1,7 +1,7 @@
 package net.frozenorb.potpvp.party.command;
 
 import net.frozenorb.potpvp.PotPvPLang;
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.party.Party;
 import net.frozenorb.potpvp.party.PartyHandler;
 import net.frozenorb.potpvp.party.PartyUtils;
@@ -13,7 +13,7 @@ public final class PartyTeamSplitCommand {
 
     @Command(names = {"party teamsplit", "p teamsplit", "t teamsplit", "team teamsplit", "f teamsplit"}, permission = "")
     public static void partyTeamSplit(Player sender) {
-        PartyHandler partyHandler = PotPvPSI.getInstance().getPartyHandler();
+        PartyHandler partyHandler = PotPvPRP.getInstance().getPartyHandler();
         Party party = partyHandler.getParty(sender);
 
         if (party == null) {

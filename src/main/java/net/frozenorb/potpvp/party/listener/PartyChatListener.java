@@ -1,6 +1,6 @@
 package net.frozenorb.potpvp.party.listener;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.party.Party;
 
 import org.bukkit.ChatColor;
@@ -27,7 +27,7 @@ public final class PartyChatListener implements Listener {
 
         Player player = event.getPlayer();
         String message = event.getMessage().substring(1).trim();
-        Party party = PotPvPSI.getInstance().getPartyHandler().getParty(player);
+        Party party = PotPvPRP.getInstance().getPartyHandler().getParty(player);
 
         if (party == null) {
             player.sendMessage(ChatColor.RED + "You aren't in a party!");
@@ -43,7 +43,7 @@ public final class PartyChatListener implements Listener {
         party.message(prefixColor.toString() + ChatColor.BOLD + "[P] " + player.getName() + ": " + ChatColor.LIGHT_PURPLE + message);
 
         canUsePartyChat.put(player.getUniqueId(), System.currentTimeMillis() + 2_000);
-        PotPvPSI.getInstance().getLogger().info("[Party Chat] " + player.getName() + ": " + message);
+        PotPvPRP.getInstance().getLogger().info("[Party Chat] " + player.getName() + ": " + message);
     }
 
 }

@@ -16,7 +16,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import com.google.common.collect.Maps;
 import com.mongodb.client.MongoCollection;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.kittype.KitType;
 import net.frozenorb.potpvp.match.Match;
 import net.frozenorb.potpvp.match.event.MatchTerminateEvent;
@@ -33,7 +33,7 @@ public class StatisticsHandler implements Listener {
         COLLECTION = MongoUtils.getCollection("playerStatistics");
         statisticsMap = Maps.newConcurrentMap();
         
-        Bukkit.getScheduler().runTaskTimerAsynchronously(PotPvPSI.getInstance(), () -> {
+        Bukkit.getScheduler().runTaskTimerAsynchronously(PotPvPRP.getInstance(), () -> {
             
             long start = System.currentTimeMillis();
             statisticsMap.keySet().forEach(this::saveStatistics);
@@ -45,14 +45,14 @@ public class StatisticsHandler implements Listener {
     
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onJoin(PlayerJoinEvent event) {
-        Bukkit.getScheduler().runTaskAsynchronously(PotPvPSI.getInstance(), () -> {
+        Bukkit.getScheduler().runTaskAsynchronously(PotPvPRP.getInstance(), () -> {
             loadStatistics(event.getPlayer().getUniqueId());
         });
     }
     
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onQuit(PlayerQuitEvent event) {
-        Bukkit.getScheduler().runTaskAsynchronously(PotPvPSI.getInstance(), () -> {
+        Bukkit.getScheduler().runTaskAsynchronously(PotPvPRP.getInstance(), () -> {
             saveStatistics(event.getPlayer().getUniqueId());
             unloadStatistics(event.getPlayer().getUniqueId());
         });
@@ -78,7 +78,7 @@ public class StatisticsHandler implements Listener {
         Player died = event.getEntity();
         Player killer = died.getKiller();
         
-        Match diedMatch = PotPvPSI.getInstance().getMatchHandler().getMatchPlayingOrSpectating(died);
+        Match diedMatch = PotPvPRP.getInstance().getMatchHandler().getMatchPlayingOrSpectating(died);
         
         if (diedMatch == null) {
             return;
@@ -102,7 +102,7 @@ public class StatisticsHandler implements Listener {
             document = new Document();
         }
         
-        document.put("lastUsername", PotPvPSI.getInstance().getUuidCache().name(uuid));
+        document.put("lastUsername", PotPvPRP.getInstance().getUuidCache().name(uuid));
 
         final Document finalDocument = document;
         Map<String, Map<Statistic, Double>> subStatisticsMap = Maps.newHashMap();
@@ -152,7 +152,7 @@ public class StatisticsHandler implements Listener {
             toInsert.put(entry.getKey(), typeStats);
         });
         
-        toInsert.put("lastUsername", PotPvPSI.getInstance().getUuidCache().name(uuid));
+        toInsert.put("lastUsername", PotPvPRP.getInstance().getUuidCache().name(uuid));
 
         COLLECTION.updateOne(new Document("_id", uuid.toString()), new Document("$set", toInsert), MongoUtils.UPSERT_OPTIONS);
     }

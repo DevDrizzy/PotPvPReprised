@@ -2,7 +2,7 @@ package net.frozenorb.potpvp.postmatchinv.menu;
 
 import com.google.common.base.Preconditions;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.kittype.HealingMethod;
 import net.frozenorb.potpvp.postmatchinv.PostMatchInvHandler;
 import net.frozenorb.potpvp.postmatchinv.PostMatchPlayer;
@@ -20,7 +20,7 @@ public final class PostMatchMenu extends Menu {
     private final PostMatchPlayer target;
 
     public PostMatchMenu(PostMatchPlayer target) {
-        super("Inventory of " + PotPvPSI.getInstance().getUuidCache().name(target.getPlayerUuid()));
+        super("Inventory of " + PotPvPRP.getInstance().getUuidCache().name(target.getPlayerUuid()));
 
         this.target = Preconditions.checkNotNull(target, "target");
     }
@@ -70,7 +70,7 @@ public final class PostMatchMenu extends Menu {
 
         buttons.put(getSlot(position++, y), new PostMatchStatisticsButton(target.getTotalHits(), target.getLongestCombo()));
         // swap to other player button (for 1v1s)
-        PostMatchInvHandler postMatchInvHandler = PotPvPSI.getInstance().getPostMatchInvHandler();
+        PostMatchInvHandler postMatchInvHandler = PotPvPRP.getInstance().getPostMatchInvHandler();
         Collection<PostMatchPlayer> postMatchPlayers = postMatchInvHandler.getPostMatchData(player.getUniqueId()).values();
 
         if (postMatchPlayers.size() == 2) {

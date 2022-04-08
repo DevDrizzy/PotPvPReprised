@@ -3,7 +3,7 @@ package net.frozenorb.potpvp.postmatchinv;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableMap;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.match.Match;
 import net.frozenorb.potpvp.match.MatchTeam;
 import net.frozenorb.potpvp.postmatchinv.listener.PostMatchInvGeneralListener;
@@ -31,7 +31,7 @@ public final class PostMatchInvHandler {
     private final Map<UUID, Map<UUID, PostMatchPlayer>> playerData = new ConcurrentHashMap<>();
 
     public PostMatchInvHandler() {
-        Bukkit.getPluginManager().registerEvents(new PostMatchInvGeneralListener(), PotPvPSI.getInstance());
+        Bukkit.getPluginManager().registerEvents(new PostMatchInvGeneralListener(), PotPvPRP.getInstance());
     }
 
     public void recordMatch(Match match) {
@@ -106,7 +106,7 @@ public final class PostMatchInvHandler {
             }
 
             player.sendMessage(PostMatchInvLang.LINE);
-            player.sendMessage(PotPvPSI.getInstance().getDominantColor() + "Post-Match Inventories " + ChatColor.GRAY + "(click name to view)");
+            player.sendMessage(PotPvPRP.getInstance().getDominantColor() + "Post-Match Inventories " + ChatColor.GRAY + "(click name to view)");
 
             for (Object line : lines) {
                 if (line instanceof TextComponent[]) {

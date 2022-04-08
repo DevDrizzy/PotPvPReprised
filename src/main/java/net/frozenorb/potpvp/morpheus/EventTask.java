@@ -2,7 +2,7 @@ package net.frozenorb.potpvp.morpheus;
 
 import com.qrakn.morpheus.game.Game;
 import com.qrakn.morpheus.game.GameQueue;
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.lobby.LobbyHandler;
 import net.frozenorb.potpvp.lobby.LobbyUtils;
 import org.bukkit.Bukkit;
@@ -16,7 +16,7 @@ public class EventTask extends BukkitRunnable {
     @Override
     public void run() {
         for (Player player : Bukkit.getOnlinePlayers()) {
-            LobbyHandler handler = PotPvPSI.getInstance().getLobbyHandler();
+            LobbyHandler handler = PotPvPRP.getInstance().getLobbyHandler();
 
             if (handler.isInLobby(player)) {
                 List<Game> games = GameQueue.INSTANCE.getCurrentGames();
@@ -31,7 +31,7 @@ public class EventTask extends BukkitRunnable {
 
                 if (game != null) continue;
 
-                if (!player.getInventory().contains(EventItems.getEventItem()) && !PotPvPSI.getInstance().getPartyHandler().hasParty(player)) {
+                if (!player.getInventory().contains(EventItems.getEventItem()) && !PotPvPRP.getInstance().getPartyHandler().hasParty(player)) {
                     LobbyUtils.resetInventory(player);
                 }
 

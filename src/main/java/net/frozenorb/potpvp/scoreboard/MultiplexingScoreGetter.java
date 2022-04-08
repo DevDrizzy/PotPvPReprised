@@ -1,6 +1,5 @@
 package net.frozenorb.potpvp.scoreboard;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.function.BiConsumer;
 
@@ -10,7 +9,7 @@ import com.qrakn.morpheus.game.GameState;
 import net.frozenorb.potpvp.scoreboard.construct.ScoreGetter;
 import org.bukkit.entity.Player;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.match.MatchHandler;
 import net.frozenorb.potpvp.setting.Setting;
 import net.frozenorb.potpvp.setting.SettingHandler;
@@ -35,9 +34,9 @@ final class MultiplexingScoreGetter implements ScoreGetter {
 
     @Override
     public void getScores(List<String> scores, Player player) {
-        if (PotPvPSI.getInstance() == null) return;
-        MatchHandler matchHandler = PotPvPSI.getInstance().getMatchHandler();
-        SettingHandler settingHandler = PotPvPSI.getInstance().getSettingHandler();
+        if (PotPvPRP.getInstance() == null) return;
+        MatchHandler matchHandler = PotPvPRP.getInstance().getMatchHandler();
+        SettingHandler settingHandler = PotPvPRP.getInstance().getSettingHandler();
 
         if (settingHandler.getSetting(player, Setting.SHOW_SCOREBOARD)) {
         scores.add("&a" + CC.SB_BAR);

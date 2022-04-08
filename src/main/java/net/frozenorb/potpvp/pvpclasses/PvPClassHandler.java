@@ -1,7 +1,7 @@
 package net.frozenorb.potpvp.pvpclasses;
 
 import lombok.Getter;
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.kittype.KitType;
 import net.frozenorb.potpvp.match.Match;
 import net.frozenorb.potpvp.pvpclasses.event.BardRestoreEvent;
@@ -14,9 +14,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.*;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -34,11 +32,11 @@ public class PvPClassHandler extends BukkitRunnable implements Listener {
         pvpClasses.add(new BardClass());
 
         for (PvPClass pvpClass : pvpClasses) {
-            Bukkit.getServer().getPluginManager().registerEvents(pvpClass, PotPvPSI.getInstance());
+            Bukkit.getServer().getPluginManager().registerEvents(pvpClass, PotPvPRP.getInstance());
         }
 
-        Bukkit.getServer().getScheduler().runTaskTimer(PotPvPSI.getInstance(), this, 2L, 2L);
-        Bukkit.getServer().getPluginManager().registerEvents(this, PotPvPSI.getInstance());
+        Bukkit.getServer().getScheduler().runTaskTimer(PotPvPRP.getInstance(), this, 2L, 2L);
+        Bukkit.getServer().getPluginManager().registerEvents(this, PotPvPRP.getInstance());
     }
 
     @Override
@@ -58,7 +56,7 @@ public class PvPClassHandler extends BukkitRunnable implements Listener {
                     equippedPvPClass.tick(player);
                 }
             } else {
-                Match match = PotPvPSI.getInstance().getMatchHandler().getMatchPlayingOrSpectating(player);
+                Match match = PotPvPRP.getInstance().getMatchHandler().getMatchPlayingOrSpectating(player);
                 if (match == null) continue;
                 if (!match.getKitType().equals(KitType.teamFight)) continue;
 

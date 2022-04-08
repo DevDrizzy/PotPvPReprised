@@ -1,6 +1,6 @@
 package net.frozenorb.potpvp.lobby.listener;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.party.event.PartyCreateEvent;
 import net.frozenorb.potpvp.party.event.PartyMemberJoinEvent;
 
@@ -14,18 +14,18 @@ public final class LobbySpecModeListener implements Listener {
 
     @EventHandler
     public void onPartyMemberJoin(PartyMemberJoinEvent event) {
-        PotPvPSI.getInstance().getLobbyHandler().setSpectatorMode(event.getMember(), false);
+        PotPvPRP.getInstance().getLobbyHandler().setSpectatorMode(event.getMember(), false);
     }
 
     @EventHandler
     public void onPartyCreate(PartyCreateEvent event) {
         Player leader = Bukkit.getPlayer(event.getParty().getLeader());
-        PotPvPSI.getInstance().getLobbyHandler().setSpectatorMode(leader, false);
+        PotPvPRP.getInstance().getLobbyHandler().setSpectatorMode(leader, false);
     }
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        PotPvPSI.getInstance().getLobbyHandler().setSpectatorMode(event.getPlayer(), false);
+        PotPvPRP.getInstance().getLobbyHandler().setSpectatorMode(event.getPlayer(), false);
     }
 
 }

@@ -1,6 +1,6 @@
 package net.frozenorb.potpvp.duel.listener;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.duel.DuelHandler;
 import net.frozenorb.potpvp.match.MatchTeam;
 import net.frozenorb.potpvp.match.event.MatchCountdownStartEvent;
@@ -19,7 +19,7 @@ public final class DuelListener implements Listener {
 
     @EventHandler
     public void onMatchSpectatorJoin(MatchSpectatorJoinEvent event) {
-        DuelHandler duelHandler = PotPvPSI.getInstance().getDuelHandler();
+        DuelHandler duelHandler = PotPvPRP.getInstance().getDuelHandler();
         Player player = event.getSpectator();
 
         duelHandler.removeInvitesTo(player);
@@ -28,7 +28,7 @@ public final class DuelListener implements Listener {
 
     @EventHandler
     public void onPartyDisband(PartyDisbandEvent event) {
-        DuelHandler duelHandler = PotPvPSI.getInstance().getDuelHandler();
+        DuelHandler duelHandler = PotPvPRP.getInstance().getDuelHandler();
         Party party = event.getParty();
 
         duelHandler.removeInvitesTo(party);
@@ -37,7 +37,7 @@ public final class DuelListener implements Listener {
 
     @EventHandler
     public void onMatchCountdownStart(MatchCountdownStartEvent event) {
-        DuelHandler duelHandler = PotPvPSI.getInstance().getDuelHandler();
+        DuelHandler duelHandler = PotPvPRP.getInstance().getDuelHandler();
 
         for (MatchTeam team : event.getMatch().getTeams()) {
             for (UUID member : team.getAllMembers()) {

@@ -1,9 +1,7 @@
 package net.frozenorb.potpvp.party.menu;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.party.Party;
-import net.frozenorb.potpvp.pvpclasses.PvPClass;
-import net.frozenorb.potpvp.pvpclasses.PvPClassHandler;
 import net.frozenorb.potpvp.pvpclasses.PvPClasses;
 import net.frozenorb.potpvp.kt.menu.Button;
 import net.frozenorb.potpvp.kt.menu.pagination.PaginatedMenu;
@@ -119,7 +117,7 @@ public class RosterMenu extends PaginatedMenu {
                         party.getKits().put(uuid, next);
 
                         for (UUID other : party.getMembers()) {
-                            PotPvPSI.getInstance().getPartyHandler().updatePartyCache(other, party);
+                            PotPvPRP.getInstance().getPartyHandler().updatePartyCache(other, party);
                         }
 
                     }

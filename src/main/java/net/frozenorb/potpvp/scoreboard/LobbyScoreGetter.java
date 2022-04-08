@@ -1,7 +1,6 @@
 
 package net.frozenorb.potpvp.scoreboard;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -13,9 +12,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.elo.EloHandler;
-import net.frozenorb.potpvp.match.MatchHandler;
 import net.frozenorb.potpvp.party.Party;
 import net.frozenorb.potpvp.party.PartyHandler;
 import net.frozenorb.potpvp.queue.MatchQueue;
@@ -27,9 +25,9 @@ final class LobbyScoreGetter implements BiConsumer<Player, List<String>> {
 
     @Override
     public void accept(Player player, List<String> scores) {
-        Optional<UUID> followingOpt = PotPvPSI.getInstance().getFollowHandler().getFollowing(player);
-        PartyHandler partyHandler = PotPvPSI.getInstance().getPartyHandler();
-        EloHandler eloHandler = PotPvPSI.getInstance().getEloHandler();
+        Optional<UUID> followingOpt = PotPvPRP.getInstance().getFollowHandler().getFollowing(player);
+        PartyHandler partyHandler = PotPvPRP.getInstance().getPartyHandler();
+        EloHandler eloHandler = PotPvPRP.getInstance().getEloHandler();
 
         Party playerParty = partyHandler.getParty(player);
         if (playerParty != null) {
@@ -37,9 +35,9 @@ final class LobbyScoreGetter implements BiConsumer<Player, List<String>> {
             scores.add("&9Your Party: &f" + size);
         }
 
-        scores.add("&eOnline: &f" + PotPvPSI.getInstance().getCache().getOnlineCount());
-        scores.add("&dIn Fights: &f" + PotPvPSI.getInstance().getCache().getFightsCount());
-        scores.add("&bIn Queues: &f" + PotPvPSI.getInstance().getCache().getQueuesCount());
+        scores.add("&eOnline: &f" + PotPvPRP.getInstance().getCache().getOnlineCount());
+        scores.add("&dIn Fights: &f" + PotPvPRP.getInstance().getCache().getFightsCount());
+        scores.add("&bIn Queues: &f" + PotPvPRP.getInstance().getCache().getQueuesCount());
 
         // this definitely can be a .ifPresent, however creating the new lambda that often
         // was causing some performance issues, so we do this less pretty (but more efficent)
@@ -49,7 +47,7 @@ final class LobbyScoreGetter implements BiConsumer<Player, List<String>> {
             Player following = Bukkit.getPlayer(followingOpt.get());
             scores.add("&6Following: *&7" + following.getName());
 
-            if (player.hasPermission("basic.staff")) {
+            if (player.hasPermission("potpvp.silent")) {
                 MatchQueueEntry targetEntry = getQueueEntry(following);
 
                 if (targetEntry != null) {
@@ -83,7 +81,7 @@ final class LobbyScoreGetter implements BiConsumer<Player, List<String>> {
             scores.add(ChatColor.GRAY.toString() + ChatColor.BOLD + "In Silent Mode");
         }
 
-        Tournament tournament = PotPvPSI.getInstance().getTournamentHandler().getTournament();
+        Tournament tournament = PotPvPRP.getInstance().getTournamentHandler().getTournament();
         if (tournament != null) {
             scores.add("" + CC.SB_BAR);
             scores.add("&6&lTournament");
@@ -117,8 +115,8 @@ final class LobbyScoreGetter implements BiConsumer<Player, List<String>> {
     }
 
     private MatchQueueEntry getQueueEntry(Player player) {
-        PartyHandler partyHandler = PotPvPSI.getInstance().getPartyHandler();
-        QueueHandler queueHandler = PotPvPSI.getInstance().getQueueHandler();
+        PartyHandler partyHandler = PotPvPRP.getInstance().getPartyHandler();
+        QueueHandler queueHandler = PotPvPRP.getInstance().getQueueHandler();
 
         Party playerParty = partyHandler.getParty(player);
         if (playerParty != null) {

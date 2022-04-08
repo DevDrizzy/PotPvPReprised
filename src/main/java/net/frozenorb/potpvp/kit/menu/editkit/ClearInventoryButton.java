@@ -2,7 +2,7 @@ package net.frozenorb.potpvp.kit.menu.editkit;
 
 import com.google.common.collect.ImmutableList;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.kt.menu.Button;
 
 import org.bukkit.Bukkit;
@@ -45,7 +45,7 @@ final class ClearInventoryButton extends Button {
     public void clicked(final Player player, int slot, ClickType clickType, InventoryView view) {
         player.getInventory().clear();
 
-        Bukkit.getScheduler().runTaskLater(PotPvPSI.getInstance(), player::updateInventory, 1L);
+        Bukkit.getScheduler().runTaskLater(PotPvPRP.getInstance(), player::updateInventory, 1L);
     }
 
 }

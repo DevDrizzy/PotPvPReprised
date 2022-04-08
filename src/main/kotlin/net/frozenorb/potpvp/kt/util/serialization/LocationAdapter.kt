@@ -1,6 +1,6 @@
 package net.frozenorb.potpvp.kt.util.serialization
 
-import net.frozenorb.potpvp.PotPvPSI
+import net.frozenorb.potpvp.PotPvPRP
 import com.google.gson.*
 import org.bukkit.Location
 import java.lang.reflect.Type
@@ -37,7 +37,7 @@ class LocationAdapter : JsonDeserializer<Location>, JsonSerializer<Location> {
             }
 
             val jsonObject = jsonElement.getAsJsonObject()
-            val world = PotPvPSI.getInstance().server.getWorld(jsonObject.get("world").getAsString())
+            val world = PotPvPRP.getInstance().server.getWorld(jsonObject.get("world").getAsString())
             val x = jsonObject.get("x").getAsDouble()
             val y = jsonObject.get("y").getAsDouble()
             val z = jsonObject.get("z").getAsDouble()

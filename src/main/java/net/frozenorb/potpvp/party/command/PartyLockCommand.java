@@ -1,7 +1,7 @@
 package net.frozenorb.potpvp.party.command;
 
 import net.frozenorb.potpvp.PotPvPLang;
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.party.Party;
 import net.frozenorb.potpvp.party.PartyAccessRestriction;
 import net.frozenorb.potpvp.command.Command;
@@ -13,7 +13,7 @@ public final class PartyLockCommand {
 
     @Command(names = {"party lock", "p lock", "t lock", "team lock", "f lock"}, permission = "")
     public static void partyLock(Player sender) {
-        Party party = PotPvPSI.getInstance().getPartyHandler().getParty(sender);
+        Party party = PotPvPRP.getInstance().getPartyHandler().getParty(sender);
 
         if (party == null) {
             sender.sendMessage(PotPvPLang.NOT_IN_PARTY);

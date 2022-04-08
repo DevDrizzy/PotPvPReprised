@@ -2,7 +2,7 @@ package net.frozenorb.potpvp.postmatchinv.menu;
 
 import com.google.common.base.Preconditions;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.postmatchinv.PostMatchPlayer;
 import net.frozenorb.potpvp.kt.menu.Button;
 import com.google.common.collect.ImmutableList;
@@ -25,14 +25,14 @@ final class PostMatchSwapTargetButton extends Button {
 
     @Override
     public String getName(Player player) {
-        return ChatColor.GREEN + "View " + PotPvPSI.getInstance().getUuidCache().name(newTarget.getPlayerUuid()) + "'s inventory";
+        return ChatColor.GREEN + "View " + PotPvPRP.getInstance().getUuidCache().name(newTarget.getPlayerUuid()) + "'s inventory";
     }
 
     @Override
     public List<String> getDescription(Player player) {
         return ImmutableList.of(
             "",
-            ChatColor.YELLOW + "Swap your view to " + PotPvPSI.getInstance().getUuidCache().name(newTarget.getPlayerUuid()) + "'s inventory"
+            ChatColor.YELLOW + "Swap your view to " + PotPvPRP.getInstance().getUuidCache().name(newTarget.getPlayerUuid()) + "'s inventory"
         );
     }
 

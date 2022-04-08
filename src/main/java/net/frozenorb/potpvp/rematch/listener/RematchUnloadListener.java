@@ -1,6 +1,6 @@
 package net.frozenorb.potpvp.rematch.listener;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,7 +10,7 @@ public final class RematchUnloadListener implements Listener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        PotPvPSI.getInstance().getRematchHandler().unloadRematchData(event.getPlayer());
+        PotPvPRP.getInstance().getRematchHandler().unloadRematchData(event.getPlayer());
     }
 
 }

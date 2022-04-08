@@ -2,30 +2,18 @@ package com.qrakn.morpheus.game.event.impl.skywars
 
 import com.qrakn.morpheus.game.GameQueue
 import com.qrakn.morpheus.game.GameState
-import com.qrakn.morpheus.game.bukkit.event.PlayerGameInteractionEvent
-import com.qrakn.morpheus.game.bukkit.event.PlayerQuitGameEvent
 import com.qrakn.morpheus.game.event.impl.skywars.loot.SkywarsGameEventLoot
-import net.frozenorb.potpvp.PotPvPSI
-import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.block.Chest
 import org.bukkit.entity.Player
-import org.bukkit.entity.Projectile
 import org.bukkit.entity.TNTPrimed
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.block.BlockPlaceEvent
-import org.bukkit.event.entity.EntityDamageByEntityEvent
-import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.inventory.*
 import org.bukkit.event.player.PlayerDropItemEvent
-import org.bukkit.event.player.PlayerMoveEvent
-import org.bukkit.event.player.PlayerQuitEvent
-import org.bukkit.inventory.ItemStack
-import org.bukkit.scheduler.BukkitRunnable
-import org.bukkit.util.Vector
 import kotlin.random.Random
 
 class SkywarsGameEventListeners : Listener {

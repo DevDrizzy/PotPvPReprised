@@ -1,6 +1,6 @@
 package net.frozenorb.potpvp.lobby;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.duel.DuelHandler;
 import net.frozenorb.potpvp.follow.FollowHandler;
 import net.frozenorb.potpvp.kit.KitItems;
@@ -35,7 +35,7 @@ public final class LobbyUtils {
             return;
         }
 
-        PartyHandler partyHandler = PotPvPSI.getInstance().getPartyHandler();
+        PartyHandler partyHandler = PotPvPRP.getInstance().getPartyHandler();
         PlayerInventory inventory = player.getInventory();
 
         inventory.clear();
@@ -47,11 +47,11 @@ public final class LobbyUtils {
             renderSoloItems(player, inventory);
         }
 
-        Bukkit.getScheduler().runTaskLater(PotPvPSI.getInstance(), player::updateInventory, 1L);
+        Bukkit.getScheduler().runTaskLater(PotPvPRP.getInstance(), player::updateInventory, 1L);
     }
 
     private void renderPartyItems(Player player, PlayerInventory inventory, Party party) {
-        QueueHandler queueHandler = PotPvPSI.getInstance().getQueueHandler();
+        QueueHandler queueHandler = PotPvPRP.getInstance().getQueueHandler();
 
         if (party.isLeader(player.getUniqueId())) {
             int partySize = party.getMembers().size();
@@ -90,11 +90,11 @@ public final class LobbyUtils {
     }
 
     private void renderSoloItems(Player player, PlayerInventory inventory) {
-        RematchHandler rematchHandler = PotPvPSI.getInstance().getRematchHandler();
-        QueueHandler queueHandler = PotPvPSI.getInstance().getQueueHandler();
-        DuelHandler duelHandler = PotPvPSI.getInstance().getDuelHandler();
-        FollowHandler followHandler = PotPvPSI.getInstance().getFollowHandler();
-        LobbyHandler lobbyHandler = PotPvPSI.getInstance().getLobbyHandler();
+        RematchHandler rematchHandler = PotPvPRP.getInstance().getRematchHandler();
+        QueueHandler queueHandler = PotPvPRP.getInstance().getQueueHandler();
+        DuelHandler duelHandler = PotPvPRP.getInstance().getDuelHandler();
+        FollowHandler followHandler = PotPvPRP.getInstance().getFollowHandler();
+        LobbyHandler lobbyHandler = PotPvPRP.getInstance().getLobbyHandler();
 
         boolean specMode = lobbyHandler.isInSpectatorMode(player);
         boolean followingSomeone = followHandler.getFollowing(player).isPresent();

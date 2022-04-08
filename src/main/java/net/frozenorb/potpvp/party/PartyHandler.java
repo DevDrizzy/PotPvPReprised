@@ -2,7 +2,7 @@ package net.frozenorb.potpvp.party;
 
 import com.google.common.collect.ImmutableSet;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.party.listener.PartyChatListener;
 import net.frozenorb.potpvp.party.listener.PartyItemListener;
 import net.frozenorb.potpvp.party.listener.PartyLeaveListener;
@@ -32,9 +32,9 @@ public final class PartyHandler {
     private final Map<UUID, Party> playerPartyCache = new ConcurrentHashMap<>();
 
     public PartyHandler() {
-        Bukkit.getPluginManager().registerEvents(new PartyChatListener(), PotPvPSI.getInstance());
-        Bukkit.getPluginManager().registerEvents(new PartyItemListener(this), PotPvPSI.getInstance());
-        Bukkit.getPluginManager().registerEvents(new PartyLeaveListener(), PotPvPSI.getInstance());
+        Bukkit.getPluginManager().registerEvents(new PartyChatListener(), PotPvPRP.getInstance());
+        Bukkit.getPluginManager().registerEvents(new PartyItemListener(this), PotPvPRP.getInstance());
+        Bukkit.getPluginManager().registerEvents(new PartyLeaveListener(), PotPvPRP.getInstance());
     }
 
     /**

@@ -9,9 +9,9 @@ import com.comphenix.protocol.PacketType
 import com.comphenix.protocol.wrappers.EnumWrappers
 import com.comphenix.protocol.events.PacketEvent
 import com.comphenix.protocol.events.PacketAdapter
-import net.frozenorb.potpvp.PotPvPSI
+import net.frozenorb.potpvp.PotPvPRP
 
-class InventoryAdapter : PacketAdapter(PotPvPSI.getInstance(), PacketType.Play.Client.CLIENT_COMMAND, PacketType.Play.Client.CLOSE_WINDOW) {
+class InventoryAdapter : PacketAdapter(PotPvPRP.getInstance(), PacketType.Play.Client.CLIENT_COMMAND, PacketType.Play.Client.CLOSE_WINDOW) {
 
     override fun onPacketReceiving(event: PacketEvent?) {
         val player = event!!.player
@@ -19,13 +19,13 @@ class InventoryAdapter : PacketAdapter(PotPvPSI.getInstance(), PacketType.Play.C
 
         if (packet.type === PacketType.Play.Client.CLIENT_COMMAND && packet.clientCommands.size() != 0 && packet.clientCommands.read(0) == EnumWrappers.ClientCommand.OPEN_INVENTORY_ACHIEVEMENT) {
             if (!currentlyOpen.contains(player.uniqueId)) {
-                Bukkit.getScheduler().scheduleSyncDelayedTask(PotPvPSI.getInstance()) { Bukkit.getPluginManager().callEvent(PlayerOpenInventoryEvent(player)) }
+                Bukkit.getScheduler().scheduleSyncDelayedTask(PotPvPRP.getInstance()) { Bukkit.getPluginManager().callEvent(PlayerOpenInventoryEvent(player)) }
             }
 
             currentlyOpen.add(player.uniqueId)
         } else if (packet.type === PacketType.Play.Client.CLOSE_WINDOW) {
             if (currentlyOpen.contains(player.uniqueId)) {
-                Bukkit.getScheduler().scheduleSyncDelayedTask(PotPvPSI.getInstance()) { Bukkit.getPluginManager().callEvent(PlayerCloseInventoryEvent(player)) }
+                Bukkit.getScheduler().scheduleSyncDelayedTask(PotPvPRP.getInstance()) { Bukkit.getPluginManager().callEvent(PlayerCloseInventoryEvent(player)) }
             }
 
             currentlyOpen.remove(player.uniqueId)

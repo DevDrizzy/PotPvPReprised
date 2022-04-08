@@ -4,7 +4,7 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.events.PacketContainer;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.match.Match;
 import net.frozenorb.potpvp.match.MatchHandler;
 import net.frozenorb.potpvp.nametag.provider.PotPvPNametagProvider;
@@ -32,8 +32,8 @@ public final class MatchDeathMessageListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOW)
     public void onPlayerDeath(PlayerDeathEvent event) {
-        SettingHandler settingHandler = PotPvPSI.getInstance().getSettingHandler();
-        MatchHandler matchHandler = PotPvPSI.getInstance().getMatchHandler();
+        SettingHandler settingHandler = PotPvPRP.getInstance().getSettingHandler();
+        MatchHandler matchHandler = PotPvPRP.getInstance().getMatchHandler();
         Match match = matchHandler.getMatchPlaying(event.getEntity());
 
         if (match == null) {

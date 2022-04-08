@@ -1,8 +1,7 @@
 package com.qrakn.morpheus.game.bukkit.event
 
 import com.qrakn.morpheus.game.Game
-import com.qrakn.morpheus.game.GameState
-import net.frozenorb.potpvp.PotPvPSI
+import net.frozenorb.potpvp.PotPvPRP
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.event.Event
@@ -15,7 +14,7 @@ class PlayerQuitGameEvent(val player: Player, val game: Game) : Event() {
     }
 
     init {
-        Bukkit.getScheduler().runTaskLater(PotPvPSI.getInstance(), {
+        Bukkit.getScheduler().runTaskLater(PotPvPRP.getInstance(), {
             game.players.remove(player)
             game.spectators.remove(player)
         }, 2L)

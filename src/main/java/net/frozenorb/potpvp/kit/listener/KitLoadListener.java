@@ -1,6 +1,6 @@
 package net.frozenorb.potpvp.kit.listener;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -12,12 +12,12 @@ public final class KitLoadListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST) // LOWEST runs first
     public void onAsyncPlayerPreLogin(AsyncPlayerPreLoginEvent event) {
-        PotPvPSI.getInstance().getKitHandler().loadKits(event.getUniqueId());
+        PotPvPRP.getInstance().getKitHandler().loadKits(event.getUniqueId());
     }
 
     @EventHandler(priority = EventPriority.MONITOR) // MONITOR runs last
     public void onPlayerQuit(PlayerQuitEvent event) {
-        PotPvPSI.getInstance().getKitHandler().unloadKits(event.getPlayer());
+        PotPvPRP.getInstance().getKitHandler().unloadKits(event.getPlayer());
     }
 
 }

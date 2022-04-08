@@ -6,7 +6,7 @@ import com.qrakn.morpheus.game.bukkit.event.GameStateChangeEvent;
 import com.qrakn.morpheus.game.bukkit.event.PlayerGameInteractionEvent;
 import com.qrakn.morpheus.game.bukkit.event.PlayerJoinGameEvent;
 import com.qrakn.morpheus.game.bukkit.event.PlayerQuitGameEvent;
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.morpheus.menu.EventsMenu;
 import net.frozenorb.potpvp.util.VisibilityUtils;
 import org.bukkit.entity.Player;
@@ -20,7 +20,7 @@ public class EventListeners implements Listener {
     public void onPlayerInteractEvent(PlayerInteractEvent event) {
         Player player = event.getPlayer();
 
-        if (event.getItem() != null && event.getItem().equals(EventItems.getEventItem()) && PotPvPSI.getInstance().getLobbyHandler().isInLobby(player)) {
+        if (event.getItem() != null && event.getItem().equals(EventItems.getEventItem()) && PotPvPRP.getInstance().getLobbyHandler().isInLobby(player)) {
             /*if (GameQueue.INSTANCE.getCurrentGames().size() == 1) {
                 Game game = GameQueue.INSTANCE.getCurrentGames().get(0);
                 if (game.getState() == GameState.STARTING) {
@@ -44,20 +44,20 @@ public class EventListeners implements Listener {
         Game game = event.getGame();
 
         if (event.getTo() == GameState.ENDED) {
-            PotPvPSI.getInstance().getArenaHandler().releaseArena(game.getArena());
+            PotPvPRP.getInstance().getArenaHandler().releaseArena(game.getArena());
             for (Player player : game.getPlayers()) {
-                PotPvPSI.getInstance().getNameTagEngine().reloadPlayer(player);
-                PotPvPSI.getInstance().getNameTagEngine().reloadOthersFor(player);
+                PotPvPRP.getInstance().getNameTagEngine().reloadPlayer(player);
+                PotPvPRP.getInstance().getNameTagEngine().reloadOthersFor(player);
                 VisibilityUtils.updateVisibility(player);
-                PotPvPSI.getInstance().getLobbyHandler().returnToLobby(player);
+                PotPvPRP.getInstance().getLobbyHandler().returnToLobby(player);
             }
         }
     }
 
     @EventHandler
     public void onPlayerJoinGameEvent(PlayerJoinGameEvent event) {
-        PotPvPSI.getInstance().getNameTagEngine().reloadPlayer(event.getPlayer());
-        PotPvPSI.getInstance().getNameTagEngine().reloadOthersFor(event.getPlayer());
+        PotPvPRP.getInstance().getNameTagEngine().reloadPlayer(event.getPlayer());
+        PotPvPRP.getInstance().getNameTagEngine().reloadOthersFor(event.getPlayer());
         for (Player player : event.getGame().getPlayers()) {
             VisibilityUtils.updateVisibility(player);
         }
@@ -65,15 +65,15 @@ public class EventListeners implements Listener {
 
     @EventHandler
     public void onPlayerQuitGameEvent(PlayerQuitGameEvent event) {
-        PotPvPSI.getInstance().getNameTagEngine().reloadPlayer(event.getPlayer());
-        PotPvPSI.getInstance().getNameTagEngine().reloadOthersFor(event.getPlayer());
-        PotPvPSI.getInstance().getLobbyHandler().returnToLobby(event.getPlayer());
+        PotPvPRP.getInstance().getNameTagEngine().reloadPlayer(event.getPlayer());
+        PotPvPRP.getInstance().getNameTagEngine().reloadOthersFor(event.getPlayer());
+        PotPvPRP.getInstance().getLobbyHandler().returnToLobby(event.getPlayer());
     }
 
     @EventHandler
     public void onPlayerGameInteractionEvent(PlayerGameInteractionEvent event) {
-        PotPvPSI.getInstance().getNameTagEngine().reloadPlayer(event.getPlayer());
-        PotPvPSI.getInstance().getNameTagEngine().reloadOthersFor(event.getPlayer());
+        PotPvPRP.getInstance().getNameTagEngine().reloadPlayer(event.getPlayer());
+        PotPvPRP.getInstance().getNameTagEngine().reloadOthersFor(event.getPlayer());
         VisibilityUtils.updateVisibility(event.getPlayer());
     }
 

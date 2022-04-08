@@ -1,6 +1,6 @@
 package net.frozenorb.potpvp.kt.menu
 
-import net.frozenorb.potpvp.PotPvPSI
+import net.frozenorb.potpvp.PotPvPRP
 import org.bukkit.event.Listener
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryCloseEvent
@@ -56,7 +56,7 @@ class ButtonListeners : Listener {
                 }
 
                 if (event.isCancelled) {
-                    Bukkit.getScheduler().runTaskLater(PotPvPSI.getInstance(), { player.updateInventory() }, 1L)
+                    Bukkit.getScheduler().runTaskLater(PotPvPRP.getInstance(), { player.updateInventory() }, 1L)
                 }
             } else if (event.click == ClickType.SHIFT_LEFT || event.click == ClickType.SHIFT_RIGHT) {
                 event.isCancelled = true

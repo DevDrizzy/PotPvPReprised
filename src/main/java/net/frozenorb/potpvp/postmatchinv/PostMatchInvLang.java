@@ -1,7 +1,7 @@
 package net.frozenorb.potpvp.postmatchinv;
 
 import lombok.experimental.UtilityClass;
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.match.MatchTeam;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -72,7 +72,7 @@ public final class PostMatchInvLang {
     }
 
     private static TextComponent clickToViewLine(UUID member) {
-        String memberName = PotPvPSI.getInstance().getUuidCache().name(member);
+        String memberName = PotPvPRP.getInstance().getUuidCache().name(member);
         TextComponent component = new TextComponent();
 
         component.setText(memberName);

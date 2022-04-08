@@ -24,7 +24,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.arena.Arena;
 import net.frozenorb.potpvp.match.Match;
 import net.frozenorb.potpvp.match.MatchHandler;
@@ -37,7 +37,7 @@ public final class MatchGeneralListener implements Listener {
 
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
-        MatchHandler matchHandler = PotPvPSI.getInstance().getMatchHandler();
+        MatchHandler matchHandler = PotPvPRP.getInstance().getMatchHandler();
         Player player = event.getEntity();
         Match match = matchHandler.getMatchPlaying(player);
 
@@ -61,7 +61,7 @@ public final class MatchGeneralListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerQuit(PlayerQuitEvent event) {
-        MatchHandler matchHandler = PotPvPSI.getInstance().getMatchHandler();
+        MatchHandler matchHandler = PotPvPRP.getInstance().getMatchHandler();
         Player player = event.getPlayer();
         Match match = matchHandler.getMatchPlaying(player);
 
@@ -122,7 +122,7 @@ public final class MatchGeneralListener implements Listener {
             return;
         }
 
-        MatchHandler matchHandler = PotPvPSI.getInstance().getMatchHandler();
+        MatchHandler matchHandler = PotPvPRP.getInstance().getMatchHandler();
         Match match = matchHandler.getMatchPlayingOrSpectating(player);
 
         if (match == null) {
@@ -184,7 +184,7 @@ public final class MatchGeneralListener implements Listener {
             return;
         }
 
-        MatchHandler matchHandler = PotPvPSI.getInstance().getMatchHandler();
+        MatchHandler matchHandler = PotPvPRP.getInstance().getMatchHandler();
         Player victim = (Player) event.getEntity();
         Player damager = PlayerUtils.getDamageSource(event.getDamager());
 
@@ -221,7 +221,7 @@ public final class MatchGeneralListener implements Listener {
 
     @EventHandler
     public void onPlayerDropItem(PlayerDropItemEvent event) {
-        MatchHandler matchHandler = PotPvPSI.getInstance().getMatchHandler();
+        MatchHandler matchHandler = PotPvPRP.getInstance().getMatchHandler();
         Player player = event.getPlayer();
 
         if (!matchHandler.isPlayingMatch(player)) {
@@ -248,7 +248,7 @@ public final class MatchGeneralListener implements Listener {
 
     @EventHandler
     public void onPickup(PlayerPickupItemEvent event) {
-        MatchHandler matchHandler = PotPvPSI.getInstance().getMatchHandler();
+        MatchHandler matchHandler = PotPvPRP.getInstance().getMatchHandler();
         Player player = event.getPlayer();
 
         if (!matchHandler.isPlayingMatch(player)) {
@@ -268,7 +268,7 @@ public final class MatchGeneralListener implements Listener {
         ItemStack stack = event.getItem();
         if (stack == null || stack.getType() != Material.POTION) return;
 
-        Bukkit.getScheduler().runTaskLater(PotPvPSI.getInstance(), () -> {
+        Bukkit.getScheduler().runTaskLater(PotPvPRP.getInstance(), () -> {
             //event.getPlayer().setItemInHand(null);
         }, 1L);
     }

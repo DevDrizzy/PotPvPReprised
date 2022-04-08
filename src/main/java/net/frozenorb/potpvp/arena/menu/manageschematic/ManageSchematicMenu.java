@@ -1,6 +1,6 @@
 package net.frozenorb.potpvp.arena.menu.manageschematic;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.arena.ArenaSchematic;
 import net.frozenorb.potpvp.arena.menu.manageschematics.ManageSchematicsMenu;
 import net.frozenorb.potpvp.util.menu.MenuBackButton;
@@ -15,7 +15,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.InventoryView;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -44,7 +43,7 @@ public final class ManageSchematicMenu extends Menu {
         buttons.put(3, new TeleportToModelButton(schematic));
         buttons.put(4, new SaveModelButton(schematic));
 
-        if (PotPvPSI.getInstance().getArenaHandler().getGrid().isBusy()) {
+        if (PotPvPRP.getInstance().getArenaHandler().getGrid().isBusy()) {
             Button busyButton = Button.placeholder(Material.WOOL, DyeColor.SILVER.getWoolData(), ChatColor.GRAY.toString() + ChatColor.BOLD + "Grid is busy");
 
             buttons.put(7, busyButton);
@@ -58,7 +57,7 @@ public final class ManageSchematicMenu extends Menu {
 
         Consumer<ArenaSchematic> save = schematic -> {
             try {
-                PotPvPSI.getInstance().getArenaHandler().saveSchematics();
+                PotPvPRP.getInstance().getArenaHandler().saveSchematics();
             } catch (Exception ex) {
                 ex.printStackTrace();
             }

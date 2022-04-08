@@ -3,7 +3,7 @@ package net.frozenorb.potpvp.kit.menu.kits;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.kit.Kit;
 import net.frozenorb.potpvp.kit.KitHandler;
 import net.frozenorb.potpvp.kit.menu.editkit.EditKitMenu;
@@ -15,7 +15,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.InventoryView;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Optional;
@@ -53,7 +52,7 @@ final class KitEditButton extends Button {
     @Override
     public void clicked(Player player, int slot, ClickType clickType, InventoryView view) {
         Kit resolvedKit = kitOpt.orElseGet(() -> {
-            KitHandler kitHandler = PotPvPSI.getInstance().getKitHandler();
+            KitHandler kitHandler = PotPvPRP.getInstance().getKitHandler();
             return kitHandler.saveDefaultKit(player, kitType, this.slot);
         });
 

@@ -2,7 +2,7 @@ package net.frozenorb.potpvp.pvpclasses.pvpclasses;
 
 import kotlin.Pair;
 import lombok.Getter;
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.kt.util.TimeUtils;
 import net.frozenorb.potpvp.match.MatchTeam;
 import net.frozenorb.potpvp.pvpclasses.PvPClass;
@@ -133,15 +133,15 @@ public class ArcherClass extends PvPClass {
                 getMarkedBy().putIfAbsent(shooter.getName(), new HashSet<>());
                 getMarkedBy().get(shooter.getName()).add(new Pair<>(player.getName(), System.currentTimeMillis() + (MARK_SECONDS * 1000)));
 
-                PotPvPSI.getInstance().getNameTagEngine().reloadPlayer(player);
+                PotPvPRP.getInstance().getNameTagEngine().reloadPlayer(player);
 
                 new BukkitRunnable() {
 
                     public void run() {
-                        PotPvPSI.getInstance().getNameTagEngine().reloadPlayer(player);
+                        PotPvPRP.getInstance().getNameTagEngine().reloadPlayer(player);
                     }
 
-                }.runTaskLater(PotPvPSI.getInstance(), (MARK_SECONDS * 20) + 5);
+                }.runTaskLater(PotPvPRP.getInstance(), (MARK_SECONDS * 20) + 5);
             } else {
                 shooter.sendMessage(ChatColor.YELLOW + "[" + ChatColor.BLUE + "Arrow Range" + ChatColor.YELLOW + " (" + ChatColor.RED + (int) distance + ChatColor.YELLOW + ")] " + ChatColor.RED + "Bow wasn't fully drawn back. " + ChatColor.BLUE.toString() + ChatColor.BOLD + "(" + damage / 2 + " heart" + ((damage / 2 == 1) ? "" : "s") + ")");
             }
@@ -173,8 +173,8 @@ public class ArcherClass extends PvPClass {
 
     @EventHandler
     public void onEntityShootBow(EntityShootBowEvent event) {
-        event.getProjectile().setMetadata("ShotFromDistance", new FixedMetadataValue(PotPvPSI.getInstance(), event.getProjectile().getLocation()));
-        event.getProjectile().setMetadata("Pullback", new FixedMetadataValue(PotPvPSI.getInstance(), event.getForce()));
+        event.getProjectile().setMetadata("ShotFromDistance", new FixedMetadataValue(PotPvPRP.getInstance(), event.getProjectile().getLocation()));
+        event.getProjectile().setMetadata("Pullback", new FixedMetadataValue(PotPvPRP.getInstance(), event.getForce()));
     }
 
     @Override
@@ -211,8 +211,8 @@ public class ArcherClass extends PvPClass {
     }
 
     private boolean canUseMark(Player player, Player victim) {
-        if (PotPvPSI.getInstance().getMatchHandler().getMatchPlaying(player) != null) {
-            MatchTeam team = PotPvPSI.getInstance().getMatchHandler().getMatchPlaying(player).getTeam(player.getUniqueId());
+        if (PotPvPRP.getInstance().getMatchHandler().getMatchPlaying(player) != null) {
+            MatchTeam team = PotPvPRP.getInstance().getMatchHandler().getMatchPlaying(player).getTeam(player.getUniqueId());
 
             if (team != null) {
                 int amount = 0;

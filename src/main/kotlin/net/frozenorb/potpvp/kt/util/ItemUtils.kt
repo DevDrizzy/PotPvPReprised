@@ -1,6 +1,6 @@
 package net.frozenorb.potpvp.kt.util
 
-import net.frozenorb.potpvp.PotPvPSI
+import net.frozenorb.potpvp.PotPvPRP
 import org.apache.commons.io.IOUtils
 import org.apache.commons.lang.WordUtils
 import org.bukkit.ChatColor
@@ -95,7 +95,7 @@ object ItemUtils {
 
     private fun readLines(): List<String>? {
         return try {
-            IOUtils.readLines(PotPvPSI::class.java.classLoader.getResourceAsStream("items.csv"))
+            IOUtils.readLines(PotPvPRP::class.java.classLoader.getResourceAsStream("items.csv"))
         } catch (e: IOException) {
             e.printStackTrace()
             null

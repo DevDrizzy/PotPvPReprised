@@ -1,6 +1,6 @@
 package net.frozenorb.potpvp.kit.menu.kits;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.kit.Kit;
 import net.frozenorb.potpvp.kit.KitHandler;
 import net.frozenorb.potpvp.kittype.KitType;
@@ -38,7 +38,7 @@ public final class KitsMenu extends Menu {
 
     @Override
     public Map<Integer, Button> getButtons(Player player) {
-        KitHandler kitHandler = PotPvPSI.getInstance().getKitHandler();
+        KitHandler kitHandler = PotPvPRP.getInstance().getKitHandler();
         Map<Integer, Button> buttons = new HashMap<>();
 
         // kit slots are 1-indexed

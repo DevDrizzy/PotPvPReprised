@@ -1,6 +1,6 @@
 package net.frozenorb.potpvp.match.listener;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.match.Match;
 import net.frozenorb.potpvp.match.MatchHandler;
 import net.frozenorb.potpvp.match.MatchState;
@@ -23,7 +23,7 @@ public final class MatchBuildListener implements Listener {
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
-        MatchHandler matchHandler = PotPvPSI.getInstance().getMatchHandler();
+        MatchHandler matchHandler = PotPvPRP.getInstance().getMatchHandler();
 
         if (!matchHandler.isPlayingMatch(player)) {
             // BasicPreventionListener handles this
@@ -44,7 +44,7 @@ public final class MatchBuildListener implements Listener {
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
         Player player = event.getPlayer();
-        MatchHandler matchHandler = PotPvPSI.getInstance().getMatchHandler();
+        MatchHandler matchHandler = PotPvPRP.getInstance().getMatchHandler();
 
         if (!matchHandler.isPlayingMatch(player)) {
             // BasicPreventionListener handles this
@@ -82,7 +82,7 @@ public final class MatchBuildListener implements Listener {
     @EventHandler
     public void onBucketEmpty(PlayerBucketEmptyEvent event) {
         Player player = event.getPlayer();
-        MatchHandler matchHandler = PotPvPSI.getInstance().getMatchHandler();
+        MatchHandler matchHandler = PotPvPRP.getInstance().getMatchHandler();
 
         if (!matchHandler.isPlayingMatch(player)) {
             return;
@@ -103,7 +103,7 @@ public final class MatchBuildListener implements Listener {
 
     @EventHandler
     public void onBlockForm(BlockFormEvent event) {
-        MatchHandler matchHandler = PotPvPSI.getInstance().getMatchHandler();
+        MatchHandler matchHandler = PotPvPRP.getInstance().getMatchHandler();
 
         for (Match match : matchHandler.getHostedMatches()) {
             if (!match.getArena().getBounds().contains(event.getBlock()) || !match.getKitType().isBuildingAllowed()) {

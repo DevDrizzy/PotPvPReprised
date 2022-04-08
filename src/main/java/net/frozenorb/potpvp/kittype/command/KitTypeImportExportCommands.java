@@ -3,7 +3,7 @@ package net.frozenorb.potpvp.kittype.command;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import com.google.gson.reflect.TypeToken;
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.kittype.KitType;
 import net.frozenorb.potpvp.command.Command;
 import org.bukkit.ChatColor;
@@ -19,12 +19,12 @@ public class KitTypeImportExportCommands {
 
 	@Command(names = "kittype export", permission = "op", async = true)
 	public static void executeExport(CommandSender sender) {
-		String json = PotPvPSI.plainGson.toJson(KitType.getAllTypes());
+		String json = PotPvPRP.plainGson.toJson(KitType.getAllTypes());
 
 		try {
 			Files.write(
 					json,
-					new File(PotPvPSI.getInstance().getDataFolder(), "kitTypes.json"),
+					new File(PotPvPRP.getInstance().getDataFolder(), "kitTypes.json"),
 					Charsets.UTF_8
 			);
 
@@ -37,12 +37,12 @@ public class KitTypeImportExportCommands {
 
 	@Command(names = "kittype import", permission = "op", async = true)
 	public static void executeImport(CommandSender sender) {
-		File file = new File(PotPvPSI.getInstance().getDataFolder(), "kitTypes.json");
+		File file = new File(PotPvPRP.getInstance().getDataFolder(), "kitTypes.json");
 
 		if (file.exists()) {
 			try (Reader schematicsFileReader = Files.newReader(file, Charsets.UTF_8)) {
 				Type schematicListType = new TypeToken<List<KitType>>() {}.getType();
-				List<KitType> kitTypes = PotPvPSI.plainGson.fromJson(schematicsFileReader, schematicListType);
+				List<KitType> kitTypes = PotPvPRP.plainGson.fromJson(schematicsFileReader, schematicListType);
 
 				for (KitType kitType : kitTypes) {
 					KitType.getAllTypes().removeIf(otherKitType -> otherKitType.getId().equals(kitType.getId()));

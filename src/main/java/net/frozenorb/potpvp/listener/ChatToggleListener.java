@@ -1,6 +1,6 @@
 package net.frozenorb.potpvp.listener;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.setting.Setting;
 import net.frozenorb.potpvp.setting.SettingHandler;
 
@@ -17,7 +17,7 @@ public final class ChatToggleListener implements Listener {
             return;
         }
 
-        SettingHandler settingHandler = PotPvPSI.getInstance().getSettingHandler();
+        SettingHandler settingHandler = PotPvPRP.getInstance().getSettingHandler();
         event.getRecipients().removeIf(p -> !settingHandler.getSetting(p, Setting.ENABLE_GLOBAL_CHAT));
     }
 

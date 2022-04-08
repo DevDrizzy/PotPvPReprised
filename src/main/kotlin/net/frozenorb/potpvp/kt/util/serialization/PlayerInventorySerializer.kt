@@ -1,7 +1,7 @@
 package net.frozenorb.potpvp.kt.util.serialization
 
 import com.mongodb.BasicDBObject
-import net.frozenorb.potpvp.PotPvPSI
+import net.frozenorb.potpvp.PotPvPRP
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
@@ -11,12 +11,12 @@ object PlayerInventorySerializer {
 
     @JvmStatic
     fun serialize(player: Player): String {
-        return PotPvPSI.plainGson.toJson(PlayerInventoryWrapper(player) as Any)
+        return PotPvPRP.plainGson.toJson(PlayerInventoryWrapper(player) as Any)
     }
 
     @JvmStatic
     fun deserialize(json: String): PlayerInventoryWrapper {
-        return PotPvPSI.plainGson.fromJson(json, PlayerInventoryWrapper::class.java)
+        return PotPvPRP.plainGson.fromJson(json, PlayerInventoryWrapper::class.java)
     }
 
     @JvmStatic

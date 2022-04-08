@@ -3,7 +3,7 @@ package net.frozenorb.potpvp.kt.protocol
 import com.comphenix.protocol.PacketType
 import com.comphenix.protocol.events.PacketAdapter
 import com.comphenix.protocol.events.PacketEvent
-import net.frozenorb.potpvp.PotPvPSI
+import net.frozenorb.potpvp.PotPvPRP
 import net.minecraft.server.v1_8_R3.MinecraftServer
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -11,7 +11,7 @@ import org.bukkit.event.player.PlayerQuitEvent
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
-class PingAdapter : PacketAdapter(PotPvPSI.getInstance(), PacketType.Play.Server.KEEP_ALIVE, PacketType.Play.Client.KEEP_ALIVE), Listener {
+class PingAdapter : PacketAdapter(PotPvPRP.getInstance(), PacketType.Play.Server.KEEP_ALIVE, PacketType.Play.Client.KEEP_ALIVE), Listener {
 
     override fun onPacketSending(event: PacketEvent?) {
         val id = event!!.packet.integers.read(0) as Int

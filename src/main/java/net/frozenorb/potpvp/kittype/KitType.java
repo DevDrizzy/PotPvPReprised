@@ -2,7 +2,7 @@ package net.frozenorb.potpvp.kittype;
 
 import com.mongodb.client.MongoCollection;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.util.MongoUtils;
 
 import org.bson.Document;
@@ -36,7 +36,7 @@ public final class KitType {
         MongoCollection<Document> collection = MongoUtils.getCollection(MONGO_COLLECTION_NAME);
 
         collection.find().iterator().forEachRemaining(doc -> {
-            allTypes.add(PotPvPSI.plainGson.fromJson(doc.toJson(), KitType.class));
+            allTypes.add(PotPvPRP.plainGson.fromJson(doc.toJson(), KitType.class));
         });
 
         teamFight.icon = new MaterialData(Material.BEACON);
@@ -157,9 +157,9 @@ public final class KitType {
     }
 
     public void saveAsync() {
-        Bukkit.getScheduler().runTaskAsynchronously(PotPvPSI.getInstance(), () -> {
+        Bukkit.getScheduler().runTaskAsynchronously(PotPvPRP.getInstance(), () -> {
             MongoCollection<Document> collection = MongoUtils.getCollection(MONGO_COLLECTION_NAME);
-            Document kitTypeDoc = Document.parse(PotPvPSI.plainGson.toJson(this));
+            Document kitTypeDoc = Document.parse(PotPvPRP.plainGson.toJson(this));
             kitTypeDoc.remove("_id"); // upserts with an _id field is weird.
 
             Document query = new Document("_id", id);
@@ -170,7 +170,7 @@ public final class KitType {
     }
 
     public void deleteAsync() {
-        Bukkit.getScheduler().runTaskAsynchronously(PotPvPSI.getInstance(), () -> {
+        Bukkit.getScheduler().runTaskAsynchronously(PotPvPRP.getInstance(), () -> {
             MongoCollection<Document> collection = MongoUtils.getCollection(MONGO_COLLECTION_NAME);
             collection.deleteOne(new Document("_id", id));
         });

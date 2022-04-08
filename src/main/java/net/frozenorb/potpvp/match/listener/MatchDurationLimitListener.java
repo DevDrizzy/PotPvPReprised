@@ -1,6 +1,6 @@
 package net.frozenorb.potpvp.match.listener;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.kt.util.TimeUtils;
 import net.frozenorb.potpvp.match.Match;
 import net.frozenorb.potpvp.match.MatchEndReason;
@@ -66,7 +66,7 @@ public final class MatchDurationLimitListener implements Listener {
                 secondsRemaining--;
             }
 
-        }.runTaskTimer(PotPvPSI.getInstance(), 20L, 20L);
+        }.runTaskTimer(PotPvPRP.getInstance(), 20L, 20L);
     }
 
 }

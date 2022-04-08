@@ -2,8 +2,8 @@ package net.frozenorb.potpvp.party.menu.otherparties;
 
 import com.google.common.base.Preconditions;
 
-import net.frozenorb.potpvp.PotPvPSI;
-import net.frozenorb.potpvp.duel.command.DuelCommand;
+import net.frozenorb.potpvp.PotPvPRP;
+import net.frozenorb.potpvp.command.impl.duel.DuelCommand;
 import net.frozenorb.potpvp.party.Party;
 import net.frozenorb.potpvp.kt.menu.Button;
 
@@ -13,7 +13,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.InventoryView;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +28,7 @@ final class OtherPartyButton extends Button {
 
     @Override
     public String getName(Player player) {
-        return ChatColor.DARK_PURPLE + PotPvPSI.getInstance().getUuidCache().name(party.getLeader());
+        return ChatColor.DARK_PURPLE + PotPvPRP.getInstance().getUuidCache().name(party.getLeader());
     }
 
     @Override
@@ -40,7 +39,7 @@ final class OtherPartyButton extends Button {
 
         for (UUID member : party.getMembers()) {
             ChatColor color = party.isLeader(member) ? ChatColor.DARK_PURPLE : ChatColor.YELLOW;
-            description.add(color + PotPvPSI.getInstance().getUuidCache().name(member));
+            description.add(color + PotPvPRP.getInstance().getUuidCache().name(member));
         }
 
         description.add("");
@@ -66,7 +65,7 @@ final class OtherPartyButton extends Button {
 
     @Override
     public void clicked(Player player, int slot, ClickType clickType, InventoryView view) {
-        Party senderParty = PotPvPSI.getInstance().getPartyHandler().getParty(player);
+        Party senderParty = PotPvPRP.getInstance().getPartyHandler().getParty(player);
 
         if (senderParty == null) {
             return;

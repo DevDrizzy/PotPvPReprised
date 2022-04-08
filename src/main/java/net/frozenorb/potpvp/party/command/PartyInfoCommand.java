@@ -3,7 +3,7 @@ package net.frozenorb.potpvp.party.command;
 import com.google.common.base.Joiner;
 
 import net.frozenorb.potpvp.PotPvPLang;
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.party.Party;
 import net.frozenorb.potpvp.util.PatchedPlayerUtils;
 import net.frozenorb.potpvp.command.Command;
@@ -20,7 +20,7 @@ public final class PartyInfoCommand {
 
     @Command(names = {"party info", "p info", "t info", "team info", "f info", "p i", "t i", "f i", "party i", "team i"}, permission = "")
     public static void partyInfo(Player sender, @Parameter(name = "player", defaultValue = "self") Player target) {
-        Party party = PotPvPSI.getInstance().getPartyHandler().getParty(target);
+        Party party = PotPvPRP.getInstance().getPartyHandler().getParty(target);
 
         if (party == null) {
             if (sender == target) {
@@ -32,7 +32,7 @@ public final class PartyInfoCommand {
             return;
         }
 
-        String leaderName = PotPvPSI.getInstance().getUuidCache().name(party.getLeader());
+        String leaderName = PotPvPRP.getInstance().getUuidCache().name(party.getLeader());
         int memberCount = party.getMembers().size();
         String members = Joiner.on(", ").join(PatchedPlayerUtils.mapToNames(party.getMembers()));
 

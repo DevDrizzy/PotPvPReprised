@@ -1,6 +1,6 @@
 package net.frozenorb.potpvp.util;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.follow.FollowHandler;
 import net.frozenorb.potpvp.match.Match;
 import net.frozenorb.potpvp.match.MatchHandler;
@@ -20,16 +20,16 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public final class VisibilityUtils {
 
-    public static void updateVisibilityFlicker(Player target) {
+    public void updateVisibilityFlicker(Player target) {
         for (Player otherPlayer : Bukkit.getOnlinePlayers()) {
             target.hidePlayer(otherPlayer);
             otherPlayer.hidePlayer(target);
         }
 
-        Bukkit.getScheduler().runTaskLater(PotPvPSI.getInstance(), () -> updateVisibility(target), 10L);
+        Bukkit.getScheduler().runTaskLater(PotPvPRP.getInstance(), () -> updateVisibility(target), 10L);
     }
 
-    public static void updateVisibility(Player target) {
+    public void updateVisibility(Player target) {
         for (Player otherPlayer : Bukkit.getOnlinePlayers()) {
             if (shouldSeePlayer(otherPlayer, target)) {
                 otherPlayer.showPlayer(target);
@@ -45,11 +45,11 @@ public final class VisibilityUtils {
         }
     }
 
-    private static boolean shouldSeePlayer(Player viewer, Player target) {
-        SettingHandler settingHandler = PotPvPSI.getInstance().getSettingHandler();
-        FollowHandler followHandler = PotPvPSI.getInstance().getFollowHandler();
-        PartyHandler partyHandler = PotPvPSI.getInstance().getPartyHandler();
-        MatchHandler matchHandler = PotPvPSI.getInstance().getMatchHandler();
+    private boolean shouldSeePlayer(Player viewer, Player target) {
+        SettingHandler settingHandler = PotPvPRP.getInstance().getSettingHandler();
+        FollowHandler followHandler = PotPvPRP.getInstance().getFollowHandler();
+        PartyHandler partyHandler = PotPvPRP.getInstance().getPartyHandler();
+        MatchHandler matchHandler = PotPvPRP.getInstance().getMatchHandler();
 
         Match targetMatch = matchHandler.getMatchPlayingOrSpectating(target);
 

@@ -1,10 +1,6 @@
 package net.frozenorb.potpvp.listener;
 
-import java.util.Map;
-import java.util.Optional;
-
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -31,7 +27,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.weather.ThunderChangeEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 
 public final class BasicPreventionListener implements Listener {
 
@@ -136,12 +132,12 @@ public final class BasicPreventionListener implements Listener {
     }
 
     private boolean canInteractWithBlocks(Player player) {
-        if (PotPvPSI.getInstance().getMatchHandler().isPlayingMatch(player)) {
+        if (PotPvPRP.getInstance().getMatchHandler().isPlayingMatch(player)) {
             // completely ignore players in matches, MatchBuildListener handles this.
             return true;
         }
 
-        boolean inLobby = PotPvPSI.getInstance().getLobbyHandler().isInLobby(player);
+        boolean inLobby = PotPvPRP.getInstance().getLobbyHandler().isInLobby(player);
         boolean isCreative = player.getGameMode() == GameMode.CREATIVE;
         boolean isOp = player.isOp();
         boolean buildMeta = player.hasMetadata("Build");

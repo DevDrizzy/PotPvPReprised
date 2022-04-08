@@ -1,12 +1,12 @@
 package net.frozenorb.potpvp.match.listener;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.match.Match;
 import net.frozenorb.potpvp.match.MatchHandler;
 import net.frozenorb.potpvp.match.MatchTeam;
 import net.frozenorb.potpvp.match.MatchUtils;
 import net.frozenorb.potpvp.match.SpectatorItems;
-import net.frozenorb.potpvp.match.command.LeaveCommand;
+import net.frozenorb.potpvp.command.impl.match.LeaveCommand;
 import net.frozenorb.potpvp.setting.Setting;
 import net.frozenorb.potpvp.setting.SettingHandler;
 import net.frozenorb.potpvp.util.FancyPlayerInventory;
@@ -31,7 +31,7 @@ public final class SpectatorItemListener extends ItemListener {
         setPreProcessPredicate(matchHandler::isSpectatingMatch);
 
         Consumer<Player> toggleSpectatorsConsumer = player -> {
-            SettingHandler settingHandler = PotPvPSI.getInstance().getSettingHandler();
+            SettingHandler settingHandler = PotPvPRP.getInstance().getSettingHandler();
             UUID playerUuid = player.getUniqueId();
             boolean togglePermitted = toggleVisiblityUsable.getOrDefault(playerUuid, 0L) < System.currentTimeMillis();
 
@@ -65,7 +65,7 @@ public final class SpectatorItemListener extends ItemListener {
             return;
         }
 
-        MatchHandler matchHandler = PotPvPSI.getInstance().getMatchHandler();
+        MatchHandler matchHandler = PotPvPRP.getInstance().getMatchHandler();
         Match clickerMatch = matchHandler.getMatchSpectating(event.getPlayer());
         Player clicker = event.getPlayer();
 

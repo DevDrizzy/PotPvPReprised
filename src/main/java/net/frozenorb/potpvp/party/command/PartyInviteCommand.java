@@ -1,6 +1,6 @@
 package net.frozenorb.potpvp.party.command;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.party.Party;
 import net.frozenorb.potpvp.party.PartyHandler;
 import net.frozenorb.potpvp.command.Command;
@@ -20,7 +20,7 @@ public final class PartyInviteCommand {
 
     @Command(names = {"party invite", "p invite", "t invite", "team invite", "invite", "inv", "party inv", "p inv", "t inv", "team invite", "f invite", "f inv"}, permission = "")
     public static void partyInvite(Player sender, @Parameter(name = "player") Player target) {
-        PartyHandler partyHandler = PotPvPSI.getInstance().getPartyHandler();
+        PartyHandler partyHandler = PotPvPRP.getInstance().getPartyHandler();
         Party party = partyHandler.getParty(sender);
 
         if (sender == target) {
@@ -67,7 +67,7 @@ public final class PartyInviteCommand {
 
     @Command(names = {"party invite **", "p invite **", "t invite **", "team invite **", "invite **", "inv **", "party inv **", "p inv **", "t inv **", "team invite **", "f invite **", "f inv **"}, permission = "op")
     public static void partyInviteAll(Player sender) {
-        PartyHandler partyHandler = PotPvPSI.getInstance().getPartyHandler();
+        PartyHandler partyHandler = PotPvPRP.getInstance().getPartyHandler();
         Party party = partyHandler.getOrCreateParty(sender);
 
         if (sender.hasMetadata("ModMode")) {

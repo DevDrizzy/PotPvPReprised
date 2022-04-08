@@ -1,6 +1,6 @@
 package net.frozenorb.potpvp.follow;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.follow.listener.FollowGeneralListener;
 import net.frozenorb.potpvp.match.Match;
 import net.frozenorb.potpvp.match.MatchHandler;
@@ -25,7 +25,7 @@ public final class FollowHandler {
     private final Map<UUID, UUID> followingData = new ConcurrentHashMap<>();
 
     public FollowHandler() {
-        Bukkit.getPluginManager().registerEvents(new FollowGeneralListener(this), PotPvPSI.getInstance());
+        Bukkit.getPluginManager().registerEvents(new FollowGeneralListener(this), PotPvPRP.getInstance());
     }
 
     public Optional<UUID> getFollowing(Player player) {
@@ -36,7 +36,7 @@ public final class FollowHandler {
         followingData.put(player.getUniqueId(), target.getUniqueId());
         player.sendMessage(ChatColor.BLUE + "Now following " + ChatColor.YELLOW + target.getName() + ChatColor.BLUE + ", exit with /unfollow.");
 
-        MatchHandler matchHandler = PotPvPSI.getInstance().getMatchHandler();
+        MatchHandler matchHandler = PotPvPRP.getInstance().getMatchHandler();
         Match targetMatch = matchHandler.getMatchPlayingOrSpectating(target);
 
         if (targetMatch != null && targetMatch.getState() != MatchState.ENDING) {
@@ -44,7 +44,7 @@ public final class FollowHandler {
         } else {
             InventoryUtils.resetInventoryDelayed(player);
             VisibilityUtils.updateVisibility(player);
-            PotPvPSI.getInstance().getNameTagEngine().reloadOthersFor(player);
+            PotPvPRP.getInstance().getNameTagEngine().reloadOthersFor(player);
 
             player.teleport(target);
         }
@@ -54,10 +54,10 @@ public final class FollowHandler {
         UUID prevTarget = followingData.remove(player.getUniqueId());
 
         if (prevTarget != null) {
-            player.sendMessage(ChatColor.BLUE + "Stopped following " + ChatColor.YELLOW + PotPvPSI.getInstance().getUuidCache().name(prevTarget) + ChatColor.BLUE + ".");
+            player.sendMessage(ChatColor.BLUE + "Stopped following " + ChatColor.YELLOW + PotPvPRP.getInstance().getUuidCache().name(prevTarget) + ChatColor.BLUE + ".");
             InventoryUtils.resetInventoryDelayed(player);
             VisibilityUtils.updateVisibility(player);
-            PotPvPSI.getInstance().getNameTagEngine().reloadOthersFor(player);
+            PotPvPRP.getInstance().getNameTagEngine().reloadOthersFor(player);
         }
     }
 

@@ -4,7 +4,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.party.event.PartyCreateEvent;
 import net.frozenorb.potpvp.party.event.PartyDisbandEvent;
 import net.frozenorb.potpvp.party.event.PartyMemberJoinEvent;
@@ -87,7 +87,7 @@ public final class Party {
         this.leader = Preconditions.checkNotNull(leader, "leader");
         this.members.add(leader);
 
-        PotPvPSI.getInstance().getPartyHandler().updatePartyCache(leader, this);
+        PotPvPRP.getInstance().getPartyHandler().updatePartyCache(leader, this);
         Bukkit.getPluginManager().callEvent(new PartyCreateEvent(this));
     }
 
@@ -156,7 +156,7 @@ public final class Party {
         message(ChatColor.DARK_GREEN + target.getName() + ChatColor.GREEN + " has been invited to join your party.");
 
         invites.add(invite);
-        Bukkit.getScheduler().runTaskLater(PotPvPSI.getInstance(), () -> invites.remove(invite), PartyHandler.INVITE_EXPIRATION_SECONDS * 20);
+        Bukkit.getScheduler().runTaskLater(PotPvPRP.getInstance(), () -> invites.remove(invite), PartyHandler.INVITE_EXPIRATION_SECONDS * 20);
     }
 
     public void join(Player player) {
@@ -180,7 +180,7 @@ public final class Party {
         message(ChatColor.DARK_GREEN + player.getName() + ChatColor.GREEN + " has joined your party.");
 
         members.add(player.getUniqueId());
-        PotPvPSI.getInstance().getPartyHandler().updatePartyCache(player.getUniqueId(), this);
+        PotPvPRP.getInstance().getPartyHandler().updatePartyCache(player.getUniqueId(), this);
 
         Bukkit.getPluginManager().callEvent(new PartyMemberJoinEvent(player, this));
 
@@ -198,7 +198,7 @@ public final class Party {
             return;
         }
 
-        PotPvPSI.getInstance().getPartyHandler().updatePartyCache(player.getUniqueId(), null);
+        PotPvPRP.getInstance().getPartyHandler().updatePartyCache(player.getUniqueId(), null);
 
         // randomly elect new leader if needed
         if (leader.equals(player.getUniqueId())) {
@@ -230,11 +230,11 @@ public final class Party {
 
     public void disband() {
         Bukkit.getPluginManager().callEvent(new PartyDisbandEvent(this));
-        PotPvPSI.getInstance().getPartyHandler().unregisterParty(this);
+        PotPvPRP.getInstance().getPartyHandler().unregisterParty(this);
 
         forEachOnline(player -> {
             VisibilityUtils.updateVisibility(player);
-            PotPvPSI.getInstance().getPartyHandler().updatePartyCache(player.getUniqueId(), null);
+            PotPvPRP.getInstance().getPartyHandler().updatePartyCache(player.getUniqueId(), null);
         });
 
         message(ChatColor.RED + "Your party has been disbanded.");
@@ -246,7 +246,7 @@ public final class Party {
             return;
         }
 
-        PotPvPSI.getInstance().getPartyHandler().updatePartyCache(player.getUniqueId(), null);
+        PotPvPRP.getInstance().getPartyHandler().updatePartyCache(player.getUniqueId(), null);
 
         player.sendMessage(ChatColor.YELLOW + "You have been kicked from your party.");
         message(ChatColor.DARK_RED + player.getName() + ChatColor.RED + " has been kicked from your party.");
@@ -285,7 +285,7 @@ public final class Party {
         // we use one runnable and then call resetInventoriesNow instead of
         // directly using to InventoryUtils#resetInventoryDelayed to reduce
         // the number of tasks we submit to the scheduler
-        Bukkit.getScheduler().runTaskLater(PotPvPSI.getInstance(), this::resetInventoriesNow, InventoryUtils.RESET_DELAY_TICKS);
+        Bukkit.getScheduler().runTaskLater(PotPvPRP.getInstance(), this::resetInventoriesNow, InventoryUtils.RESET_DELAY_TICKS);
     }
 
     /**

@@ -24,7 +24,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import xyz.refinedev.spigot.chunk.ChunkSnapshot;
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.util.AngleUtils;
 
 /**
@@ -116,7 +116,7 @@ public final class Arena {
         int newY = Math.min(team1Spawn.getBlockY(), team2Spawn.getBlockY()) + (yDiff / 2);
         int newZ = Math.min(team1Spawn.getBlockZ(), team2Spawn.getBlockZ()) + (zDiff / 2);
 
-        ArenaHandler arenaHandler = PotPvPSI.getInstance().getArenaHandler();
+        ArenaHandler arenaHandler = PotPvPRP.getInstance().getArenaHandler();
         spectatorSpawn = new Location(arenaHandler.getArenaWorld(), newX, newY, newZ);
 
         while (spectatorSpawn.getBlock().getType().isSolid()) {

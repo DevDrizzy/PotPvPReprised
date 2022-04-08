@@ -5,7 +5,7 @@ import com.google.common.collect.ImmutableList;
 
 import com.sk89q.worldedit.Vector;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.arena.ArenaHandler;
 import net.frozenorb.potpvp.arena.ArenaSchematic;
 import net.frozenorb.potpvp.kt.menu.Button;
@@ -50,7 +50,7 @@ final class TeleportToModelButton extends Button {
     public void clicked(Player player, int slot, ClickType clickType, InventoryView view) {
         player.closeInventory();
 
-        ArenaHandler arenaHandler = PotPvPSI.getInstance().getArenaHandler();
+        ArenaHandler arenaHandler = PotPvPRP.getInstance().getArenaHandler();
         Vector arenaStart = schematic.getModelArenaLocation();
 
         // we add 50 so players don't spawn in the very botton corner of

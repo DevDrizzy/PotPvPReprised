@@ -1,7 +1,7 @@
 package net.frozenorb.potpvp.party.command;
 
 import net.frozenorb.potpvp.PotPvPLang;
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.party.Party;
 import net.frozenorb.potpvp.party.PartyAccessRestriction;
 import net.frozenorb.potpvp.command.Command;
@@ -14,7 +14,7 @@ public final class PartyPasswordCommand {
 
     @Command(names = {"party password", "p password", "t password", "team password", "party pass", "p pass", "t pass", "team pass", "f password", "f pass"}, permission = "")
     public static void partyPassword(Player sender, @Parameter(name = "password") String password) {
-        Party party = PotPvPSI.getInstance().getPartyHandler().getParty(sender);
+        Party party = PotPvPRP.getInstance().getPartyHandler().getParty(sender);
 
         if (party == null) {
             sender.sendMessage(PotPvPLang.NOT_IN_PARTY);

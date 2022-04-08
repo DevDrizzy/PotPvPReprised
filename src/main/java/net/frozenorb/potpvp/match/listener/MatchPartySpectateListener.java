@@ -1,6 +1,6 @@
 package net.frozenorb.potpvp.match.listener;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.match.Match;
 import net.frozenorb.potpvp.match.MatchHandler;
 import net.frozenorb.potpvp.party.event.PartyMemberJoinEvent;
@@ -18,7 +18,7 @@ public final class MatchPartySpectateListener implements Listener {
 
     @EventHandler
     public void onPartyMemberJoin(PartyMemberJoinEvent event) {
-        MatchHandler matchHandler = PotPvPSI.getInstance().getMatchHandler();
+        MatchHandler matchHandler = PotPvPRP.getInstance().getMatchHandler();
         Match leaderMatch = matchHandler.getMatchPlayingOrSpectating(Bukkit.getPlayer(event.getParty().getLeader()));
 
         if (leaderMatch != null) {

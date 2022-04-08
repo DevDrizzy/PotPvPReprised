@@ -1,19 +1,15 @@
 package net.frozenorb.potpvp.duel;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.duel.listener.DuelListener;
 import net.frozenorb.potpvp.party.Party;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 public final class DuelHandler {
 
@@ -24,8 +20,8 @@ public final class DuelHandler {
     private Set<DuelInvite> activeInvites = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
     public DuelHandler() {
-        Bukkit.getPluginManager().registerEvents(new DuelListener(), PotPvPSI.getInstance());
-        Bukkit.getScheduler().runTaskTimerAsynchronously(PotPvPSI.getInstance(), () -> activeInvites.removeIf(DuelInvite::isExpired), 20, 20);
+        Bukkit.getPluginManager().registerEvents(new DuelListener(), PotPvPRP.getInstance());
+        Bukkit.getScheduler().runTaskTimerAsynchronously(PotPvPRP.getInstance(), () -> activeInvites.removeIf(DuelInvite::isExpired), 20, 20);
     }
 
     public void insertInvite(DuelInvite invite) {

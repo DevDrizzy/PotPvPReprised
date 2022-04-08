@@ -26,7 +26,7 @@ import com.google.common.io.Files;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 
 import lombok.Getter;
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.arena.event.ArenaAllocatedEvent;
 import net.frozenorb.potpvp.arena.event.ArenaReleasedEvent;
 import net.frozenorb.potpvp.arena.listener.ArenaItemResetListener;
@@ -48,7 +48,7 @@ public final class ArenaHandler {
     @Getter private final ArenaGrid grid = new ArenaGrid();
 
     public ArenaHandler() {
-        Bukkit.getPluginManager().registerEvents(new ArenaItemResetListener(), PotPvPSI.getInstance());
+        Bukkit.getPluginManager().registerEvents(new ArenaItemResetListener(), PotPvPRP.getInstance());
 
         File worldFolder = getArenaWorld().getWorldFolder();
 
@@ -60,7 +60,7 @@ public final class ArenaHandler {
             if (arenaInstancesFile.exists()) {
                 try (Reader arenaInstancesReader = Files.newReader(arenaInstancesFile, Charsets.UTF_8)) {
                     Type arenaListType = new TypeToken<List<Arena>>(){}.getType();
-                    List<Arena> arenaList = PotPvPSI.getGson().fromJson(arenaInstancesReader, arenaListType);
+                    List<Arena> arenaList = PotPvPRP.getGson().fromJson(arenaInstancesReader, arenaListType);
 
                     for (Arena arena : arenaList) {
                         // create inner Map for schematic if not present
@@ -76,7 +76,7 @@ public final class ArenaHandler {
             if (schematicsFile.exists()) {
                 try (Reader schematicsFileReader = Files.newReader(schematicsFile, Charsets.UTF_8)) {
                     Type schematicListType = new TypeToken<List<ArenaSchematic>>() {}.getType();
-                    List<ArenaSchematic> schematicList = PotPvPSI.getGson().fromJson(schematicsFileReader, schematicListType);
+                    List<ArenaSchematic> schematicList = PotPvPRP.getGson().fromJson(schematicsFileReader, schematicListType);
 
                     for (ArenaSchematic schematic : schematicList) {
                         this.schematics.put(schematic.getName(), schematic);
@@ -91,7 +91,7 @@ public final class ArenaHandler {
 
     public void saveSchematics() throws IOException {
         Files.write(
-            PotPvPSI.getGson().toJson(schematics.values()),
+            PotPvPRP.getGson().toJson(schematics.values()),
             new File(getArenaWorld().getWorldFolder(), SCHEMATICS_FILE_NAME),
             Charsets.UTF_8
         );
@@ -105,7 +105,7 @@ public final class ArenaHandler {
         });
 
         Files.write(
-            PotPvPSI.getGson().toJson(allArenas),
+            PotPvPRP.getGson().toJson(allArenas),
             new File(getArenaWorld().getWorldFolder(), ARENA_INSTANCES_FILE_NAME),
             Charsets.UTF_8
         );

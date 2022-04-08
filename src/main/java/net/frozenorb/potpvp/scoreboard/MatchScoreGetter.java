@@ -16,7 +16,7 @@ import org.bukkit.entity.Player;
 
 import com.google.common.collect.ImmutableMap;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.kittype.HealingMethod;
 import net.frozenorb.potpvp.match.Match;
 import net.frozenorb.potpvp.match.MatchHandler;
@@ -55,8 +55,8 @@ final class MatchScoreGetter implements BiConsumer<Player, List<String>> {
     private Map<UUID, Integer> healsLeft = ImmutableMap.of();
 
     MatchScoreGetter() {
-        Bukkit.getScheduler().runTaskTimer(PotPvPSI.getInstance(), () -> {
-            MatchHandler matchHandler = PotPvPSI.getInstance().getMatchHandler();
+        Bukkit.getScheduler().runTaskTimer(PotPvPRP.getInstance(), () -> {
+            MatchHandler matchHandler = PotPvPRP.getInstance().getMatchHandler();
             Map<UUID, Integer> newHealsLeft = new HashMap<>();
 
             for (Player player : Bukkit.getOnlinePlayers()) {
@@ -82,15 +82,15 @@ final class MatchScoreGetter implements BiConsumer<Player, List<String>> {
 
     @Override
     public void accept(Player player, List<String> scores) {
-        Optional<UUID> followingOpt = PotPvPSI.getInstance().getFollowHandler().getFollowing(player);
-        MatchHandler matchHandler = PotPvPSI.getInstance().getMatchHandler();
+        Optional<UUID> followingOpt = PotPvPRP.getInstance().getFollowHandler().getFollowing(player);
+        MatchHandler matchHandler = PotPvPRP.getInstance().getMatchHandler();
         Match match = matchHandler.getMatchPlayingOrSpectating(player);
 
         // this method shouldn't have even been called if
         // they're not in a match
         if (match == null) {
             if (followingOpt.isPresent()) {
-                scores.add("&5Following: *&7" + PotPvPSI.getInstance().getUuidCache().name(followingOpt.get()));
+                scores.add("&5Following: *&7" + PotPvPRP.getInstance().getUuidCache().name(followingOpt.get()));
             }
 
             if (player.hasMetadata("ModMode")) {
@@ -120,7 +120,7 @@ final class MatchScoreGetter implements BiConsumer<Player, List<String>> {
         // check (we can't define the lambda up top and reference because we reference the
         // scores variable)
         if (followingOpt.isPresent()) {
-            scores.add("&5Following: *&7" + PotPvPSI.getInstance().getUuidCache().name(followingOpt.get()));
+            scores.add("&5Following: *&7" + PotPvPRP.getInstance().getUuidCache().name(followingOpt.get()));
         }
 
         if (player.hasMetadata("ModMode")) {
@@ -177,7 +177,7 @@ final class MatchScoreGetter implements BiConsumer<Player, List<String>> {
     }
 
     private void render1v1MatchLines(List<String> scores, MatchTeam otherTeam) {
-        scores.add("&c&lOpponent: &f" + PotPvPSI.getInstance().getUuidCache().name(otherTeam.getFirstMember()));
+        scores.add("&c&lOpponent: &f" + PotPvPRP.getInstance().getUuidCache().name(otherTeam.getFirstMember()));
 
     }
 
@@ -243,7 +243,7 @@ final class MatchScoreGetter implements BiConsumer<Player, List<String>> {
                 healsStr = "";
             }
 
-            scores.add(namePrefix + PotPvPSI.getInstance().getUuidCache().name(partnerUuid));
+            scores.add(namePrefix + PotPvPRP.getInstance().getUuidCache().name(partnerUuid));
             scores.add(healthStr + healsStr);
             scores.add("&b");
         }
@@ -252,7 +252,7 @@ final class MatchScoreGetter implements BiConsumer<Player, List<String>> {
         scores.addAll(renderTeamMemberOverviewLines(otherTeam));
 
         // Removes the space
-        if (PotPvPSI.getInstance().getMatchHandler().getMatchPlaying(player).getState() == MatchState.IN_PROGRESS) {
+        if (PotPvPRP.getInstance().getMatchHandler().getMatchPlaying(player).getState() == MatchState.IN_PROGRESS) {
             scores.add("&c");
         }
     }
@@ -264,7 +264,7 @@ final class MatchScoreGetter implements BiConsumer<Player, List<String>> {
         scores.add("&b");
         scores.add("&cOpponents &c(" + otherTeam.getAliveMembers().size() + "/" + otherTeam.getAllMembers().size() + ")");
         scores.addAll(renderTeamMemberOverviewLines(otherTeam));
-        if (PotPvPSI.getInstance().getMatchHandler().getMatchPlaying(Bukkit.getPlayer(ourTeam.getFirstAliveMember())).getState() == MatchState.IN_PROGRESS) {
+        if (PotPvPRP.getInstance().getMatchHandler().getMatchPlaying(Bukkit.getPlayer(ourTeam.getFirstAliveMember())).getState() == MatchState.IN_PROGRESS) {
             scores.add("&c");
         }
     }
@@ -330,7 +330,7 @@ final class MatchScoreGetter implements BiConsumer<Player, List<String>> {
         }
 
         // spectators don't have any bold entries on their scoreboard
-        scores.add(PotPvPSI.getInstance().getDominantColor() + "&6&lDuration: &f" + formattedDuration);
+        scores.add(PotPvPRP.getInstance().getDominantColor() + "&6&lDuration: &f" + formattedDuration);
     }
 
     private void renderPingLines(List<String> scores, Match match, Player ourPlayer) {
@@ -364,9 +364,9 @@ final class MatchScoreGetter implements BiConsumer<Player, List<String>> {
         // + color differently
         for (UUID teamMember : team.getAllMembers()) {
             if (team.isAlive(teamMember)) {
-                aliveLines.add(" &f" + PotPvPSI.getInstance().getUuidCache().name(teamMember) + " " + getHeartString(team, teamMember));
+                aliveLines.add(" &f" + PotPvPRP.getInstance().getUuidCache().name(teamMember) + " " + getHeartString(team, teamMember));
             } else {
-                deadLines.add(" &7&m" + PotPvPSI.getInstance().getUuidCache().name(teamMember));
+                deadLines.add(" &7&m" + PotPvPRP.getInstance().getUuidCache().name(teamMember));
             }
         }
 
@@ -386,9 +386,9 @@ final class MatchScoreGetter implements BiConsumer<Player, List<String>> {
         // + color differently
         for (UUID teamMember : team.getAllMembers()) {
             if (team.isAlive(teamMember)) {
-                aliveLines.add(" &f" + PotPvPSI.getInstance().getUuidCache().name(teamMember));
+                aliveLines.add(" &f" + PotPvPRP.getInstance().getUuidCache().name(teamMember));
             } else {
-                deadLines.add(" &7&m" + PotPvPSI.getInstance().getUuidCache().name(teamMember));
+                deadLines.add(" &7&m" + PotPvPRP.getInstance().getUuidCache().name(teamMember));
             }
         }
 

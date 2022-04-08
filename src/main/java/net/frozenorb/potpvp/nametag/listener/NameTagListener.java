@@ -1,6 +1,6 @@
 package net.frozenorb.potpvp.nametag.listener;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.minecraft.server.v1_8_R3.PacketPlayOutScoreboardTeam;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
@@ -18,7 +18,7 @@ import java.util.Collections;
 
 public final class NameTagListener implements Listener {
 
-    private final PotPvPSI plugin = PotPvPSI.getInstance();
+    private final PotPvPRP plugin = PotPvPRP.getInstance();
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerJoin(PlayerJoinEvent event) {

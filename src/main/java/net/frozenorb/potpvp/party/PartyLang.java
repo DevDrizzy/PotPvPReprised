@@ -1,6 +1,6 @@
 package net.frozenorb.potpvp.party;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -41,7 +41,7 @@ public final class PartyLang {
 
     public static TextComponent inviteAcceptPrompt(Party party) {
         ClickEvent.Action runCommand = ClickEvent.Action.RUN_COMMAND;
-        String partyLeader = PotPvPSI.getInstance().getUuidCache().name(party.getLeader());
+        String partyLeader = PotPvPRP.getInstance().getUuidCache().name(party.getLeader());
 
         // create copies via constructor (we're going to update their click event)
         TextComponent acceptButton = new TextComponent(ACCEPT_BUTTON);
@@ -66,7 +66,7 @@ public final class PartyLang {
 
     public static TextComponent hoverablePartyName(Party party) {
         TextComponent previewComponent = new TextComponent();
-        String leaderName = PotPvPSI.getInstance().getUuidCache().name(party.getLeader());
+        String leaderName = PotPvPRP.getInstance().getUuidCache().name(party.getLeader());
 
         // only show an actual tooltip for parties with >= 2 members,
         // parties that (to the user) don't exist yet just show up as a name
@@ -111,7 +111,7 @@ public final class PartyLang {
             UUID member = members.remove(0);
             String suffix = party.isLeader(member) ? "*" : "";
 
-            displayNames.add(ChatColor.YELLOW + PotPvPSI.getInstance().getUuidCache().name(member) + suffix);
+            displayNames.add(ChatColor.YELLOW + PotPvPRP.getInstance().getUuidCache().name(member) + suffix);
         }
 
         if (!members.isEmpty()) {

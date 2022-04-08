@@ -3,7 +3,7 @@ package com.qrakn.morpheus.game.task
 import com.qrakn.morpheus.game.Game
 import com.qrakn.morpheus.game.GameState
 import com.qrakn.morpheus.game.bukkit.event.GameStateChangeEvent
-import net.frozenorb.potpvp.PotPvPSI
+import net.frozenorb.potpvp.PotPvPRP
 import net.frozenorb.potpvp.arena.Arena
 import org.apache.commons.lang.StringUtils
 import org.bukkit.Bukkit
@@ -19,7 +19,7 @@ class GameStartTask(private val plugin: JavaPlugin, game: Game) {
     private val interval = 15
 
     init {
-        val arena: Optional<Arena> = PotPvPSI.getInstance().arenaHandler.allocateUnusedArena {it.event == game.event && it.isEnabled}
+        val arena: Optional<Arena> = PotPvPRP.getInstance().arenaHandler.allocateUnusedArena {it.event == game.event && it.isEnabled}
 
         if (arena.isPresent) {
             Bukkit.getPluginManager().callEvent(GameStateChangeEvent(game, GameState.STARTING))

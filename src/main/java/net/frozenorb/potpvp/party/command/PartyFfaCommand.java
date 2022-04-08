@@ -1,7 +1,7 @@
 package net.frozenorb.potpvp.party.command;
 
 import net.frozenorb.potpvp.PotPvPLang;
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.kittype.menu.select.SelectKitTypeMenu;
 import net.frozenorb.potpvp.match.Match;
 import net.frozenorb.potpvp.match.MatchHandler;
@@ -24,7 +24,7 @@ public final class PartyFfaCommand {
 
     @Command(names = {"party ffa", "p ffa", "t ffa", "team ffa", "f ffa"}, permission = "")
     public static void partyFfa(Player sender) {
-        PartyHandler partyHandler = PotPvPSI.getInstance().getPartyHandler();
+        PartyHandler partyHandler = PotPvPRP.getInstance().getPartyHandler();
         Party party = partyHandler.getParty(sender);
 
         if (party == null) {
@@ -32,7 +32,7 @@ public final class PartyFfaCommand {
         } else if (!party.isLeader(sender.getUniqueId())) {
             sender.sendMessage(PotPvPLang.NOT_LEADER_OF_PARTY);
         } else {
-            MatchHandler matchHandler = PotPvPSI.getInstance().getMatchHandler();
+            MatchHandler matchHandler = PotPvPRP.getInstance().getMatchHandler();
 
             if (!PotPvPValidation.canStartFfa(party, sender)) {
                 return;
@@ -58,7 +58,7 @@ public final class PartyFfaCommand {
 
     @Command(names = {"party devffa", "p devffa", "t devffa", "team devffa", "f devffa"}, permission = "")
     public static void partyDevFfa(Player sender, @Parameter(name = "team size", defaultValue = "1") int teamSize) {
-        PartyHandler partyHandler = PotPvPSI.getInstance().getPartyHandler();
+        PartyHandler partyHandler = PotPvPRP.getInstance().getPartyHandler();
         Party party = partyHandler.getParty(sender);
 
         if (party == null) {
@@ -66,7 +66,7 @@ public final class PartyFfaCommand {
         } else if (!party.isLeader(sender.getUniqueId())) {
             sender.sendMessage(PotPvPLang.NOT_LEADER_OF_PARTY);
         } else {
-            MatchHandler matchHandler = PotPvPSI.getInstance().getMatchHandler();
+            MatchHandler matchHandler = PotPvPRP.getInstance().getMatchHandler();
 
             if (!PotPvPValidation.canStartFfa(party, sender)) {
                 return;

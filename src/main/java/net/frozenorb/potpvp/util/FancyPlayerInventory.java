@@ -1,6 +1,6 @@
 package net.frozenorb.potpvp.util;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.minecraft.server.v1_8_R3.EntityHuman;
 import net.minecraft.server.v1_8_R3.ItemStack;
 import net.minecraft.server.v1_8_R3.PlayerInventory;
@@ -43,7 +43,7 @@ public class FancyPlayerInventory extends PlayerInventory {
     }
 
     private void removalCheck() {
-        Bukkit.getScheduler().runTaskAsynchronously(PotPvPSI.getInstance(), () -> owner.saveData());
+        Bukkit.getScheduler().runTaskAsynchronously(PotPvPRP.getInstance(), () -> owner.saveData());
 
         if (transaction.isEmpty() && !playerOnline) {
             storage.remove(owner.getUniqueId());
@@ -57,7 +57,7 @@ public class FancyPlayerInventory extends PlayerInventory {
             player.getHandle().inventory.armor = this.armor;
             playerOnline = true;
 
-            Bukkit.getScheduler().runTaskAsynchronously(PotPvPSI.getInstance(), () -> owner.saveData());
+            Bukkit.getScheduler().runTaskAsynchronously(PotPvPRP.getInstance(), () -> owner.saveData());
         }
     }
 

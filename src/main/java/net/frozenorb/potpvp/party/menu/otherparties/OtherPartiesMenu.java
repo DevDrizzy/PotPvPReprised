@@ -9,7 +9,7 @@ import java.util.Map;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.lobby.LobbyHandler;
 import net.frozenorb.potpvp.party.Party;
 import net.frozenorb.potpvp.party.PartyHandler;
@@ -32,9 +32,9 @@ public final class OtherPartiesMenu extends PaginatedMenu {
 
     @Override
     public Map<Integer, Button> getAllPagesButtons(Player player) {
-        SettingHandler settingHandler = PotPvPSI.getInstance().getSettingHandler();
-        PartyHandler partyHandler = PotPvPSI.getInstance().getPartyHandler();
-        LobbyHandler lobbyHandler = PotPvPSI.getInstance().getLobbyHandler();
+        SettingHandler settingHandler = PotPvPRP.getInstance().getSettingHandler();
+        PartyHandler partyHandler = PotPvPRP.getInstance().getPartyHandler();
+        LobbyHandler lobbyHandler = PotPvPRP.getInstance().getLobbyHandler();
 
         Map<Integer, Button> buttons = new HashMap<>();
         List<Party> parties = new ArrayList<>(partyHandler.getParties());

@@ -15,7 +15,7 @@ import org.bukkit.event.entity.PotionSplashEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.projectiles.ProjectileSource;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.match.Match;
 
 public class MatchStatsListener implements Listener {
@@ -27,7 +27,7 @@ public class MatchStatsListener implements Listener {
         Player damager = (Player) event.getDamager();
         Player damaged = (Player) event.getEntity();
 
-        Match damagerMatch = PotPvPSI.getInstance().getMatchHandler().getMatchPlaying(damager);
+        Match damagerMatch = PotPvPRP.getInstance().getMatchHandler().getMatchPlaying(damager);
         if (damagerMatch == null) return;
 
         Map<UUID, UUID> lastHitMap = damagerMatch.getLastHit();
@@ -63,7 +63,7 @@ public class MatchStatsListener implements Listener {
         if (!(projectileSource instanceof Player)) return;
 
         Player player = (Player) projectileSource;
-        Match match = PotPvPSI.getInstance().getMatchHandler().getMatchPlaying(player);
+        Match match = PotPvPRP.getInstance().getMatchHandler().getMatchPlaying(player);
 
         if (match == null) return;
         match.getMissedPots().put(player.getUniqueId(), match.getMissedPots().getOrDefault(player.getUniqueId(), 0) + 1);
@@ -79,7 +79,7 @@ public class MatchStatsListener implements Listener {
         if (!(projectileSource instanceof Player)) return;
 
         Player player = (Player) projectileSource;
-        Match match = PotPvPSI.getInstance().getMatchHandler().getMatchPlaying(player);
+        Match match = PotPvPRP.getInstance().getMatchHandler().getMatchPlaying(player);
 
         if (match == null) return;
 

@@ -2,7 +2,7 @@ package net.frozenorb.potpvp.elo.listener;
 
 import com.google.common.base.Joiner;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.elo.EloCalculator;
 import net.frozenorb.potpvp.elo.EloHandler;
 import net.frozenorb.potpvp.kittype.KitType;
@@ -75,8 +75,8 @@ public final class EloUpdateListener implements Listener {
         String loserStr;
 
         if (winnerTeam.getAllMembers().size() == 1 && loserTeam.getAllMembers().size() == 1) {
-            winnerStr = PotPvPSI.getInstance().getUuidCache().name(winnerTeam.getFirstMember());
-            loserStr = PotPvPSI.getInstance().getUuidCache().name(loserTeam.getFirstMember());
+            winnerStr = PotPvPRP.getInstance().getUuidCache().name(winnerTeam.getFirstMember());
+            loserStr = PotPvPRP.getInstance().getUuidCache().name(loserTeam.getFirstMember());
         } else {
             winnerStr = Joiner.on(", ").join(PatchedPlayerUtils.mapToNames(winnerTeam.getAllMembers()));
             loserStr = Joiner.on(", ").join(PatchedPlayerUtils.mapToNames(loserTeam.getAllMembers()));

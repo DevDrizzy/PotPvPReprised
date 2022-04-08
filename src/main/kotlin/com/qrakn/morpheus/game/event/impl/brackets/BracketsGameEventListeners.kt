@@ -8,7 +8,7 @@ import com.qrakn.morpheus.game.util.team.GameTeam
 import com.qrakn.morpheus.game.event.impl.sumo.SumoGameEventLogic
 import com.qrakn.morpheus.game.util.team.GameTeamEventLogic
 import com.qrakn.morpheus.game.util.team.GameTeamSizeParameter
-import net.frozenorb.potpvp.PotPvPSI
+import net.frozenorb.potpvp.PotPvPRP
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.Material
@@ -235,7 +235,7 @@ class BracketsGameEventListeners : Listener {
                         event.entity.teleport(game.arena.spectatorSpawn)
                         Bukkit.getPluginManager().callEvent(PlayerGameInteractionEvent(event.entity, game))
                     }
-                }.runTaskLater(PotPvPSI.getInstance(), 2L)
+                }.runTaskLater(PotPvPRP.getInstance(), 2L)
             }
         }
     }

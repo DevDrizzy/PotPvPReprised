@@ -1,6 +1,6 @@
 package net.frozenorb.potpvp.party.command;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.party.PartyHandler;
 import net.frozenorb.potpvp.command.Command;
 
@@ -11,7 +11,7 @@ public final class PartyCreateCommand {
 
     @Command(names = {"party create", "p create", "t create", "team create", "f create"}, permission = "")
     public static void partyCreate(Player sender) {
-        PartyHandler partyHandler = PotPvPSI.getInstance().getPartyHandler();
+        PartyHandler partyHandler = PotPvPRP.getInstance().getPartyHandler();
 
         if (partyHandler.hasParty(sender)) {
             sender.sendMessage(ChatColor.RED + "You are already in a party.");

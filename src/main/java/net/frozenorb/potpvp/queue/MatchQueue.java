@@ -4,7 +4,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.elo.EloHandler;
 import net.frozenorb.potpvp.kittype.KitType;
 import net.frozenorb.potpvp.match.Match;
@@ -37,7 +37,7 @@ public final class MatchQueue {
         // (sometimes matches fail to create [ex no maps open] and
         // we should retry)
         List<MatchQueueEntry> entriesCopy = new ArrayList<>(entries);
-        EloHandler eloHandler = PotPvPSI.getInstance().getEloHandler();
+        EloHandler eloHandler = PotPvPRP.getInstance().getEloHandler();
 
         // ranked match algorithm requires entries are in
         // order by elo. There's no reason we only do this for ranked
@@ -89,8 +89,8 @@ public final class MatchQueue {
     }
 
     private void createMatchAndRemoveEntries(MatchQueueEntry entryA, MatchQueueEntry entryB) {
-        MatchHandler matchHandler = PotPvPSI.getInstance().getMatchHandler();
-        QueueHandler queueHandler = PotPvPSI.getInstance().getQueueHandler();
+        MatchHandler matchHandler = PotPvPRP.getInstance().getMatchHandler();
+        QueueHandler queueHandler = PotPvPRP.getInstance().getQueueHandler();
 
         MatchTeam teamA = new MatchTeam(entryA.getMembers());
         MatchTeam teamB = new MatchTeam(entryB.getMembers());
@@ -111,7 +111,7 @@ public final class MatchQueue {
             String teamBElo = "";
 
             if (ranked) {
-                EloHandler eloHandler = PotPvPSI.getInstance().getEloHandler();
+                EloHandler eloHandler = PotPvPRP.getInstance().getEloHandler();
 
                 teamAElo = " (" + eloHandler.getElo(teamA.getAliveMembers(), kitType) + " Elo)";
                 teamBElo = " (" + eloHandler.getElo(teamB.getAliveMembers(), kitType) + " Elo)";

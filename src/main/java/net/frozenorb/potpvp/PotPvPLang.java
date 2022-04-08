@@ -1,6 +1,6 @@
 package net.frozenorb.potpvp;
 
-import net.frozenorb.potpvp.command.impl.HelpCommand;
+import net.frozenorb.potpvp.command.impl.misc.HelpCommand;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 

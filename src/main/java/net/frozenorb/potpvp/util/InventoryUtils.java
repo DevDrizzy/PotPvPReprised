@@ -1,6 +1,6 @@
 package net.frozenorb.potpvp.util;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.lobby.LobbyUtils;
 import net.frozenorb.potpvp.match.MatchHandler;
 import net.frozenorb.potpvp.match.MatchUtils;
@@ -17,11 +17,11 @@ public final class InventoryUtils {
 
     public static void resetInventoryDelayed(Player player) {
         Runnable task = () -> resetInventoryNow(player);
-        Bukkit.getScheduler().runTaskLater(PotPvPSI.getInstance(), task, RESET_DELAY_TICKS);
+        Bukkit.getScheduler().runTaskLater(PotPvPRP.getInstance(), task, RESET_DELAY_TICKS);
     }
 
     public static void resetInventoryNow(Player player) {
-        MatchHandler matchHandler = PotPvPSI.getInstance().getMatchHandler();
+        MatchHandler matchHandler = PotPvPRP.getInstance().getMatchHandler();
 
         if (matchHandler.isPlayingOrSpectatingMatch(player)) {
             MatchUtils.resetInventory(player);

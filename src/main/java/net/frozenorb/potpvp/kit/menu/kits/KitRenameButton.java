@@ -3,7 +3,7 @@ package net.frozenorb.potpvp.kit.menu.kits;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.kit.Kit;
 import net.frozenorb.potpvp.kt.menu.Button;
 
@@ -16,7 +16,6 @@ import org.bukkit.conversations.StringPrompt;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.InventoryView;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -48,7 +47,7 @@ final class KitRenameButton extends Button {
 
     @Override
     public void clicked(Player player, int slot, ClickType clickType, InventoryView view) {
-        ConversationFactory factory = new ConversationFactory(PotPvPSI.getInstance()).withFirstPrompt(new StringPrompt() {
+        ConversationFactory factory = new ConversationFactory(PotPvPRP.getInstance()).withFirstPrompt(new StringPrompt() {
 
             @Override
             public String getPromptText(ConversationContext context) {
@@ -64,10 +63,10 @@ final class KitRenameButton extends Button {
 
                 kit.setName(s);
 
-                PotPvPSI.getInstance().getKitHandler().saveKitsAsync(player);
+                PotPvPRP.getInstance().getKitHandler().saveKitsAsync(player);
 
                 ctx.getForWhom().sendRawMessage(ChatColor.YELLOW + "Kit renamed.");
-                if (!PotPvPSI.getInstance().getMatchHandler().isPlayingMatch(player)) {
+                if (!PotPvPRP.getInstance().getMatchHandler().isPlayingMatch(player)) {
                     new KitsMenu(kit.getType()).openMenu(player);
                 }
                 return Prompt.END_OF_CONVERSATION;

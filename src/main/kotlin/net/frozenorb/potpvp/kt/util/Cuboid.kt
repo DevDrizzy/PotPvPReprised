@@ -1,6 +1,6 @@
 package net.frozenorb.potpvp.kt.util
 
-import net.frozenorb.potpvp.PotPvPSI
+import net.frozenorb.potpvp.PotPvPRP
 import org.bukkit.Chunk
 import org.bukkit.Location
 import org.bukkit.World
@@ -46,7 +46,7 @@ class Cuboid : Iterable<Block>, Cloneable, ConfigurationSerializable {
 
     val world: World
         get() =
-            PotPvPSI.getInstance().server.getWorld(worldName)
+            PotPvPRP.getInstance().server.getWorld(worldName)
                     ?: throw IllegalStateException("World '$worldName' is not loaded")
 
     val sizeX: Int

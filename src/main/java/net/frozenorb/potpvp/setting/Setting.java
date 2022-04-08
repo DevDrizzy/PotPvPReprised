@@ -90,7 +90,7 @@ public enum Setting {
         ChatColor.YELLOW + "Show other lightning",
         ChatColor.YELLOW + "Hide other lightning",
         true,
-        null // no permission required
+        "potpvp.togglelightning"
     ),
     NIGHT_MODE(
         ChatColor.GRAY + "Night Mode",
@@ -161,19 +161,16 @@ public enum Setting {
 
     /**
      * Material to be used when rendering an icon for this setting
-     * @see net.frozenorb.potpvp.setting.menu.SettingButton
      */
     @Getter private final Material icon;
 
     /**
      * Text to be shown when rendering an icon for this setting, while enabled
-     * @see net.frozenorb.potpvp.setting.menu.SettingButton
      */
     @Getter private final String enabledText;
 
     /**
      * Text to be shown when rendering an icon for this setting, while enabled
-     * @see net.frozenorb.potpvp.setting.menu.SettingButton
      */
     @Getter private final String disabledText;
 

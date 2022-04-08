@@ -3,7 +3,7 @@ package net.frozenorb.potpvp.util;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.UpdateOptions;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 
 import org.bson.Document;
 
@@ -25,7 +25,7 @@ public final class MongoUtils {
      * @return MongoCollection for specified collection id.
      */
     public static MongoCollection<Document> getCollection(String collectionId) {
-        return PotPvPSI.getInstance().getMongoDatabase().getCollection(collectionId);
+        return PotPvPRP.getInstance().getMongoDatabase().getCollection(collectionId);
     }
 
 }

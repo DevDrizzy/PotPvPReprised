@@ -2,7 +2,7 @@ package net.frozenorb.potpvp.kittype.menu.manage;
 
 import com.google.common.collect.ImmutableList;
 
-import net.frozenorb.potpvp.command.impl.ManageCommand;
+import net.frozenorb.potpvp.command.impl.misc.ManageCommand;
 import net.frozenorb.potpvp.kittype.KitType;
 import net.frozenorb.potpvp.util.menu.MenuBackButton;
 import net.frozenorb.potpvp.util.menu.BooleanTraitButton;

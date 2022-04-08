@@ -5,7 +5,7 @@ import com.google.common.collect.ImmutableList;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.util.JSON;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.kit.listener.KitEditorListener;
 import net.frozenorb.potpvp.kit.listener.KitItemListener;
 import net.frozenorb.potpvp.kit.listener.KitLoadListener;
@@ -24,7 +24,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 public final class KitHandler {
 
@@ -34,9 +33,9 @@ public final class KitHandler {
     private final Map<UUID, List<Kit>> kitData = new ConcurrentHashMap<>();
 
     public KitHandler() {
-        Bukkit.getPluginManager().registerEvents(new KitEditorListener(), PotPvPSI.getInstance());
-        Bukkit.getPluginManager().registerEvents(new KitItemListener(), PotPvPSI.getInstance());
-        Bukkit.getPluginManager().registerEvents(new KitLoadListener(), PotPvPSI.getInstance());
+        Bukkit.getPluginManager().registerEvents(new KitEditorListener(), PotPvPRP.getInstance());
+        Bukkit.getPluginManager().registerEvents(new KitItemListener(), PotPvPRP.getInstance());
+        Bukkit.getPluginManager().registerEvents(new KitLoadListener(), PotPvPRP.getInstance());
     }
 
     public List<Kit> getKits(Player player, KitType kitType) {
@@ -77,9 +76,9 @@ public final class KitHandler {
     }
 
     public void saveKitsAsync(Player player) {
-        Bukkit.getScheduler().runTaskAsynchronously(PotPvPSI.getInstance(), () -> {
+        Bukkit.getScheduler().runTaskAsynchronously(PotPvPRP.getInstance(), () -> {
             MongoCollection<Document> collection = MongoUtils.getCollection(MONGO_COLLECTION_NAME);
-            List kitJson = (List) JSON.parse(PotPvPSI.getGson().toJson(kitData.getOrDefault(player.getUniqueId(), ImmutableList.of())));
+            List kitJson = (List) JSON.parse(PotPvPRP.getGson().toJson(kitData.getOrDefault(player.getUniqueId(), ImmutableList.of())));
 
             Document query = new Document("_id", player.getUniqueId().toString());
             Document kitUpdate = new Document("$set", new Document("kits", kitJson));
@@ -122,7 +121,7 @@ public final class KitHandler {
             List kits = playerKits.get("kits", List.class);
             Type listKit = new TypeToken<List<Kit>>() {}.getType();
 
-            kitData.put(playerUuid, PotPvPSI.getGson().fromJson(JSON.serialize(kits), listKit));
+            kitData.put(playerUuid, PotPvPRP.getGson().fromJson(JSON.serialize(kits), listKit));
         }
     }
 

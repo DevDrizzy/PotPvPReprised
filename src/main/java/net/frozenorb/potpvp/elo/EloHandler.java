@@ -13,7 +13,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
 import lombok.Getter;
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.elo.listener.EloLoadListener;
 import net.frozenorb.potpvp.elo.listener.EloUpdateListener;
 import net.frozenorb.potpvp.elo.repository.EloRepository;
@@ -28,14 +28,14 @@ public final class EloHandler {
     @Getter private final EloRepository eloRepository;
 
     public EloHandler() {
-        Bukkit.getPluginManager().registerEvents(new EloLoadListener(this), PotPvPSI.getInstance());
+        Bukkit.getPluginManager().registerEvents(new EloLoadListener(this), PotPvPRP.getInstance());
         Bukkit.getPluginManager().registerEvents(new EloUpdateListener(this, new EloCalculator(
             35, // k power
             7,
             25,
             7,
             25
-        )), PotPvPSI.getInstance());
+        )), PotPvPRP.getInstance());
 
         eloRepository = new MongoEloRepository();
     }
@@ -69,7 +69,7 @@ public final class EloHandler {
         Map<KitType, Integer> partyElo = eloData.computeIfAbsent(playerUuids, i -> new ConcurrentHashMap<>());
         partyElo.put(kitType, newElo);
 
-        Bukkit.getScheduler().runTaskAsynchronously(PotPvPSI.getInstance(), () -> {
+        Bukkit.getScheduler().runTaskAsynchronously(PotPvPRP.getInstance(), () -> {
             try {
                 eloRepository.saveElo(playerUuids, partyElo);
             } catch (IOException ex) {
@@ -112,8 +112,8 @@ public final class EloHandler {
     }
 
     public void resetElo(final UUID player) {
-        Bukkit.getLogger().info("Resetting elo of " + PotPvPSI.getInstance().getUuidCache().name(player) + ".");
-        Bukkit.getScheduler().runTaskAsynchronously(PotPvPSI.getInstance(), () -> {
+        Bukkit.getLogger().info("Resetting elo of " + PotPvPRP.getInstance().getUuidCache().name(player) + ".");
+        Bukkit.getScheduler().runTaskAsynchronously(PotPvPRP.getInstance(), () -> {
             unloadElo(ImmutableSet.of(player));
             try {
                 eloRepository.saveElo(ImmutableSet.of(player), ImmutableMap.of());

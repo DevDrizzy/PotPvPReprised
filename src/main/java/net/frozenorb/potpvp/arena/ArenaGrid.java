@@ -9,7 +9,7 @@ import com.sk89q.worldedit.CuboidClipboard;
 import com.sk89q.worldedit.Vector;
 
 import lombok.Getter;
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.kt.util.Cuboid;
 
 /**
@@ -48,7 +48,7 @@ public final class ArenaGrid {
 
         busy = true;
 
-        ArenaHandler arenaHandler = PotPvPSI.getInstance().getArenaHandler();
+        ArenaHandler arenaHandler = PotPvPRP.getInstance().getArenaHandler();
         int currentCopies = arenaHandler.countArenas(schematic);
 
         Runnable saveWrapper = () -> {
@@ -72,7 +72,7 @@ public final class ArenaGrid {
     }
 
     private void createArenas(ArenaSchematic schematic, int currentCopies, int toCreate, Runnable callback) {
-        ArenaHandler arenaHandler = PotPvPSI.getInstance().getArenaHandler();
+        ArenaHandler arenaHandler = PotPvPRP.getInstance().getArenaHandler();
 
         new BukkitRunnable() {
 
@@ -101,11 +101,11 @@ public final class ArenaGrid {
                 }
             }
 
-        }.runTaskTimer(PotPvPSI.getInstance(), 8L, 8L);
+        }.runTaskTimer(PotPvPRP.getInstance(), 8L, 8L);
     }
 
     private void deleteArenas(ArenaSchematic schematic, int currentCopies, int toDelete, Runnable callback) {
-        ArenaHandler arenaHandler = PotPvPSI.getInstance().getArenaHandler();
+        ArenaHandler arenaHandler = PotPvPRP.getInstance().getArenaHandler();
 
         new BukkitRunnable() {
 
@@ -129,7 +129,7 @@ public final class ArenaGrid {
                 }
             }
 
-        }.runTaskTimer(PotPvPSI.getInstance(), 8L, 8L);
+        }.runTaskTimer(PotPvPRP.getInstance(), 8L, 8L);
     }
 
     private Arena createArena(ArenaSchematic schematic, int xStart, int zStart, int copy) {

@@ -1,6 +1,6 @@
 package net.frozenorb.potpvp.rematch.listener;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.match.event.MatchTerminateEvent;
 
 import org.bukkit.event.EventHandler;
@@ -10,7 +10,7 @@ public final class RematchGeneralListener implements Listener {
 
     @EventHandler
     public void onMatchTerminate(MatchTerminateEvent event) {
-        PotPvPSI.getInstance().getRematchHandler().registerRematches(event.getMatch());
+        PotPvPRP.getInstance().getRematchHandler().registerRematches(event.getMatch());
     }
 
 }

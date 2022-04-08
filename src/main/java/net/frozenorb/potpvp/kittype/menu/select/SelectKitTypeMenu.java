@@ -2,7 +2,7 @@ package net.frozenorb.potpvp.kittype.menu.select;
 
 import com.google.common.base.Preconditions;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.kittype.KitType;
 import net.frozenorb.potpvp.kt.util.Callback;
 import net.frozenorb.potpvp.party.Party;
@@ -52,7 +52,7 @@ public final class SelectKitTypeMenu extends Menu {
             buttons.put(index++, new KitTypeButton(kitType, callback));
         }
 
-        Party party = PotPvPSI.getInstance().getPartyHandler().getParty(player);
+        Party party = PotPvPRP.getInstance().getPartyHandler().getParty(player);
         if (party != null) {
             buttons.put(8, new KitTypeButton(KitType.teamFight, callback));
         }

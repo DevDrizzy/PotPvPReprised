@@ -1,6 +1,6 @@
 package net.frozenorb.potpvp.party.command;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.party.Party;
 import net.frozenorb.potpvp.party.PartyHandler;
 import net.frozenorb.potpvp.party.PartyInvite;
@@ -18,7 +18,7 @@ public final class PartyJoinCommand {
 
     @Command(names = {"party join", "p join", "t join", "team join", "f join"}, permission = "")
     public static void partyJoin(Player sender, @Parameter(name = "player") Player target, @Parameter(name = "password", defaultValue = NO_PASSWORD_PROVIDED) String providedPassword) {
-        PartyHandler partyHandler = PotPvPSI.getInstance().getPartyHandler();
+        PartyHandler partyHandler = PotPvPRP.getInstance().getPartyHandler();
         Party targetParty = partyHandler.getParty(target);
 
         if (partyHandler.hasParty(sender)) {

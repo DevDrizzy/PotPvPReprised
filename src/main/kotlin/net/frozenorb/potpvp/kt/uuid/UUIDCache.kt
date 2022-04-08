@@ -1,6 +1,6 @@
 package net.frozenorb.potpvp.kt.uuid
 
-import net.frozenorb.potpvp.PotPvPSI
+import net.frozenorb.potpvp.PotPvPRP
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
@@ -57,7 +57,8 @@ abstract class UUIDCache : Listener {
 
     @EventHandler
     fun onPlayerJoin(event: PlayerJoinEvent) {
-        PotPvPSI.getInstance().server.scheduler.runTaskAsynchronously(PotPvPSI.getInstance()) {
+        PotPvPRP.getInstance().server.scheduler.runTaskAsynchronously(
+            PotPvPRP.getInstance()) {
             update(event.player.uniqueId, event.player.name)
         }
     }

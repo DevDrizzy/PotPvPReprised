@@ -1,6 +1,6 @@
 package net.frozenorb.potpvp.party.listener;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.match.event.MatchSpectatorLeaveEvent;
 import net.frozenorb.potpvp.party.Party;
 import net.frozenorb.potpvp.party.PartyHandler;
@@ -20,7 +20,7 @@ public final class PartyLeaveListener implements Listener {
         Player player = event.getPlayer();
         UUID playerUuid = player.getUniqueId();
 
-        for (Party party : PotPvPSI.getInstance().getPartyHandler().getParties()) {
+        for (Party party : PotPvPRP.getInstance().getPartyHandler().getParties()) {
             if (party.isMember(playerUuid)) {
                 party.leave(player);
             }
@@ -39,7 +39,7 @@ public final class PartyLeaveListener implements Listener {
     // see @jhalt for any further explanation
     @EventHandler
     public void onMatchSpectatorLeave(MatchSpectatorLeaveEvent event) {
-        PartyHandler partyHandler = PotPvPSI.getInstance().getPartyHandler();
+        PartyHandler partyHandler = PotPvPRP.getInstance().getPartyHandler();
         Party party = partyHandler.getParty(event.getSpectator());
 
         if (party != null) {

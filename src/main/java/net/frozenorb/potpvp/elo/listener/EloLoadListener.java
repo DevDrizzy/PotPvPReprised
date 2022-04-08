@@ -2,7 +2,7 @@ package net.frozenorb.potpvp.elo.listener;
 
 import com.google.common.collect.ImmutableSet;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.elo.EloHandler;
 import net.frozenorb.potpvp.party.event.PartyCreateEvent;
 import net.frozenorb.potpvp.party.event.PartyMemberJoinEvent;
@@ -42,28 +42,28 @@ public final class EloLoadListener implements Listener {
 
     @EventHandler
     public void onPartyCreate(PartyCreateEvent event) {
-        Bukkit.getScheduler().runTaskAsynchronously(PotPvPSI.getInstance(), () -> {
+        Bukkit.getScheduler().runTaskAsynchronously(PotPvPRP.getInstance(), () -> {
             eloHandler.loadElo(event.getParty().getMembers());
         });
     }
 
     @EventHandler
     public void onPartyMemberJoin(PartyMemberJoinEvent event) {
-        Bukkit.getScheduler().runTaskAsynchronously(PotPvPSI.getInstance(), () -> {
+        Bukkit.getScheduler().runTaskAsynchronously(PotPvPRP.getInstance(), () -> {
             eloHandler.loadElo(event.getParty().getMembers());
         });
     }
 
     @EventHandler
     public void onPartyMemberKick(PartyMemberKickEvent event) {
-        Bukkit.getScheduler().runTaskAsynchronously(PotPvPSI.getInstance(), () -> {
+        Bukkit.getScheduler().runTaskAsynchronously(PotPvPRP.getInstance(), () -> {
             eloHandler.loadElo(event.getParty().getMembers());
         });
     }
 
     @EventHandler
     public void onPartyMemberLeave(PartyMemberLeaveEvent event) {
-        Bukkit.getScheduler().runTaskAsynchronously(PotPvPSI.getInstance(), () -> {
+        Bukkit.getScheduler().runTaskAsynchronously(PotPvPRP.getInstance(), () -> {
             // calling load will overwrite the existing data for the party (which we want)
             eloHandler.loadElo(event.getParty().getMembers());
         });

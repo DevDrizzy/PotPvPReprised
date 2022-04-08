@@ -2,7 +2,7 @@ package net.frozenorb.potpvp.nametag;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.packet.ScoreboardTeamPacketMod;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Getter @Setter
 public class NameTagHandler {
 
-    private final PotPvPSI plugin;
+    private final PotPvPRP plugin;
 
     private final Map<String, Map<String, NameTagInfo>> teamMap = new ConcurrentHashMap<>();
     private final List<NameTagProvider> providers = new ArrayList<>();
@@ -30,7 +30,7 @@ public class NameTagHandler {
     private boolean async = true;
     private static int teamCreateIndex = 1;
 
-    public NameTagHandler(PotPvPSI plugin) {
+    public NameTagHandler(PotPvPRP plugin) {
         this.plugin = plugin;
         this.initiated = true;
 

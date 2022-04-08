@@ -1,6 +1,6 @@
 package net.frozenorb.potpvp.command.impl;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.command.PotPvPCommand;
 import net.frozenorb.potpvp.match.Match;
 import net.frozenorb.potpvp.match.MatchHandler;
@@ -10,13 +10,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import xyz.refinedev.api.annotation.Command;
 import xyz.refinedev.api.annotation.Require;
+import xyz.refinedev.api.annotation.Sender;
 
 public class MatchCommands implements PotPvPCommand {
 
     @Command(name = "list", desc = "List matches")
     @Require("potpvp.matchlist")
-    public void matchList(Player sender) {
-        MatchHandler matchHandler = PotPvPSI.getInstance().getMatchHandler();
+    public void matchList(@Sender Player sender) {
+        MatchHandler matchHandler = PotPvPRP.getInstance().getMatchHandler();
 
         for (Match match : matchHandler.getHostedMatches()) {
             sender.sendMessage(ChatColor.RED + match.getSimpleDescription(true));
@@ -25,8 +26,8 @@ public class MatchCommands implements PotPvPCommand {
 
     @Command(name = "status", usage = "<target>", desc = "Match status")
     @Require("potpvp.matchstatus")
-    public void matchStatus(CommandSender sender, Player target) {
-        MatchHandler matchHandler = PotPvPSI.getInstance().getMatchHandler();
+    public void matchStatus(@Sender CommandSender sender, Player target) {
+        MatchHandler matchHandler = PotPvPRP.getInstance().getMatchHandler();
         Match match = matchHandler.getMatchPlayingOrSpectating(target);
 
         if (match == null) {
@@ -34,7 +35,7 @@ public class MatchCommands implements PotPvPCommand {
             return;
         }
 
-        for (String line : PotPvPSI.getGson().toJson(match).split("\n")) {
+        for (String line : PotPvPRP.getGson().toJson(match).split("\n")) {
             sender.sendMessage("  " + ChatColor.GRAY + line);
         }
     }

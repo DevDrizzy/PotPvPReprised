@@ -1,7 +1,7 @@
 package net.frozenorb.potpvp.rematch.listener;
 
-import net.frozenorb.potpvp.duel.command.AcceptCommand;
-import net.frozenorb.potpvp.duel.command.DuelCommand;
+import net.frozenorb.potpvp.command.impl.duel.AcceptCommand;
+import net.frozenorb.potpvp.command.impl.duel.DuelCommand;
 import net.frozenorb.potpvp.rematch.RematchData;
 import net.frozenorb.potpvp.rematch.RematchHandler;
 import net.frozenorb.potpvp.rematch.RematchItems;
@@ -11,8 +11,6 @@ import net.frozenorb.potpvp.util.ItemListener;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-
-import com.google.common.collect.ImmutableSet;
 
 public final class RematchItemListener extends ItemListener {
 

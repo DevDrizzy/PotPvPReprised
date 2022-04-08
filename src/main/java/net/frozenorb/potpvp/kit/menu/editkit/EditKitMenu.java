@@ -2,7 +2,7 @@ package net.frozenorb.potpvp.kit.menu.editkit;
 
 import com.google.common.base.Preconditions;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.kit.Kit;
 import net.frozenorb.potpvp.util.InventoryUtils;
 import net.frozenorb.potpvp.kt.menu.Button;
@@ -38,7 +38,7 @@ public final class EditKitMenu extends Menu {
     public void onOpen(Player player) {
         player.getInventory().setContents(kit.getInventoryContents());
 
-        Bukkit.getScheduler().runTaskLater(PotPvPSI.getInstance(), player::updateInventory, 1L);
+        Bukkit.getScheduler().runTaskLater(PotPvPRP.getInstance(), player::updateInventory, 1L);
     }
 
     @Override

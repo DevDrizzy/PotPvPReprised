@@ -2,7 +2,7 @@ package net.frozenorb.potpvp.party;
 
 import com.google.common.collect.ImmutableList;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.kittype.KitType;
 import net.frozenorb.potpvp.kittype.menu.select.SelectKitTypeMenu;
 import net.frozenorb.potpvp.match.Match;
@@ -72,7 +72,7 @@ public final class PartyUtils {
             }
         }
 
-        Match match = PotPvPSI.getInstance().getMatchHandler().startMatch(
+        Match match = PotPvPRP.getInstance().getMatchHandler().startMatch(
             ImmutableList.of(
                 new MatchTeam(team1),
                 new MatchTeam(team2)

@@ -1,13 +1,12 @@
 package net.frozenorb.potpvp.util;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -52,10 +51,10 @@ public class PatchedPlayerUtils {
     }
 
     public static List<String> mapToNames(Collection<UUID> uuids) {
-        return uuids.stream().map(PotPvPSI.getInstance().uuidCache::name).collect(Collectors.toList());
+        return uuids.stream().map(PotPvPRP.getInstance().uuidCache::name).collect(Collectors.toList());
     }
 
     public static String getFormattedName(UUID uuid) {
-        return PotPvPSI.getInstance().getUuidCache().name(uuid);
+        return PotPvPRP.getInstance().getUuidCache().name(uuid);
     }
 }

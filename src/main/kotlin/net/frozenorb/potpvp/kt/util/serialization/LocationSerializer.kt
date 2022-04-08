@@ -1,7 +1,7 @@
 package net.frozenorb.potpvp.kt.util.serialization
 
 import com.mongodb.BasicDBObject
-import net.frozenorb.potpvp.PotPvPSI
+import net.frozenorb.potpvp.PotPvPRP
 import org.bukkit.Location
 
 object LocationSerializer {
@@ -28,7 +28,7 @@ object LocationSerializer {
             return null
         }
 
-        val world = PotPvPSI.getInstance().server.getWorld(dbObject.getString("world"))
+        val world = PotPvPRP.getInstance().server.getWorld(dbObject.getString("world"))
         val x = dbObject.getDouble("x")
         val y = dbObject.getDouble("y")
         val z = dbObject.getDouble("z")

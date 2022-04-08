@@ -1,7 +1,7 @@
 package net.frozenorb.potpvp.party.command;
 
 import net.frozenorb.potpvp.PotPvPLang;
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.party.Party;
 import net.frozenorb.potpvp.command.Command;
 import net.frozenorb.potpvp.command.param.Parameter;
@@ -13,7 +13,7 @@ public final class PartyKickCommand {
 
     @Command(names = {"party kick", "p kick", "t kick", "team kick", "f kick"}, permission = "")
     public static void partyKick(Player sender, @Parameter(name = "player") Player target) {
-        Party party = PotPvPSI.getInstance().getPartyHandler().getParty(sender);
+        Party party = PotPvPRP.getInstance().getPartyHandler().getParty(sender);
 
         if (party == null) {
             sender.sendMessage(PotPvPLang.NOT_IN_PARTY);

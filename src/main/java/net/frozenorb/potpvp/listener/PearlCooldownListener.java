@@ -1,6 +1,6 @@
 package net.frozenorb.potpvp.listener;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.match.MatchTeam;
 import net.frozenorb.potpvp.match.event.MatchCountdownStartEvent;
 import net.frozenorb.potpvp.match.event.MatchTerminateEvent;
@@ -59,7 +59,7 @@ public final class PearlCooldownListener implements Listener {
                 shooter.setLevel(millisLeft / 1_000);
             }
 
-        }.runTaskTimer(PotPvPSI.getInstance(), 1L, 1L);
+        }.runTaskTimer(PotPvPRP.getInstance(), 1L, 1L);
     }
 
     @EventHandler(priority = EventPriority.LOWEST)

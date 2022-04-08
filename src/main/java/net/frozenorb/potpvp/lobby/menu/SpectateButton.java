@@ -2,7 +2,7 @@ package net.frozenorb.potpvp.lobby.menu;
 
 import com.google.common.base.Preconditions;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.match.Match;
 import net.frozenorb.potpvp.match.MatchTeam;
 import net.frozenorb.potpvp.validation.PotPvPValidation;
@@ -58,13 +58,13 @@ final class SpectateButton extends Button {
             description.add("");
 
             for (UUID member : teamA.getAliveMembers()) {
-                description.add(ChatColor.AQUA + PotPvPSI.getInstance().getUuidCache().name(member));
+                description.add(ChatColor.AQUA + PotPvPRP.getInstance().getUuidCache().name(member));
             }
 
             description.add(ChatColor.YELLOW + "   vs.");
 
             for (UUID member : teamB.getAliveMembers()) {
-                description.add(ChatColor.AQUA + PotPvPSI.getInstance().getUuidCache().name(member));
+                description.add(ChatColor.AQUA + PotPvPRP.getInstance().getUuidCache().name(member));
             }
         }
 
@@ -85,7 +85,7 @@ final class SpectateButton extends Button {
             return;
         }
 
-        Match currentlySpectating = PotPvPSI.getInstance().getMatchHandler().getMatchSpectating(player);
+        Match currentlySpectating = PotPvPRP.getInstance().getMatchHandler().getMatchSpectating(player);
 
         if (currentlySpectating != null) {
             currentlySpectating.removeSpectator(player, false);

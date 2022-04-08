@@ -1,6 +1,6 @@
 package net.frozenorb.potpvp.match;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.follow.FollowHandler;
 import net.frozenorb.potpvp.lobby.LobbyItems;
 import net.frozenorb.potpvp.party.PartyHandler;
@@ -17,10 +17,10 @@ import lombok.experimental.UtilityClass;
 public final class MatchUtils {
 
     public static void resetInventory(Player player) {
-        SettingHandler settingHandler = PotPvPSI.getInstance().getSettingHandler();
-        FollowHandler followHandler = PotPvPSI.getInstance().getFollowHandler();
-        PartyHandler partyHandler = PotPvPSI.getInstance().getPartyHandler();
-        MatchHandler matchHandler = PotPvPSI.getInstance().getMatchHandler();
+        SettingHandler settingHandler = PotPvPRP.getInstance().getSettingHandler();
+        FollowHandler followHandler = PotPvPRP.getInstance().getFollowHandler();
+        PartyHandler partyHandler = PotPvPRP.getInstance().getPartyHandler();
+        MatchHandler matchHandler = PotPvPRP.getInstance().getMatchHandler();
 
         Match match = matchHandler.getMatchSpectating(player);
 
@@ -76,7 +76,7 @@ public final class MatchUtils {
             }
         }
 
-        Bukkit.getScheduler().runTaskLater(PotPvPSI.getInstance(), player::updateInventory, 1L);
+        Bukkit.getScheduler().runTaskLater(PotPvPRP.getInstance(), player::updateInventory, 1L);
     }
 
 }

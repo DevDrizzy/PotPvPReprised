@@ -2,16 +2,15 @@ package net.frozenorb.potpvp.elo.repository;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+import lombok.Getter;
 import org.bson.Document;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -23,26 +22,24 @@ import com.mongodb.MongoException;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Sorts;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.elo.EloHandler;
 import net.frozenorb.potpvp.kittype.KitType;
 import net.frozenorb.potpvp.util.MongoUtils;
 import net.frozenorb.potpvp.util.PatchedPlayerUtils;
-import net.frozenorb.potpvp.command.Command;
-import com.google.common.collect.ImmutableSet;
 
 public final class MongoEloRepository implements EloRepository {
     
-    private static final String MONGO_COLLECTION_NAME = "elo";
+    public static final String MONGO_COLLECTION_NAME = "elo";
 
     private static Map<String, Map<String, Integer>> cachedFormattedElo = Maps.newHashMap();
-    private static MongoEloRepository instance;
+    @Getter private static MongoEloRepository instance;
 
     public MongoEloRepository() {
         instance = this;
         MongoUtils.getCollection(MONGO_COLLECTION_NAME).createIndex(new Document("players", 1));
 
-        Bukkit.getScheduler().runTaskTimerAsynchronously(PotPvPSI.getInstance(), () -> {
+        Bukkit.getScheduler().runTaskTimerAsynchronously(PotPvPRP.getInstance(), () -> {
             refreshFormattedElo();
         }, 5 * 30, 5 * 30);
     }
@@ -94,7 +91,7 @@ public final class MongoEloRepository implements EloRepository {
 
         document.put("GLOBAL", wrapper[1] / wrapper[0]);
         if (playerUuids.size() == 1) {
-            document.put("lastUsername", PotPvPSI.getInstance().getUuidCache().name(playerUuids.iterator().next()));
+            document.put("lastUsername", PotPvPRP.getInstance().getUuidCache().name(playerUuids.iterator().next()));
         }
 
         try {
@@ -103,26 +100,6 @@ public final class MongoEloRepository implements EloRepository {
         } catch (MongoException ex) {
             throw new IOException(ex);
         }
-    }
-
-    @Command(names = { "recalcGlobalElo" }, permission = "op")
-    public static void recalcGlobalElo(Player sender) {
-        List<Document> documents = MongoUtils.getCollection(MONGO_COLLECTION_NAME).find().into(new ArrayList<Document>());
-        sender.sendMessage(ChatColor.GREEN + "Recalculating " + documents.size() + " players global elo...");
-        final int[] wrapper = new int[2];
-        documents.forEach(document -> {
-            try {
-                UUID uuid = UUID.fromString((String) document.get("players", ArrayList.class).get(0));
-                instance.saveElo(ImmutableSet.of(uuid), instance.loadElo(ImmutableSet.of(uuid)));
-                wrapper[0]++;
-                if (wrapper[0] % 100 == 0) {
-                    sender.sendMessage(ChatColor.GREEN + "Finished " + wrapper[0] + " out of " + documents.size() +" players...");
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                wrapper[1]++;
-            }
-        });
     }
 
     @Override

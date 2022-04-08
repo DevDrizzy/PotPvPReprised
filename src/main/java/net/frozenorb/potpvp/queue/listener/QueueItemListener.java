@@ -2,7 +2,7 @@ package net.frozenorb.potpvp.queue.listener;
 
 import com.google.common.collect.ImmutableList;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.kittype.KitType;
 import net.frozenorb.potpvp.kittype.menu.select.CustomSelectKitTypeMenu;
 import net.frozenorb.potpvp.listener.RankedMatchQualificationListener;
@@ -17,11 +17,9 @@ import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import static net.md_5.bungee.api.ChatColor.BLUE;
 import static net.md_5.bungee.api.ChatColor.BOLD;
 
 // This class followes a different organizational style from other item listeners
@@ -48,7 +46,7 @@ public final class QueueItemListener extends ItemListener {
         addHandler(QueueItems.LEAVE_SOLO_RANKED_QUEUE_ITEM, p -> queueHandler.leaveQueue(p, false));
 
         Consumer<Player> leaveQueuePartyConsumer = player -> {
-            Party party = PotPvPSI.getInstance().getPartyHandler().getParty(player);
+            Party party = PotPvPRP.getInstance().getPartyHandler().getParty(player);
 
             // don't message, players who aren't leader shouldn't even get this item
             if (party != null && party.isLeader(player.getUniqueId())) {
@@ -81,7 +79,7 @@ public final class QueueItemListener extends ItemListener {
 
     private Consumer<Player> joinPartyConsumer(boolean ranked) {
         return player -> {
-            Party party = PotPvPSI.getInstance().getPartyHandler().getParty(player);
+            Party party = PotPvPRP.getInstance().getPartyHandler().getParty(player);
 
             // just fail silently, players who aren't a leader
             // of a party shouldn't even have this item
@@ -93,7 +91,7 @@ public final class QueueItemListener extends ItemListener {
                 for (UUID member : party.getMembers()) {
                     if (!RankedMatchQualificationListener.isQualified(member)) {
                         int needed = RankedMatchQualificationListener.getWinsNeededToQualify(member);
-                        player.sendMessage(ChatColor.RED + "Your party can't join ranked queues because " + PotPvPSI.getInstance().getUuidCache().name(member) + " has less than " + RankedMatchQualificationListener.MIN_MATCH_WINS + " unranked 1v1 wins. They need " + needed + " more wins!");
+                        player.sendMessage(ChatColor.RED + "Your party can't join ranked queues because " + PotPvPRP.getInstance().getUuidCache().name(member) + " has less than " + RankedMatchQualificationListener.MIN_MATCH_WINS + " unranked 1v1 wins. They need " + needed + " more wins!");
                         return;
                     }
                 }
@@ -112,7 +110,7 @@ public final class QueueItemListener extends ItemListener {
 
     private Function<KitType, CustomSelectKitTypeMenu.CustomKitTypeMeta> selectionMenuAddition(boolean ranked) {
         return kitType -> {
-            MatchHandler matchHandler = PotPvPSI.getInstance().getMatchHandler();
+            MatchHandler matchHandler = PotPvPRP.getInstance().getMatchHandler();
 
             int inFightsRanked = matchHandler.countPlayersPlayingMatches(m -> m.getKitType() == kitType && m.isRanked());
             int inQueueRanked = queueHandler.countPlayersQueued(kitType, true);

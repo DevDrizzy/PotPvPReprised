@@ -2,7 +2,7 @@ package net.frozenorb.potpvp.arena.menu.manageschematics;
 
 import com.google.common.base.Preconditions;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.arena.Arena;
 import net.frozenorb.potpvp.arena.ArenaHandler;
 import net.frozenorb.potpvp.arena.ArenaSchematic;
@@ -33,7 +33,7 @@ final class ManageSchematicButton extends Button {
 
     @Override
     public List<String> getDescription(Player player) {
-        ArenaHandler arenaHandler = PotPvPSI.getInstance().getArenaHandler();
+        ArenaHandler arenaHandler = PotPvPRP.getInstance().getArenaHandler();
         int totalCopies = 0;
         int inUseCopies = 0;
 
@@ -57,7 +57,7 @@ final class ManageSchematicButton extends Button {
 
     @Override
     public int getAmount(Player player) {
-        ArenaHandler arenaHandler = PotPvPSI.getInstance().getArenaHandler();
+        ArenaHandler arenaHandler = PotPvPRP.getInstance().getArenaHandler();
         return arenaHandler.getArenas(schematic).size();
     }
 

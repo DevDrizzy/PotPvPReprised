@@ -6,7 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.match.Match;
 import net.frozenorb.potpvp.match.MatchState;
 
@@ -21,7 +21,7 @@ public class MatchFreezeListener implements Listener {
 
         if (from.getBlockX() == to.getBlockX() && from.getBlockZ() == to.getBlockZ()) return;
 
-        Match match = PotPvPSI.getInstance().getMatchHandler().getMatchPlaying(player);
+        Match match = PotPvPRP.getInstance().getMatchHandler().getMatchPlaying(player);
 
         if (match == null || !match.getKitType().getId().equals("SUMO") || match.getState() != MatchState.COUNTDOWN) return;
 

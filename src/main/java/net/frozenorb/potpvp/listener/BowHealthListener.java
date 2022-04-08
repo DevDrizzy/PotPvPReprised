@@ -1,6 +1,6 @@
 package net.frozenorb.potpvp.listener;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.kt.util.PlayerUtils;
 import net.frozenorb.potpvp.match.MatchHandler;
 
@@ -22,12 +22,12 @@ public final class BowHealthListener implements Listener {
             return;
         }
 
-        MatchHandler matchHandler = PotPvPSI.getInstance().getMatchHandler();
+        MatchHandler matchHandler = PotPvPRP.getInstance().getMatchHandler();
         Player hit = (Player) event.getEntity();
         Player damager = PlayerUtils.getDamageSource(event.getDamager());
 
         if (damager != null) {
-            Bukkit.getScheduler().runTaskLater(PotPvPSI.getInstance(), () -> {
+            Bukkit.getScheduler().runTaskLater(PotPvPRP.getInstance(), () -> {
                 // in case the player died because of this hit
                 if (!matchHandler.isPlayingMatch(hit)) {
                     return;

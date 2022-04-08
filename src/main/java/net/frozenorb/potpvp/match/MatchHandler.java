@@ -17,7 +17,7 @@ import com.google.common.collect.ImmutableSet;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.arena.Arena;
 import net.frozenorb.potpvp.arena.ArenaHandler;
 import net.frozenorb.potpvp.arena.ArenaSchematic;
@@ -61,26 +61,26 @@ public final class MatchHandler {
     @Getter(AccessLevel.PACKAGE) private final Map<UUID, Match> spectatingMatchCache = new ConcurrentHashMap<>();
 
     public MatchHandler() {
-        Bukkit.getPluginManager().registerEvents(new GoldenHeadListener(), PotPvPSI.getInstance());
-        Bukkit.getPluginManager().registerEvents(new KitSelectionListener(), PotPvPSI.getInstance());
-        Bukkit.getPluginManager().registerEvents(new MatchBlockPickupListener(), PotPvPSI.getInstance());
-        Bukkit.getPluginManager().registerEvents(new MatchBuildListener(), PotPvPSI.getInstance());
-        Bukkit.getPluginManager().registerEvents(new MatchComboListener(), PotPvPSI.getInstance());
-        Bukkit.getPluginManager().registerEvents(new MatchCountdownListener(), PotPvPSI.getInstance());
-        Bukkit.getPluginManager().registerEvents(new MatchDeathMessageListener(), PotPvPSI.getInstance());
-        Bukkit.getPluginManager().registerEvents(new MatchDurationLimitListener(), PotPvPSI.getInstance());
-        Bukkit.getPluginManager().registerEvents(new MatchEnderPearlDamageListener(), PotPvPSI.getInstance());
-        Bukkit.getPluginManager().registerEvents(new MatchFreezeListener(), PotPvPSI.getInstance());
-        Bukkit.getPluginManager().registerEvents(new MatchGeneralListener(), PotPvPSI.getInstance());
-        Bukkit.getPluginManager().registerEvents(new MatchHardcoreHealingListener(), PotPvPSI.getInstance());
-        Bukkit.getPluginManager().registerEvents(new MatchHealthDisplayListener(), PotPvPSI.getInstance());
-        Bukkit.getPluginManager().registerEvents(new MatchPartySpectateListener(), PotPvPSI.getInstance());
-        Bukkit.getPluginManager().registerEvents(new MatchRodListener(), PotPvPSI.getInstance());
-        Bukkit.getPluginManager().registerEvents(new MatchSoupListener(), PotPvPSI.getInstance());
-        Bukkit.getPluginManager().registerEvents(new MatchStatsListener(), PotPvPSI.getInstance());
-        Bukkit.getPluginManager().registerEvents(new MatchWizardListener(), PotPvPSI.getInstance());
-        Bukkit.getPluginManager().registerEvents(new SpectatorItemListener(this), PotPvPSI.getInstance());
-        Bukkit.getPluginManager().registerEvents(new SpectatorPreventionListener(), PotPvPSI.getInstance());
+        Bukkit.getPluginManager().registerEvents(new GoldenHeadListener(), PotPvPRP.getInstance());
+        Bukkit.getPluginManager().registerEvents(new KitSelectionListener(), PotPvPRP.getInstance());
+        Bukkit.getPluginManager().registerEvents(new MatchBlockPickupListener(), PotPvPRP.getInstance());
+        Bukkit.getPluginManager().registerEvents(new MatchBuildListener(), PotPvPRP.getInstance());
+        Bukkit.getPluginManager().registerEvents(new MatchComboListener(), PotPvPRP.getInstance());
+        Bukkit.getPluginManager().registerEvents(new MatchCountdownListener(), PotPvPRP.getInstance());
+        Bukkit.getPluginManager().registerEvents(new MatchDeathMessageListener(), PotPvPRP.getInstance());
+        Bukkit.getPluginManager().registerEvents(new MatchDurationLimitListener(), PotPvPRP.getInstance());
+        Bukkit.getPluginManager().registerEvents(new MatchEnderPearlDamageListener(), PotPvPRP.getInstance());
+        Bukkit.getPluginManager().registerEvents(new MatchFreezeListener(), PotPvPRP.getInstance());
+        Bukkit.getPluginManager().registerEvents(new MatchGeneralListener(), PotPvPRP.getInstance());
+        Bukkit.getPluginManager().registerEvents(new MatchHardcoreHealingListener(), PotPvPRP.getInstance());
+        Bukkit.getPluginManager().registerEvents(new MatchHealthDisplayListener(), PotPvPRP.getInstance());
+        Bukkit.getPluginManager().registerEvents(new MatchPartySpectateListener(), PotPvPRP.getInstance());
+        Bukkit.getPluginManager().registerEvents(new MatchRodListener(), PotPvPRP.getInstance());
+        Bukkit.getPluginManager().registerEvents(new MatchSoupListener(), PotPvPRP.getInstance());
+        Bukkit.getPluginManager().registerEvents(new MatchStatsListener(), PotPvPRP.getInstance());
+        Bukkit.getPluginManager().registerEvents(new MatchWizardListener(), PotPvPRP.getInstance());
+        Bukkit.getPluginManager().registerEvents(new SpectatorItemListener(this), PotPvPRP.getInstance());
+        Bukkit.getPluginManager().registerEvents(new SpectatorPreventionListener(), PotPvPRP.getInstance());
     }
 
     public Match startMatch(List<MatchTeam> teams, KitType kitType, boolean ranked, boolean allowRematches) {
@@ -95,7 +95,7 @@ public final class MatchHandler {
                 }
 
                 if (isPlayingOrSpectatingMatch(memberPlayer)) {
-                    throw new IllegalArgumentException(PotPvPSI.getInstance().getUuidCache().name(member) + " is already in a match!");
+                    throw new IllegalArgumentException(PotPvPRP.getInstance().getUuidCache().name(member) + " is already in a match!");
                 }
             }
         }
@@ -108,7 +108,7 @@ public final class MatchHandler {
             }
         }
 
-        ArenaHandler arenaHandler = PotPvPSI.getInstance().getArenaHandler();
+        ArenaHandler arenaHandler = PotPvPRP.getInstance().getArenaHandler();
         long matchSize = teams.stream()
                 .mapToInt(t -> t.getAllMembers().size())
                 .sum();
@@ -144,7 +144,7 @@ public final class MatchHandler {
         }
 
         if (!openArenaOpt.isPresent()) {
-            PotPvPSI.getInstance().getLogger().warning("Failed to start match: No open arenas found");
+            PotPvPRP.getInstance().getLogger().warning("Failed to start match: No open arenas found");
             return null;
         }
 

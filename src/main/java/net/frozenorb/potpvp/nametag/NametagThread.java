@@ -1,7 +1,7 @@
 package net.frozenorb.potpvp.nametag;
 
 import lombok.Getter;
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.nametag.construct.NametagUpdate;
 
 import java.util.Iterator;
@@ -26,7 +26,7 @@ public class NametagThread extends Thread {
                 NametagUpdate pendingUpdate = pendingUpdatesIterator.next();
 
                 try {
-                    PotPvPSI.getInstance().getNameTagEngine().applyUpdate(pendingUpdate);
+                    PotPvPRP.getInstance().getNameTagEngine().applyUpdate(pendingUpdate);
                     pendingUpdatesIterator.remove();
                 } catch (Exception e) {
                     e.printStackTrace();

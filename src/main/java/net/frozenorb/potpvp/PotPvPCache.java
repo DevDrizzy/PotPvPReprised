@@ -13,8 +13,8 @@ public class PotPvPCache implements Runnable {
     @Override
     public void run() {
         onlineCount = Bukkit.getOnlinePlayers().size();
-        fightsCount = PotPvPSI.getInstance().getMatchHandler().countPlayersPlayingInProgressMatches();
-        queuesCount = PotPvPSI.getInstance().getQueueHandler().getQueuedCount();
+        fightsCount = PotPvPRP.getInstance().getMatchHandler().countPlayersPlayingInProgressMatches();
+        queuesCount = PotPvPRP.getInstance().getQueueHandler().getQueuedCount();
     }
 
 }

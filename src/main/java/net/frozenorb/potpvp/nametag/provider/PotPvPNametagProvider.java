@@ -1,12 +1,11 @@
 package net.frozenorb.potpvp.nametag.provider;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.follow.FollowHandler;;
 import net.frozenorb.potpvp.match.Match;
 import net.frozenorb.potpvp.match.MatchHandler;
 import net.frozenorb.potpvp.match.MatchTeam;
 import net.frozenorb.potpvp.nametag.construct.NameTagInfo;
-import net.frozenorb.potpvp.nametag.provider.NameTagProvider;
 import net.frozenorb.potpvp.pvpclasses.pvpclasses.ArcherClass;
 
 import org.bukkit.ChatColor;
@@ -29,7 +28,7 @@ public final class PotPvPNametagProvider extends NameTagProvider {
     }
 
     public static ChatColor getNameColor(Player toRefresh, Player refreshFor) {
-        MatchHandler matchHandler = PotPvPSI.getInstance().getMatchHandler();
+        MatchHandler matchHandler = PotPvPRP.getInstance().getMatchHandler();
 
         if (matchHandler.isPlayingOrSpectatingMatch(toRefresh)) {
             return getNameColorMatch(toRefresh, refreshFor);
@@ -39,7 +38,7 @@ public final class PotPvPNametagProvider extends NameTagProvider {
     }
 
     private static ChatColor getNameColorMatch(Player toRefresh, Player refreshFor) {
-        MatchHandler matchHandler = PotPvPSI.getInstance().getMatchHandler();
+        MatchHandler matchHandler = PotPvPRP.getInstance().getMatchHandler();
 
         Match toRefreshMatch = matchHandler.getMatchPlayingOrSpectating(toRefresh);
         MatchTeam toRefreshTeam = toRefreshMatch.getTeam(toRefresh.getUniqueId());
@@ -88,7 +87,7 @@ public final class PotPvPNametagProvider extends NameTagProvider {
     }
 
     private static ChatColor getNameColorLobby(Player toRefresh, Player refreshFor) {
-        FollowHandler followHandler = PotPvPSI.getInstance().getFollowHandler();
+        FollowHandler followHandler = PotPvPRP.getInstance().getFollowHandler();
 
         Optional<UUID> following = followHandler.getFollowing(refreshFor);
         boolean refreshForFollowingTarget = following.isPresent() && following.get().equals(toRefresh.getUniqueId());

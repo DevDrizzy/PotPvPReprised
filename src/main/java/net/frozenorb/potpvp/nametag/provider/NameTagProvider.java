@@ -2,7 +2,7 @@ package net.frozenorb.potpvp.nametag.provider;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import org.bukkit.entity.Player;
 import net.frozenorb.potpvp.nametag.construct.NameTagInfo;
 import xyz.refinedev.spigot.utils.CC;
@@ -11,7 +11,7 @@ import xyz.refinedev.spigot.utils.CC;
 @AllArgsConstructor
 public abstract class NameTagProvider {
 
-    private final PotPvPSI plugin = PotPvPSI.getInstance();
+    private final PotPvPRP plugin = PotPvPRP.getInstance();
 
     private final String name;
     private final int weight;

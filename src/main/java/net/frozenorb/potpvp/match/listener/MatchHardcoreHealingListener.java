@@ -1,6 +1,6 @@
 package net.frozenorb.potpvp.match.listener;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.match.Match;
 import net.frozenorb.potpvp.match.MatchHandler;
 import org.bukkit.entity.Player;
@@ -17,7 +17,7 @@ public final class MatchHardcoreHealingListener implements Listener {
         }
 
         Player player = (Player) event.getEntity();
-        MatchHandler matchHandler = PotPvPSI.getInstance().getMatchHandler();
+        MatchHandler matchHandler = PotPvPRP.getInstance().getMatchHandler();
 
         if (!matchHandler.isPlayingMatch(player)) {
             return;

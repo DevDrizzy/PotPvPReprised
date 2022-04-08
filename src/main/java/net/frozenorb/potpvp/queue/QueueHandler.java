@@ -3,7 +3,7 @@ package net.frozenorb.potpvp.queue;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 
-import net.frozenorb.potpvp.PotPvPSI;
+import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.kittype.KitType;
 import net.frozenorb.potpvp.party.Party;
 import net.frozenorb.potpvp.queue.listener.QueueGeneralListener;
@@ -44,8 +44,8 @@ public final class QueueHandler {
     @Getter private int queuedCount = 0;
 
     public QueueHandler() {
-        Bukkit.getPluginManager().registerEvents(new QueueGeneralListener(this), PotPvPSI.getInstance());
-        Bukkit.getPluginManager().registerEvents(new QueueItemListener(this), PotPvPSI.getInstance());
+        Bukkit.getPluginManager().registerEvents(new QueueGeneralListener(this), PotPvPRP.getInstance());
+        Bukkit.getPluginManager().registerEvents(new QueueItemListener(this), PotPvPRP.getInstance());
 
         for (KitType kitType : KitType.getAllTypes()) {
             soloQueues.put(kitType, true, new MatchQueue(kitType, true));
@@ -55,7 +55,7 @@ public final class QueueHandler {
             partyQueues.put(kitType, false, new MatchQueue(kitType, false));
         }
 
-        Bukkit.getScheduler().runTaskTimer(PotPvPSI.getInstance(), () -> {
+        Bukkit.getScheduler().runTaskTimer(PotPvPRP.getInstance(), () -> {
             soloQueues.values().forEach(MatchQueue::tick);
             partyQueues.values().forEach(MatchQueue::tick);
 
