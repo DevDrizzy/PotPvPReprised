@@ -12,7 +12,7 @@ being sold left to right, no point in having it privately saved.
 
 **Credit goes to FrozenOrb/HylistGames**
 
-Using this on your servers, forking and selling is allowed as far as I can give authority. All I ask is you keep the original developers' credits in there along with mine in there as "DevDrizzy". Not having these credits will be considered as you skidding this.
+Using this on your servers and selling a fork of this is allowed as far as I can give authority. All I ask is you keep the original developers' credits in there along with mine in there as "DevDrizzy". Not having these credits will be considered as you skidding this.
 
 ## Dependency
 As many developers know that PotPvP requires qLib and mSpigot to function. While, qLib was removed and converted to kotlin in PotPvP-SI, mSpigot was never changed and remained as is for years. I changed this by porting PotPvP to 1.8 and replacing mSpigot with my own, [CarbonSpigot](https://polymart.org/resource/1-8-carbonspigot.1341), which supports the "Chunk Snapshots" required by PotPvP to handle arenas properly.
