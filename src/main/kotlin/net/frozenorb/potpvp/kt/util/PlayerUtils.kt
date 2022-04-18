@@ -90,11 +90,6 @@ object PlayerUtils {
     }
 
     @JvmStatic
-    fun isLagging(player: Player): Boolean {
-        return !PingAdapter.lastReply.containsKey(player.uniqueId) || (CURRENT_TICK_FIELD.get(null) as Int) - PingAdapter.lastReply[player.uniqueId]!! > 40
-    }
-
-    @JvmStatic
     fun animateDeath(player: Player, hideAfter: Boolean) {
         val entityId = EntityUtils.fakeEntityId()
         val spawnPacket = PacketPlayOutNamedEntitySpawn((player as CraftPlayer).handle as EntityHuman)

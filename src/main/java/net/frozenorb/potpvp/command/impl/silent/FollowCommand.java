@@ -3,21 +3,24 @@ package net.frozenorb.potpvp.command.impl.silent;
 import com.qrakn.morpheus.game.Game;
 import com.qrakn.morpheus.game.GameQueue;
 import net.frozenorb.potpvp.PotPvPRP;
-import net.frozenorb.potpvp.follow.FollowHandler;
+import net.frozenorb.potpvp.command.PotPvPCommand;
+import net.frozenorb.potpvp.profile.follow.FollowHandler;
 import net.frozenorb.potpvp.match.MatchHandler;
-import net.frozenorb.potpvp.setting.Setting;
-import net.frozenorb.potpvp.setting.SettingHandler;
+import net.frozenorb.potpvp.profile.setting.Setting;
+import net.frozenorb.potpvp.profile.setting.SettingHandler;
 import net.frozenorb.potpvp.validation.PotPvPValidation;
-import net.frozenorb.potpvp.command.Command;
-import net.frozenorb.potpvp.command.param.Parameter;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import xyz.refinedev.command.annotation.Command;
+import xyz.refinedev.command.annotation.Require;
+import xyz.refinedev.command.annotation.Sender;
 
-public final class FollowCommand {
+public class FollowCommand implements PotPvPCommand {
 
-    @Command(names={"follow"}, permission="")
-    public static void follow(Player sender, @Parameter(name="target") Player target) {
+    @Command(name = "", usage = "<target>", desc = "Follow a target as a staff member")
+    @Require("potpvp.staff.follow")
+    public void follow(@Sender Player sender, Player target) {
         if (!PotPvPValidation.canFollowSomeone(sender)) {
             return;
         }
@@ -44,7 +47,7 @@ public final class FollowCommand {
             return;
         }
 
-        followHandler.getFollowing(sender).ifPresent(fo -> UnfollowCommand.unfollow(sender));
+        followHandler.getFollowing(sender).ifPresent(fo -> new UnfollowCommand().unfollow(sender));
 
         if (matchHandler.isSpectatingMatch(sender)) {
             matchHandler.getMatchSpectating(sender).removeSpectator(sender);
@@ -53,4 +56,13 @@ public final class FollowCommand {
         followHandler.startFollowing(sender, target);
     }
 
+    @Override
+    public String getCommandName() {
+        return "follow";
+    }
+
+    @Override
+    public String[] getAliases() {
+        return new String[0];
+    }
 }

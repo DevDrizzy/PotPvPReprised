@@ -1,9 +1,6 @@
 package net.frozenorb.potpvp.arena;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Predicate;
 
 import net.frozenorb.potpvp.kt.util.Callback;
@@ -23,6 +20,7 @@ import com.google.common.collect.Maps;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.entity.EntityType;
 import xyz.refinedev.spigot.chunk.ChunkSnapshot;
 import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.util.AngleUtils;
@@ -211,9 +209,9 @@ public final class Arena {
     }
 
     public void restore() {
+        World world = bounds.getWorld();
         synchronized (chunkSnapshots) {
-            World world = bounds.getWorld();
-            chunkSnapshots.entrySet().forEach(entry -> world.getChunkAt(LongHash.msw(entry.getKey()), LongHash.lsw(entry.getKey())).restoreSnapshot(entry.getValue()));
+            chunkSnapshots.forEach((key, value) -> world.getChunkAt(LongHash.msw(key), LongHash.lsw(key)).restoreSnapshot(value));
             chunkSnapshots.clear();
         }
     }

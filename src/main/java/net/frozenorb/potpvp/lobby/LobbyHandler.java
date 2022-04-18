@@ -1,7 +1,7 @@
 package net.frozenorb.potpvp.lobby;
 
 import net.frozenorb.potpvp.PotPvPRP;
-import net.frozenorb.potpvp.follow.FollowHandler;
+import net.frozenorb.potpvp.profile.follow.FollowHandler;
 import net.frozenorb.potpvp.command.impl.silent.UnfollowCommand;
 import net.frozenorb.potpvp.lobby.listener.LobbyGeneralListener;
 import net.frozenorb.potpvp.lobby.listener.LobbyItemListener;
@@ -54,8 +54,8 @@ public final class LobbyHandler {
     private void returnToLobbySkipItemSlot(Player player) {
         player.teleport(getLobbyLocation());
 
-        PotPvPRP.getInstance().getNameTagEngine().reloadPlayer(player);
-        PotPvPRP.getInstance().getNameTagEngine().reloadOthersFor(player);
+        PotPvPRP.getInstance().getNameTagHandler().reloadPlayer(player);
+        PotPvPRP.getInstance().getNameTagHandler().reloadOthersFor(player);
 
         VisibilityUtils.updateVisibility(player);
         PatchedPlayerUtils.resetInventory(player, GameMode.SURVIVAL, true);

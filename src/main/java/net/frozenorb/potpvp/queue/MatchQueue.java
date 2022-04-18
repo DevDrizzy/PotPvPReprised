@@ -5,8 +5,8 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 
 import net.frozenorb.potpvp.PotPvPRP;
-import net.frozenorb.potpvp.elo.EloHandler;
-import net.frozenorb.potpvp.kittype.KitType;
+import net.frozenorb.potpvp.profile.elo.EloHandler;
+import net.frozenorb.potpvp.kit.kittype.KitType;
 import net.frozenorb.potpvp.match.Match;
 import net.frozenorb.potpvp.match.MatchHandler;
 import net.frozenorb.potpvp.match.MatchTeam;

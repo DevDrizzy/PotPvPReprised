@@ -3,8 +3,8 @@ package net.frozenorb.potpvp.queue.listener;
 import com.google.common.collect.ImmutableList;
 
 import net.frozenorb.potpvp.PotPvPRP;
-import net.frozenorb.potpvp.kittype.KitType;
-import net.frozenorb.potpvp.kittype.menu.select.CustomSelectKitTypeMenu;
+import net.frozenorb.potpvp.kit.kittype.KitType;
+import net.frozenorb.potpvp.kit.kittype.menu.select.CustomSelectKitTypeMenu;
 import net.frozenorb.potpvp.listener.RankedMatchQualificationListener;
 import net.frozenorb.potpvp.match.MatchHandler;
 import net.frozenorb.potpvp.party.Party;

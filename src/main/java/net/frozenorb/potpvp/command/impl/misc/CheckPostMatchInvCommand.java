@@ -2,14 +2,14 @@ package net.frozenorb.potpvp.command.impl.misc;
 
 import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.command.PotPvPCommand;
-import net.frozenorb.potpvp.postmatchinv.PostMatchInvHandler;
-import net.frozenorb.potpvp.postmatchinv.PostMatchPlayer;
-import net.frozenorb.potpvp.postmatchinv.menu.PostMatchMenu;
+import net.frozenorb.potpvp.match.postmatchinv.PostMatchInvHandler;
+import net.frozenorb.potpvp.match.postmatchinv.PostMatchPlayer;
+import net.frozenorb.potpvp.match.postmatchinv.menu.PostMatchMenu;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import xyz.refinedev.api.annotation.Command;
-import xyz.refinedev.api.annotation.Sender;
+import xyz.refinedev.command.annotation.Command;
+import xyz.refinedev.command.annotation.Sender;
 
 import java.util.Map;
 import java.util.UUID;

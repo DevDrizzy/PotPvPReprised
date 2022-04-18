@@ -7,9 +7,9 @@ import com.comphenix.protocol.events.PacketContainer;
 import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.match.Match;
 import net.frozenorb.potpvp.match.MatchHandler;
-import net.frozenorb.potpvp.nametag.provider.PotPvPNametagProvider;
-import net.frozenorb.potpvp.setting.Setting;
-import net.frozenorb.potpvp.setting.SettingHandler;
+import net.frozenorb.potpvp.adapter.nametag.NameTagAdapter;
+import net.frozenorb.potpvp.profile.setting.Setting;
+import net.frozenorb.potpvp.profile.setting.SettingHandler;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -55,7 +55,7 @@ public final class MatchDeathMessageListener implements Listener {
                 continue;
             }
 
-            ChatColor killedNameColor = PotPvPNametagProvider.getNameColor(killed, onlinePlayer);
+            ChatColor killedNameColor = NameTagAdapter.getNameColor(killed, onlinePlayer);
             String killedFormattedName = killedNameColor + killed.getName();
 
             // if the killer died before the player did we just pretend they weren't
@@ -64,7 +64,7 @@ public final class MatchDeathMessageListener implements Listener {
             if (killer == null || match.isSpectator(killer.getUniqueId())) {
                 onlinePlayer.sendMessage(String.format(NO_KILLER_MESSAGE, killedFormattedName));
             } else {
-                ChatColor killerNameColor = PotPvPNametagProvider.getNameColor(killer, onlinePlayer);
+                ChatColor killerNameColor = NameTagAdapter.getNameColor(killer, onlinePlayer);
                 String killerFormattedName = killerNameColor + killer.getName();
 
                 onlinePlayer.sendMessage(String.format(KILLED_BY_OTHER_MESSAGE, killerFormattedName, killedFormattedName));

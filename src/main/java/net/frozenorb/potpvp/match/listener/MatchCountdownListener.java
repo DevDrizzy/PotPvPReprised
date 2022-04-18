@@ -1,5 +1,9 @@
 package net.frozenorb.potpvp.match.listener;
 
+import net.frozenorb.potpvp.match.MatchTeam;
+import net.frozenorb.potpvp.match.event.MatchCountdownStartEvent;
+import net.frozenorb.potpvp.match.event.MatchStartEvent;
+import net.frozenorb.potpvp.util.PatchedPlayerUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -15,6 +19,8 @@ import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.match.Match;
 import net.frozenorb.potpvp.match.MatchHandler;
 import net.frozenorb.potpvp.match.MatchState;
+
+import java.util.UUID;
 
 // the name of this listener is definitely kind of iffy (as it's really any non-IN_PROGRESS match),
 // but any other ideas I had were even less descriptive
@@ -78,6 +84,32 @@ public final class MatchCountdownListener implements Listener {
 
         if (match != null && match.getState() == MatchState.COUNTDOWN) {
             event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onPlayerMove(MatchCountdownStartEvent event) {
+        Match match = event.getMatch();
+        if (match == null || !match.getKitType().getId().equals("SUMO") || match.getState() != MatchState.COUNTDOWN) return;
+
+        for ( MatchTeam team : match.getTeams() ) {
+            for ( UUID playerUuid : team.getAllMembers() ) {
+                Player player = PotPvPRP.getInstance().getServer().getPlayer(playerUuid);
+                PatchedPlayerUtils.denyMovement(player);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerMove(MatchStartEvent event) {
+        Match match = event.getMatch();
+        if (match == null || !match.getKitType().getId().equals("SUMO") || match.getState() != MatchState.IN_PROGRESS) return;
+
+        for ( MatchTeam team : match.getTeams() ) {
+            for ( UUID playerUuid : team.getAllMembers() ) {
+                Player player = PotPvPRP.getInstance().getServer().getPlayer(playerUuid);
+                PatchedPlayerUtils.allowMovement(player);
+            }
         }
     }
 }

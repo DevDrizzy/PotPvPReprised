@@ -1,9 +1,9 @@
 package net.frozenorb.potpvp.listener;
 
 import net.frozenorb.potpvp.PotPvPRP;
-import net.frozenorb.potpvp.setting.Setting;
-import net.frozenorb.potpvp.setting.SettingHandler;
-import net.frozenorb.potpvp.setting.event.SettingUpdateEvent;
+import net.frozenorb.potpvp.profile.setting.Setting;
+import net.frozenorb.potpvp.profile.setting.SettingHandler;
+import net.frozenorb.potpvp.profile.setting.event.SettingUpdateEvent;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

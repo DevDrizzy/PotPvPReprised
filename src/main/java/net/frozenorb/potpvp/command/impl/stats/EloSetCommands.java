@@ -3,9 +3,9 @@ package net.frozenorb.potpvp.command.impl.stats;
 import com.google.common.collect.ImmutableSet;
 import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.command.PotPvPCommand;
-import net.frozenorb.potpvp.elo.EloHandler;
-import net.frozenorb.potpvp.elo.repository.MongoEloRepository;
-import net.frozenorb.potpvp.kittype.KitType;
+import net.frozenorb.potpvp.profile.elo.EloHandler;
+import net.frozenorb.potpvp.profile.elo.repository.MongoEloRepository;
+import net.frozenorb.potpvp.kit.kittype.KitType;
 import net.frozenorb.potpvp.party.Party;
 import net.frozenorb.potpvp.party.PartyHandler;
 
@@ -13,8 +13,8 @@ import net.frozenorb.potpvp.util.MongoUtils;
 import org.bson.Document;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import xyz.refinedev.api.annotation.Command;
-import xyz.refinedev.api.annotation.Require;
+import xyz.refinedev.command.annotation.Command;
+import xyz.refinedev.command.annotation.Require;
 
 import java.util.*;
 

@@ -8,9 +8,9 @@ import net.frozenorb.potpvp.match.MatchHandler;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import xyz.refinedev.api.annotation.Command;
-import xyz.refinedev.api.annotation.Require;
-import xyz.refinedev.api.annotation.Sender;
+import xyz.refinedev.command.annotation.Command;
+import xyz.refinedev.command.annotation.Require;
+import xyz.refinedev.command.annotation.Sender;
 
 public class MatchCommands implements PotPvPCommand {
 

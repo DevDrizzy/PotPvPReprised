@@ -3,7 +3,7 @@ package net.frozenorb.potpvp.match.listener;
 import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.kit.Kit;
 import net.frozenorb.potpvp.kit.KitHandler;
-import net.frozenorb.potpvp.kittype.KitType;
+import net.frozenorb.potpvp.kit.kittype.KitType;
 import net.frozenorb.potpvp.match.Match;
 import net.frozenorb.potpvp.match.MatchHandler;
 import net.frozenorb.potpvp.match.MatchTeam;

@@ -2,7 +2,7 @@ package net.frozenorb.potpvp.pvpclasses;
 
 import lombok.Getter;
 import net.frozenorb.potpvp.PotPvPRP;
-import net.frozenorb.potpvp.kittype.KitType;
+import net.frozenorb.potpvp.kit.kittype.KitType;
 import net.frozenorb.potpvp.match.Match;
 import net.frozenorb.potpvp.pvpclasses.event.BardRestoreEvent;
 import net.frozenorb.potpvp.pvpclasses.pvpclasses.ArcherClass;
@@ -37,6 +37,12 @@ public class PvPClassHandler extends BukkitRunnable implements Listener {
 
         Bukkit.getServer().getScheduler().runTaskTimer(PotPvPRP.getInstance(), this, 2L, 2L);
         Bukkit.getServer().getPluginManager().registerEvents(this, PotPvPRP.getInstance());
+    }
+
+    public void shutdown() {
+        for (String playerName : getEquippedKits().keySet()) {
+            getEquippedKits().get(playerName).remove(PotPvPRP.getInstance().getServer().getPlayerExact(playerName));
+        }
     }
 
     @Override

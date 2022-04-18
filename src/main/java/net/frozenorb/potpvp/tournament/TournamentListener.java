@@ -1,7 +1,7 @@
 package net.frozenorb.potpvp.tournament;
 
 import net.frozenorb.potpvp.PotPvPRP;
-import net.frozenorb.potpvp.kittype.KitType;
+import net.frozenorb.potpvp.kit.kittype.KitType;
 import net.frozenorb.potpvp.util.event.HalfHourEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;

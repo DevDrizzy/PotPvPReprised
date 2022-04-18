@@ -5,7 +5,7 @@ import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
 import net.frozenorb.potpvp.PotPvPRP;
-import net.frozenorb.potpvp.kittype.KitType;
+import net.frozenorb.potpvp.kit.kittype.KitType;
 import net.frozenorb.potpvp.match.Match;
 import net.frozenorb.potpvp.party.Party;
 import org.bukkit.Bukkit;

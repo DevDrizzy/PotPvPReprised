@@ -4,16 +4,15 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import lombok.Getter;
-import mkremins.fanciful.FancyMessage;
 import net.frozenorb.potpvp.PotPvPRP;
-import net.frozenorb.potpvp.kittype.KitType;
-import net.frozenorb.potpvp.command.Command;
+import net.frozenorb.potpvp.kit.kittype.KitType;
 import net.frozenorb.potpvp.match.Match;
 import net.frozenorb.potpvp.match.MatchState;
 import net.frozenorb.potpvp.match.MatchTeam;
 import net.frozenorb.potpvp.party.Party;
-import net.frozenorb.potpvp.setting.Setting;
-import net.frozenorb.potpvp.setting.SettingHandler;
+import net.frozenorb.potpvp.profile.setting.Setting;
+import net.frozenorb.potpvp.profile.setting.SettingHandler;
+import net.frozenorb.potpvp.util.Clickable;
 import net.frozenorb.potpvp.util.PatchedPlayerUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -162,7 +161,7 @@ public class Tournament {
                     cancel();
                 }
             }
-        }.runTaskTimer(PotPvPRP.getInstance(), 0, interval * 20);
+        }.runTaskTimer(PotPvPRP.getInstance(), 0, interval * 20L);
     }
 
     public void checkStart() {
@@ -254,89 +253,63 @@ public class Tournament {
     private void broadcastJoinMessage(Party joiningParty) {
         if (getCurrentRound() != -1) {
             // donor join
-            FancyMessage message;
+            String message;
             if (joiningParty.getMembers().size() == 1) {
-                message = new FancyMessage(ChatColor.translateAlternateColorCodes('&', "&6&lDONOR ONLY &7- " + PatchedPlayerUtils.getFormattedName(joiningParty.getLeader()) + "&7 &7has &7joined &7the &5tournament&7. &7(" + activeParties.size() + "/" + requiredPartiesToStart + "&7)"));
+                message = ChatColor.translateAlternateColorCodes('&', "&6&lDONOR ONLY &7- " + PatchedPlayerUtils.getFormattedName(joiningParty.getLeader()) + "&7 &7has &7joined &7the &5tournament&7. &7(" + activeParties.size() + "/" + requiredPartiesToStart + "&7)");
             } else if (joiningParty.getMembers().size() == 2) {
                 Iterator<UUID> membersIterator = joiningParty.getMembers().iterator();
-                message = new FancyMessage(ChatColor.translateAlternateColorCodes('&', "&6&lDONOR ONLY &7- " + PatchedPlayerUtils.getFormattedName(membersIterator.next()) + "&7 &7and &6" + PatchedPlayerUtils.getFormattedName(membersIterator.next()) + "&7 have joined the &5tournament&7. &7(" + activeParties.size() * 2 + "/" + requiredPartiesToStart * 2 + "&7)"));
+                message = ChatColor.translateAlternateColorCodes('&', "&6&lDONOR ONLY &7- " + PatchedPlayerUtils.getFormattedName(membersIterator.next()) + "&7 &7and &6" + PatchedPlayerUtils.getFormattedName(membersIterator.next()) + "&7 have joined the &5tournament&7. &7(" + activeParties.size() * 2 + "/" + requiredPartiesToStart * 2 + "&7)");
             } else {
-                message = new FancyMessage(ChatColor.translateAlternateColorCodes('&', "&6&lDONOR ONLY &7- " + PatchedPlayerUtils.getFormattedName(joiningParty.getLeader()) + "&7's team has joined the &5tournament&7. &7(" + activeParties.size() + "/" + requiredPartiesToStart + "&7)"));
+                message = ChatColor.translateAlternateColorCodes('&', "&6&lDONOR ONLY &7- " + PatchedPlayerUtils.getFormattedName(joiningParty.getLeader()) + "&7's team has joined the &5tournament&7. &7(" + activeParties.size() + "/" + requiredPartiesToStart + "&7)");
             }
 
-            message.tooltip(ChatColor.translateAlternateColorCodes('&', "&6Donators &7can join during the tournament countdown. Purchase a rank at &5 " + (PotPvPRP.getInstance().getDominantColor() == ChatColor.LIGHT_PURPLE ? "store.bridge.rip" : "store.bridge.rip") +  " &7."));
-            Bukkit.getOnlinePlayers().forEach(message::send);
+            Clickable clickable = new Clickable(message, ChatColor.translateAlternateColorCodes('&', "&6Donators &7can join during the tournament countdown. Purchase a rank at &5 " + (PotPvPRP.getInstance().getDominantColor() == ChatColor.LIGHT_PURPLE ? "store.bridge.rip" : "store.bridge.rip") +  " &7."), "");
+            Bukkit.getOnlinePlayers().forEach(clickable::sendToPlayer);
             return;
         }
 
-        FancyMessage message;
+        String message;
         if (joiningParty.getMembers().size() == 1) {
-            message = new FancyMessage(ChatColor.translateAlternateColorCodes('&', "&6" + PatchedPlayerUtils.getFormattedName(joiningParty.getLeader()) + "&7 has joined the &5tournament&7. &7(" + activeParties.size() + "/" + requiredPartiesToStart + "&7)"));
+            message = ChatColor.translateAlternateColorCodes('&', "&6" + PatchedPlayerUtils.getFormattedName(joiningParty.getLeader()) + "&7 has joined the &5tournament&7. &7(" + activeParties.size() + "/" + requiredPartiesToStart + "&7)");
         } else if (joiningParty.getMembers().size() == 2) {
             Iterator<UUID> membersIterator = joiningParty.getMembers().iterator();
-            message = new FancyMessage(ChatColor.translateAlternateColorCodes('&', "&6" + PatchedPlayerUtils.getFormattedName(membersIterator.next()) + "&7 and &6" + PatchedPlayerUtils.getFormattedName(membersIterator.next()) + "&7 have joined the &5tournament&7. &7(" + activeParties.size() * 2 + "/" + requiredPartiesToStart * 2 + "&7)"));
+            message = ChatColor.translateAlternateColorCodes('&', "&6" + PatchedPlayerUtils.getFormattedName(membersIterator.next()) + "&7 and &6" + PatchedPlayerUtils.getFormattedName(membersIterator.next()) + "&7 have joined the &5tournament&7. &7(" + activeParties.size() * 2 + "/" + requiredPartiesToStart * 2 + "&7)");
         } else {
-            message = new FancyMessage(ChatColor.translateAlternateColorCodes('&', "&6" + PatchedPlayerUtils.getFormattedName(joiningParty.getLeader()) + "&7's team has joined the &5tournament&7. &7(" + activeParties.size() + "/" + requiredPartiesToStart + "&7)"));
+            message = ChatColor.translateAlternateColorCodes('&', "&6" + PatchedPlayerUtils.getFormattedName(joiningParty.getLeader()) + "&7's team has joined the &5tournament&7. &7(" + activeParties.size() + "/" + requiredPartiesToStart + "&7)");
         }
         
-        message.command("/djm");
-        message.tooltip(ChatColor.translateAlternateColorCodes('&', "&c&lCLICK &7to hide this message."));
+        Clickable clickable = new Clickable(message, ChatColor.translateAlternateColorCodes('&', "&c&lCLICK &7to hide this message."), "/djm");
 
         SettingHandler settingHandler = PotPvPRP.getInstance().getSettingHandler();
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (joiningParty.isMember(player.getUniqueId()) || settingHandler.getSetting(player, Setting.SEE_TOURNAMENT_JOIN_MESSAGE)) {
-                message.send(player);
+                clickable.sendToPlayer(player);
             }
         }
     }
 
     private void broadcastEliminationMessage(Party loserParty) {
-        FancyMessage message;
+        String message;
         int multiplier = requiredPartySize < 3 ? requiredPartySize : 1;
         if (loserParty.getMembers().size() == 1) {
-            message = new FancyMessage(ChatColor.translateAlternateColorCodes('&', "&6" + PatchedPlayerUtils.getFormattedName(loserParty.getLeader()) + "&7 has been eliminated. &7(" + activeParties.size() * multiplier + "/" + requiredPartiesToStart * multiplier + "&7)"));
+            message = ChatColor.translateAlternateColorCodes('&', "&6" + PatchedPlayerUtils.getFormattedName(loserParty.getLeader()) + "&7 has been eliminated. &7(" + activeParties.size() * multiplier + "/" + requiredPartiesToStart * multiplier + "&7)");
         } else if (loserParty.getMembers().size() == 2) {
             Iterator<UUID> membersIterator = loserParty.getMembers().iterator();
-            message = new FancyMessage(ChatColor.translateAlternateColorCodes('&', "&6" + PatchedPlayerUtils.getFormattedName(membersIterator.next()) + "&7 and &5" + PatchedPlayerUtils.getFormattedName(membersIterator.next()) + " &7were eliminated. &7(" + activeParties.size() * multiplier + "/" + requiredPartiesToStart * multiplier + "&7)"));
+            message = ChatColor.translateAlternateColorCodes('&', "&6" + PatchedPlayerUtils.getFormattedName(membersIterator.next()) + "&7 and &5" + PatchedPlayerUtils.getFormattedName(membersIterator.next()) + " &7were eliminated. &7(" + activeParties.size() * multiplier + "/" + requiredPartiesToStart * multiplier + "&7)");
         } else {
-            message = new FancyMessage(ChatColor.translateAlternateColorCodes('&', "&6" + PatchedPlayerUtils.getFormattedName(loserParty.getLeader()) + "&7's team has been eliminated. &7(" + activeParties.size() * multiplier + "/" + requiredPartiesToStart * multiplier + "&7)"));
+            message = ChatColor.translateAlternateColorCodes('&', "&6" + PatchedPlayerUtils.getFormattedName(loserParty.getLeader()) + "&7's team has been eliminated. &7(" + activeParties.size() * multiplier + "/" + requiredPartiesToStart * multiplier + "&7)");
         }
 
-        message.command("/dem");
-        message.tooltip(ChatColor.translateAlternateColorCodes('&', "&c&lCLICK &7to hide this message."));
+        Clickable clickable = new Clickable(message, ChatColor.translateAlternateColorCodes('&', "&c&lCLICK &7to hide this message."), "/dem");
         SettingHandler settingHandler = PotPvPRP.getInstance().getSettingHandler();
 
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (loserParty.isMember(player.getUniqueId()) || settingHandler.getSetting(player, Setting.SEE_TOURNAMENT_ELIMINATION_MESSAGES)) {
-                message.send(player);
+                clickable.sendToPlayer(player);
             }
         }
-    }
-
-    @Command(names = { "djm" }, permission = "")
-    public static void joinMessages(Player sender) {
-        boolean oldValue = PotPvPRP.getInstance().getSettingHandler().getSetting(sender, Setting.SEE_TOURNAMENT_JOIN_MESSAGE);
-        if (!oldValue) {
-            sender.sendMessage(ChatColor.RED + "You have already disabled tournament join messages.");
-            return;
-        }
-
-        PotPvPRP.getInstance().getSettingHandler().updateSetting(sender, Setting.SEE_TOURNAMENT_JOIN_MESSAGE, false);
-        sender.sendMessage(ChatColor.GREEN + "Disabled tournament join messages.");
-    }
-
-    @Command(names = { "dem" }, permission = "")
-    public static void eliminationMessages(Player sender) {
-        boolean oldValue = PotPvPRP.getInstance().getSettingHandler().getSetting(sender, Setting.SEE_TOURNAMENT_ELIMINATION_MESSAGES);
-        if (!oldValue) {
-            sender.sendMessage(ChatColor.RED + "You have already disabled tournament elimination messages.");
-            return;
-        }
-
-        PotPvPRP.getInstance().getSettingHandler().updateSetting(sender, Setting.SEE_TOURNAMENT_ELIMINATION_MESSAGES, false);
-        sender.sendMessage(ChatColor.GREEN + "Disabled tournament elimination messages.");
     }
 
 

@@ -1,6 +1,6 @@
 package net.frozenorb.potpvp.command.impl.settings;
 
-import net.frozenorb.potpvp.setting.menu.SettingsMenu;
+import net.frozenorb.potpvp.profile.setting.menu.SettingsMenu;
 import net.frozenorb.potpvp.command.Command;
 
 import org.bukkit.entity.Player;

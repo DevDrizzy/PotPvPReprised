@@ -9,9 +9,9 @@ import net.frozenorb.potpvp.match.MatchTeam;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import xyz.refinedev.api.annotation.Command;
-import xyz.refinedev.api.annotation.OptArg;
-import xyz.refinedev.api.annotation.Sender;
+import xyz.refinedev.command.annotation.Command;
+import xyz.refinedev.command.annotation.OptArg;
+import xyz.refinedev.command.annotation.Sender;
 
 import java.util.UUID;
 

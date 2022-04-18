@@ -1,19 +1,19 @@
 package net.frozenorb.potpvp.lobby;
 
 import net.frozenorb.potpvp.PotPvPRP;
-import net.frozenorb.potpvp.duel.DuelHandler;
-import net.frozenorb.potpvp.follow.FollowHandler;
+import net.frozenorb.potpvp.match.duel.DuelHandler;
+import net.frozenorb.potpvp.profile.follow.FollowHandler;
 import net.frozenorb.potpvp.kit.KitItems;
 import net.frozenorb.potpvp.kit.menu.editkit.EditKitMenu;
-import net.frozenorb.potpvp.morpheus.EventItems;
+import net.frozenorb.potpvp.events.EventItems;
 import net.frozenorb.potpvp.party.Party;
 import net.frozenorb.potpvp.party.PartyHandler;
 import net.frozenorb.potpvp.party.PartyItems;
 import net.frozenorb.potpvp.queue.QueueHandler;
 import net.frozenorb.potpvp.queue.QueueItems;
-import net.frozenorb.potpvp.rematch.RematchData;
-import net.frozenorb.potpvp.rematch.RematchHandler;
-import net.frozenorb.potpvp.rematch.RematchItems;
+import net.frozenorb.potpvp.match.rematch.RematchData;
+import net.frozenorb.potpvp.match.rematch.RematchHandler;
+import net.frozenorb.potpvp.match.rematch.RematchItems;
 import net.frozenorb.potpvp.kt.menu.Menu;
 
 import org.bukkit.Bukkit;

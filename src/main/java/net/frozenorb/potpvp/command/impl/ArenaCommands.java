@@ -1,5 +1,6 @@
 package net.frozenorb.potpvp.command.impl;
 
+import net.frozenorb.potpvp.PotPvPLang;
 import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.arena.Arena;
 import net.frozenorb.potpvp.arena.ArenaGrid;
@@ -9,9 +10,9 @@ import net.frozenorb.potpvp.command.PotPvPCommand;
 import net.frozenorb.potpvp.util.LocationUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import xyz.refinedev.api.annotation.Command;
-import xyz.refinedev.api.annotation.Require;
-import xyz.refinedev.api.annotation.Sender;
+import xyz.refinedev.command.annotation.Command;
+import xyz.refinedev.command.annotation.Require;
+import xyz.refinedev.command.annotation.Sender;
 import xyz.refinedev.spigot.utils.CC;
 
 import java.io.File;
@@ -25,6 +26,26 @@ import java.io.File;
  * Project: potpvp-reprised
  */
 public class ArenaCommands implements PotPvPCommand {
+
+    private static final String[] HELP_MESSAGE = {
+            ChatColor.DARK_PURPLE + PotPvPLang.LONG_LINE,
+            "§5§lArena Commands",
+            ChatColor.DARK_PURPLE + PotPvPLang.LONG_LINE,
+            "§c " + PotPvPLang.LEFT_ARROW_NAKED + " §a/arena free",
+            "§c " + PotPvPLang.LEFT_ARROW_NAKED + " §a/arena createSchematic <schematic>",
+            "§c " + PotPvPLang.LEFT_ARROW_NAKED + " §a/arena listArenas <schematic>",
+            "§c " + PotPvPLang.LEFT_ARROW_NAKED + " §a/arena repasteSchematic <schematic>",
+            "§c " + PotPvPLang.LEFT_ARROW_NAKED + " §a/arena rescaleall <schematic>",
+            "§c " + PotPvPLang.LEFT_ARROW_NAKED + " §a/arena listSchematics",
+            ChatColor.DARK_PURPLE + PotPvPLang.LONG_LINE,
+
+    };
+
+    @Command(name = "", desc = "Help message for arenas")
+    @Require("potpvp.arena.admin")
+    public void help(@Sender Player sender) {
+        sender.sendMessage(HELP_MESSAGE);
+    }
 
     @Command(name = "free", desc = "Free all arenas")
     @Require("potpvp.arena.admin")
@@ -152,11 +173,14 @@ public class ArenaCommands implements PotPvPCommand {
     @Require("potpvp.arena.admin")
     public void arenaListSchems(@Sender Player sender) {
         ArenaHandler arenaHandler = PotPvPRP.getInstance().getArenaHandler();
+        sender.sendMessage(ChatColor.DARK_PURPLE + PotPvPLang.LONG_LINE);
+        sender.sendMessage(CC.translate("&5&lPotPvP Schematics"));
+        sender.sendMessage(ChatColor.DARK_PURPLE + PotPvPLang.LONG_LINE);
         arenaHandler.getSchematics().forEach(schematic -> {
             int size = arenaHandler.getArenas(schematic).size();
-            sender.sendMessage(ChatColor.RED + "------ " + ChatColor.WHITE + "All Schematics" + ChatColor.RED + " ------");
             sender.sendMessage(CC.translate("&c" + schematic.getName() + " &7| &cArenas using: &f" + size));
         });
+        sender.sendMessage(ChatColor.DARK_PURPLE + PotPvPLang.LONG_LINE);
     }
 
     @Override

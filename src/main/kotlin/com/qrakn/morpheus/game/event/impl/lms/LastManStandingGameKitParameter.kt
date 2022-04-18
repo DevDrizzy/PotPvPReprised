@@ -2,11 +2,9 @@ package com.qrakn.morpheus.game.event.impl.lms
 
 import com.qrakn.morpheus.game.parameter.GameParameter
 import com.qrakn.morpheus.game.parameter.GameParameterOption
-import net.frozenorb.potpvp.kittype.KitType
-import org.bukkit.Material
+import net.frozenorb.potpvp.kit.kittype.KitType
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
-import org.bukkit.potion.Potion
 
 object LastManStandingGameKitParameter : GameParameter {
 

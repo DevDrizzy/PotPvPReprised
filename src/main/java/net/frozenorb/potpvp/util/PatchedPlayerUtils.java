@@ -1,9 +1,12 @@
 package net.frozenorb.potpvp.util;
 
+import lombok.experimental.UtilityClass;
 import net.frozenorb.potpvp.PotPvPRP;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.Collection;
 import java.util.List;
@@ -13,6 +16,7 @@ import java.util.stream.Collectors;
 // we mess with fly mode in PotPvP, so we need to reset that with PlayerUtils (in qLib)
 // unfortunately, that class doesn't reset fly mode - and plugins like qHub, which use doublejump
 // (implemented with fly mode if you're not familiar) have already started using that method.
+@UtilityClass
 public class PatchedPlayerUtils {
 
     public static void resetInventory(Player player) {
@@ -48,6 +52,30 @@ public class PatchedPlayerUtils {
 
         player.setAllowFlight(false);
         player.setFlying(false);
+    }
+
+    public void denyMovement(Player player) {
+        if (player.hasMetadata("noDenyMove")) {
+            player.removeMetadata("noDenyMove", PotPvPRP.getInstance());
+            return;
+        }
+
+        player.setWalkSpeed(0.0F);
+        player.setFlySpeed(0.0F);
+        player.setFoodLevel(0);
+        player.setSprinting(false);
+        player.setMetadata("denyMove", new FixedMetadataValue(PotPvPRP.getInstance(), true));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, Integer.MAX_VALUE, 200));
+    }
+
+    public void allowMovement(Player player) {
+        if (!player.hasMetadata("denyMove")) return;
+        player.setWalkSpeed(0.2F);
+        player.setFlySpeed(0.2F);
+        player.setFoodLevel(20);
+        player.setSprinting(true);
+        player.removePotionEffect(PotionEffectType.JUMP);
+        player.removeMetadata("denyMove", PotPvPRP.getInstance());
     }
 
     public static List<String> mapToNames(Collection<UUID> uuids) {

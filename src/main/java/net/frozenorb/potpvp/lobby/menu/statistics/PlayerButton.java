@@ -9,8 +9,8 @@ import org.bukkit.entity.Player;
 import com.google.common.collect.Lists;
 
 import net.frozenorb.potpvp.PotPvPRP;
-import net.frozenorb.potpvp.elo.EloHandler;
-import net.frozenorb.potpvp.kittype.KitType;
+import net.frozenorb.potpvp.profile.elo.EloHandler;
+import net.frozenorb.potpvp.kit.kittype.KitType;
 import net.frozenorb.potpvp.kt.menu.Button;
 
 public class PlayerButton extends Button {

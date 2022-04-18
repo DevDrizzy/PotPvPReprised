@@ -7,8 +7,8 @@ import net.frozenorb.potpvp.match.MatchTeam;
 import net.frozenorb.potpvp.match.MatchUtils;
 import net.frozenorb.potpvp.match.SpectatorItems;
 import net.frozenorb.potpvp.command.impl.match.LeaveCommand;
-import net.frozenorb.potpvp.setting.Setting;
-import net.frozenorb.potpvp.setting.SettingHandler;
+import net.frozenorb.potpvp.profile.setting.Setting;
+import net.frozenorb.potpvp.profile.setting.SettingHandler;
 import net.frozenorb.potpvp.util.FancyPlayerInventory;
 import net.frozenorb.potpvp.util.ItemListener;
 

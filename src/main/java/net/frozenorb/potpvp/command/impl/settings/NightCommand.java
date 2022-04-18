@@ -1,8 +1,8 @@
 package net.frozenorb.potpvp.command.impl.settings;
 
 import net.frozenorb.potpvp.PotPvPRP;
-import net.frozenorb.potpvp.setting.Setting;
-import net.frozenorb.potpvp.setting.SettingHandler;
+import net.frozenorb.potpvp.profile.setting.Setting;
+import net.frozenorb.potpvp.profile.setting.SettingHandler;
 import net.frozenorb.potpvp.command.Command;
 
 import org.bukkit.ChatColor;

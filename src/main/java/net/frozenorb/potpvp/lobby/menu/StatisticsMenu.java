@@ -8,7 +8,7 @@ import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-import net.frozenorb.potpvp.kittype.KitType;
+import net.frozenorb.potpvp.kit.kittype.KitType;
 import net.frozenorb.potpvp.lobby.menu.statistics.GlobalEloButton;
 import net.frozenorb.potpvp.lobby.menu.statistics.KitButton;
 import net.frozenorb.potpvp.lobby.menu.statistics.PlayerButton;

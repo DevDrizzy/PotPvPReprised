@@ -3,13 +3,17 @@ package net.frozenorb.potpvp.party;
 import com.google.common.collect.ImmutableList;
 
 import net.frozenorb.potpvp.PotPvPRP;
-import net.frozenorb.potpvp.kittype.KitType;
-import net.frozenorb.potpvp.kittype.menu.select.SelectKitTypeMenu;
+import net.frozenorb.potpvp.kit.kittype.KitType;
+import net.frozenorb.potpvp.kit.kittype.menu.select.SelectKitTypeMenu;
 import net.frozenorb.potpvp.match.Match;
 import net.frozenorb.potpvp.match.MatchTeam;
 import net.frozenorb.potpvp.party.menu.oddmanout.OddManOutMenu;
 import net.frozenorb.potpvp.validation.PotPvPValidation;
 
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -90,6 +94,34 @@ public final class PartyUtils {
         if (spectator != null) {
             match.addSpectator(spectator, null);
         }
+    }
+
+    public static void askLeaderToInvite(Party party, Player requester, Player target) {
+        requester.sendMessage(net.md_5.bungee.api.ChatColor.YELLOW + "You have requested to invite " + target.getDisplayName() + net.md_5.bungee.api.ChatColor.YELLOW + ".");
+
+        Player leader = Bukkit.getPlayer(party.getLeader());
+
+        // should never happen
+        if (leader == null) {
+            return;
+        }
+
+        leader.sendMessage(requester.getDisplayName() + net.md_5.bungee.api.ChatColor.YELLOW + " wants you to invite " + target.getDisplayName() + net.md_5.bungee.api.ChatColor.YELLOW + ".");
+        leader.spigot().sendMessage(createInviteButton(target));
+    }
+
+    public static TextComponent createInviteButton(Player target) {
+        BaseComponent[] hoverTooltip = { new TextComponent(net.md_5.bungee.api.ChatColor.GREEN + "Click to invite") };
+        HoverEvent.Action showText = HoverEvent.Action.SHOW_TEXT;
+        ClickEvent.Action runCommand = ClickEvent.Action.RUN_COMMAND;
+
+        TextComponent inviteButton = new TextComponent("Click here to send the invitation");
+
+        inviteButton.setColor(net.md_5.bungee.api.ChatColor.AQUA);
+        inviteButton.setHoverEvent(new HoverEvent(showText, hoverTooltip));
+        inviteButton.setClickEvent(new ClickEvent(runCommand, "/invite " + target.getName()));
+
+        return inviteButton;
     }
 
 }

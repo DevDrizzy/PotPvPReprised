@@ -5,10 +5,10 @@ import com.google.common.collect.ImmutableList;
 import net.frozenorb.potpvp.PotPvPLang;
 import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.command.PotPvPCommand;
-import net.frozenorb.potpvp.duel.DuelHandler;
-import net.frozenorb.potpvp.duel.DuelInvite;
-import net.frozenorb.potpvp.duel.PartyDuelInvite;
-import net.frozenorb.potpvp.duel.PlayerDuelInvite;
+import net.frozenorb.potpvp.match.duel.DuelHandler;
+import net.frozenorb.potpvp.match.duel.DuelInvite;
+import net.frozenorb.potpvp.match.duel.PartyDuelInvite;
+import net.frozenorb.potpvp.match.duel.PlayerDuelInvite;
 import net.frozenorb.potpvp.match.Match;
 import net.frozenorb.potpvp.match.MatchHandler;
 import net.frozenorb.potpvp.match.MatchTeam;
@@ -18,8 +18,8 @@ import net.frozenorb.potpvp.validation.PotPvPValidation;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import xyz.refinedev.api.annotation.Command;
-import xyz.refinedev.api.annotation.Sender;
+import xyz.refinedev.command.annotation.Command;
+import xyz.refinedev.command.annotation.Sender;
 
 public class AcceptCommand implements PotPvPCommand {
 

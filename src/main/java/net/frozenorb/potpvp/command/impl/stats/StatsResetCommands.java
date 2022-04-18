@@ -12,8 +12,8 @@ import org.bukkit.entity.Player;
 import com.google.common.base.Objects;
 
 import net.frozenorb.potpvp.PotPvPRP;
-import xyz.refinedev.api.annotation.Command;
-import xyz.refinedev.api.annotation.Sender;
+import xyz.refinedev.command.annotation.Command;
+import xyz.refinedev.command.annotation.Sender;
 
 public class StatsResetCommands implements PotPvPCommand {
 

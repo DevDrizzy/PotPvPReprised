@@ -9,8 +9,8 @@ import net.frozenorb.potpvp.match.MatchHandler;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import xyz.refinedev.api.annotation.Command;
-import xyz.refinedev.api.annotation.Sender;
+import xyz.refinedev.command.annotation.Command;
+import xyz.refinedev.command.annotation.Sender;
 
 import java.util.List;
 
@@ -52,7 +52,6 @@ public class HelpCommand implements PotPvPCommand {
         PotPvPRP.getInstance().getDominantColor() == ChatColor.LIGHT_PURPLE ? "§eOfficial Teamspeak §7- §dts.MineHQ.com" : "§eOfficial Teamspeak §7- §dts.MineHQ.com",
         PotPvPRP.getInstance().getDominantColor() == ChatColor.LIGHT_PURPLE ? "§eOfficial Rules §7- §dwww.MineHQ.com/rules" : "§eOfficial Rules §7- §dwww.MineHQ.com/rules",
         PotPvPRP.getInstance().getDominantColor() == ChatColor.LIGHT_PURPLE ? "§eStore §7- §dwww.MineHQ.com/store" : "§eStore §7- §dwww.MineHQ.com/store",
-     // "§ePractice Leaderboards §7- §dwww.MineHQ.com/stats/potpvp",
         ChatColor.DARK_PURPLE + PotPvPLang.LONG_LINE
     );
 

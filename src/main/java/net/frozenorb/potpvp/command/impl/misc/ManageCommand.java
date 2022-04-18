@@ -5,8 +5,8 @@ import com.google.common.collect.ImmutableMap;
 
 import net.frozenorb.potpvp.arena.menu.manageschematics.ManageSchematicsMenu;
 import net.frozenorb.potpvp.command.PotPvPCommand;
-import net.frozenorb.potpvp.kittype.menu.manage.ManageKitTypeMenu;
-import net.frozenorb.potpvp.kittype.menu.select.SelectKitTypeMenu;
+import net.frozenorb.potpvp.kit.kittype.menu.manage.ManageKitTypeMenu;
+import net.frozenorb.potpvp.kit.kittype.menu.select.SelectKitTypeMenu;
 import net.frozenorb.potpvp.kt.menu.Button;
 import net.frozenorb.potpvp.kt.menu.Menu;
 
@@ -15,9 +15,9 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.InventoryView;
-import xyz.refinedev.api.annotation.Command;
-import xyz.refinedev.api.annotation.Require;
-import xyz.refinedev.api.annotation.Sender;
+import xyz.refinedev.command.annotation.Command;
+import xyz.refinedev.command.annotation.Require;
+import xyz.refinedev.command.annotation.Sender;
 
 import java.util.List;
 import java.util.Map;

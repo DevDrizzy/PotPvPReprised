@@ -13,8 +13,8 @@ import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.lobby.LobbyHandler;
 import net.frozenorb.potpvp.party.Party;
 import net.frozenorb.potpvp.party.PartyHandler;
-import net.frozenorb.potpvp.setting.Setting;
-import net.frozenorb.potpvp.setting.SettingHandler;
+import net.frozenorb.potpvp.profile.setting.Setting;
+import net.frozenorb.potpvp.profile.setting.SettingHandler;
 import net.frozenorb.potpvp.kt.menu.Button;
 import net.frozenorb.potpvp.kt.menu.pagination.PaginatedMenu;
 

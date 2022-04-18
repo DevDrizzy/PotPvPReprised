@@ -30,7 +30,7 @@ import net.frozenorb.potpvp.match.Match;
 import net.frozenorb.potpvp.match.MatchHandler;
 import net.frozenorb.potpvp.match.MatchState;
 import net.frozenorb.potpvp.match.MatchTeam;
-import net.frozenorb.potpvp.nametag.provider.PotPvPNametagProvider;
+import net.frozenorb.potpvp.adapter.nametag.NameTagAdapter;
 import net.frozenorb.potpvp.kt.util.Cuboid;
 
 public final class MatchGeneralListener implements Listener {
@@ -80,7 +80,7 @@ public final class MatchGeneralListener implements Listener {
                     continue;
                 }
 
-                ChatColor playerColor = PotPvPNametagProvider.getNameColor(player, onlinePlayer);
+                ChatColor playerColor = NameTagAdapter.getNameColor(player, onlinePlayer);
                 String playerFormatted = playerColor + player.getName();
 
                 onlinePlayer.sendMessage(playerFormatted + ChatColor.GRAY + " disconnected.");
@@ -269,7 +269,7 @@ public final class MatchGeneralListener implements Listener {
         if (stack == null || stack.getType() != Material.POTION) return;
 
         Bukkit.getScheduler().runTaskLater(PotPvPRP.getInstance(), () -> {
-            //event.getPlayer().setItemInHand(null);
+            event.getPlayer().setItemInHand(null);
         }, 1L);
     }
 }

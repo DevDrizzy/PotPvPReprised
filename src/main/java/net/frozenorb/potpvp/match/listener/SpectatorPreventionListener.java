@@ -3,8 +3,8 @@ package net.frozenorb.potpvp.match.listener;
 import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.match.Match;
 import net.frozenorb.potpvp.match.MatchHandler;
-import net.frozenorb.potpvp.setting.Setting;
-import net.frozenorb.potpvp.setting.event.SettingUpdateEvent;
+import net.frozenorb.potpvp.profile.setting.Setting;
+import net.frozenorb.potpvp.profile.setting.event.SettingUpdateEvent;
 import net.frozenorb.potpvp.util.VisibilityUtils;
 
 import org.bukkit.entity.Entity;

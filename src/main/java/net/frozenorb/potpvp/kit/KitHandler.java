@@ -9,7 +9,7 @@ import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.kit.listener.KitEditorListener;
 import net.frozenorb.potpvp.kit.listener.KitItemListener;
 import net.frozenorb.potpvp.kit.listener.KitLoadListener;
-import net.frozenorb.potpvp.kittype.KitType;
+import net.frozenorb.potpvp.kit.kittype.KitType;
 import net.frozenorb.potpvp.util.MongoUtils;
 
 import org.bson.Document;

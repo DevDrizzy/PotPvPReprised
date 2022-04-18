@@ -21,7 +21,7 @@ import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.arena.Arena;
 import net.frozenorb.potpvp.arena.ArenaHandler;
 import net.frozenorb.potpvp.arena.ArenaSchematic;
-import net.frozenorb.potpvp.kittype.KitType;
+import net.frozenorb.potpvp.kit.kittype.KitType;
 import net.frozenorb.potpvp.match.listener.GoldenHeadListener;
 import net.frozenorb.potpvp.match.listener.KitSelectionListener;
 import net.frozenorb.potpvp.match.listener.MatchBlockPickupListener;
@@ -31,7 +31,6 @@ import net.frozenorb.potpvp.match.listener.MatchCountdownListener;
 import net.frozenorb.potpvp.match.listener.MatchDeathMessageListener;
 import net.frozenorb.potpvp.match.listener.MatchDurationLimitListener;
 import net.frozenorb.potpvp.match.listener.MatchEnderPearlDamageListener;
-import net.frozenorb.potpvp.match.listener.MatchFreezeListener;
 import net.frozenorb.potpvp.match.listener.MatchGeneralListener;
 import net.frozenorb.potpvp.match.listener.MatchHardcoreHealingListener;
 import net.frozenorb.potpvp.match.listener.MatchHealthDisplayListener;
@@ -70,7 +69,6 @@ public final class MatchHandler {
         Bukkit.getPluginManager().registerEvents(new MatchDeathMessageListener(), PotPvPRP.getInstance());
         Bukkit.getPluginManager().registerEvents(new MatchDurationLimitListener(), PotPvPRP.getInstance());
         Bukkit.getPluginManager().registerEvents(new MatchEnderPearlDamageListener(), PotPvPRP.getInstance());
-        Bukkit.getPluginManager().registerEvents(new MatchFreezeListener(), PotPvPRP.getInstance());
         Bukkit.getPluginManager().registerEvents(new MatchGeneralListener(), PotPvPRP.getInstance());
         Bukkit.getPluginManager().registerEvents(new MatchHardcoreHealingListener(), PotPvPRP.getInstance());
         Bukkit.getPluginManager().registerEvents(new MatchHealthDisplayListener(), PotPvPRP.getInstance());
@@ -186,6 +184,15 @@ public final class MatchHandler {
      */
     public Set<Match> getHostedMatches() {
         return ImmutableSet.copyOf(hostedMatches);
+    }
+
+    /**
+     * Clean up all matches and rset their arenas
+     */
+    public void cleanup() {
+        for (Match match : this.getHostedMatches()) {
+            if (match.getKitType().isBuildingAllowed()) match.getArena().restore();
+        }
     }
 
     /**

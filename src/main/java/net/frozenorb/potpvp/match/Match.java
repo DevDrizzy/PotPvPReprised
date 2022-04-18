@@ -38,8 +38,8 @@ import lombok.Getter;
 import lombok.Setter;
 import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.arena.Arena;
-import net.frozenorb.potpvp.elo.EloCalculator;
-import net.frozenorb.potpvp.kittype.KitType;
+import net.frozenorb.potpvp.profile.elo.EloCalculator;
+import net.frozenorb.potpvp.kit.kittype.KitType;
 import net.frozenorb.potpvp.lobby.LobbyHandler;
 import net.frozenorb.potpvp.match.event.MatchCountdownStartEvent;
 import net.frozenorb.potpvp.match.event.MatchEndEvent;
@@ -47,45 +47,35 @@ import net.frozenorb.potpvp.match.event.MatchSpectatorJoinEvent;
 import net.frozenorb.potpvp.match.event.MatchSpectatorLeaveEvent;
 import net.frozenorb.potpvp.match.event.MatchStartEvent;
 import net.frozenorb.potpvp.match.event.MatchTerminateEvent;
-import net.frozenorb.potpvp.match.replay.ReplayableAction;
-import net.frozenorb.potpvp.postmatchinv.PostMatchPlayer;
-import net.frozenorb.potpvp.setting.Setting;
-import net.frozenorb.potpvp.setting.SettingHandler;
+import net.frozenorb.potpvp.match.postmatchinv.PostMatchPlayer;
+import net.frozenorb.potpvp.profile.setting.Setting;
+import net.frozenorb.potpvp.profile.setting.SettingHandler;
 import net.frozenorb.potpvp.util.InventoryUtils;
 import net.frozenorb.potpvp.util.ItemListener;
 import net.frozenorb.potpvp.util.MongoUtils;
 import net.frozenorb.potpvp.util.PatchedPlayerUtils;
 import net.frozenorb.potpvp.util.VisibilityUtils;
 
+@Getter
 public final class Match {
     
     private static final int MATCH_END_DELAY_SECONDS = 3;
     
-    @Getter
     private final String _id = UUID.randomUUID().toString().substring(0, 7);
-    
-    @Getter
+
     private final KitType kitType;
-    @Getter
     private final Arena arena;
-    @Getter
     private final List<MatchTeam> teams; // immutable so @Getter is ok
     private final Map<UUID, PostMatchPlayer> postMatchPlayers = new HashMap<>();
     private final Set<UUID> spectators = new HashSet<>();
-    
-    @Getter
+
     private MatchTeam winner;
-    @Getter
     private MatchEndReason endReason;
-    @Getter
     private MatchState state;
-    @Getter
     private Date startedAt;
-    @Getter
     private Date endedAt;
-    @Getter
     private boolean ranked;
-    
+
     // we track if matches should give a rematch diamond manually. previouly
     // we just checked if both teams had 1 player on them, but this wasn't
     // always accurate. Scenarios like a team split of a 3 man team (with one
@@ -93,40 +83,25 @@ public final class Match {
     // https://github.com/FrozenOrb/PotPvP-SI/issues/19
     // this will also be set to false for ranked matches (which don't allow
     // rematches)
-    @Getter
     private boolean allowRematches;
-    @Getter
-    @Setter
-    private EloCalculator.Result eloChange;
-    
+    @Setter private EloCalculator.Result eloChange;
+
     // this will keep track of blocks placed by players during this match.
     // it'll only be populated if the KitType allows building in the first place.
     private final Set<BlockVector> placedBlocks = new HashSet<>();
-    
+
     // we only spectators generate one message (either a join or a leave)
     // per match, to prevent spam. This tracks who has used their one message
     private final transient Set<UUID> spectatorMessagesUsed = new HashSet<>();
-    
-    @Getter
+
     private Map<UUID, UUID> lastHit = Maps.newHashMap();
-    @Getter
     private Map<UUID, Integer> combos = Maps.newHashMap();
-    @Getter
     private Map<UUID, Integer> totalHits = Maps.newHashMap();
-    @Getter
     private Map<UUID, Integer> longestCombo = Maps.newHashMap();
-    @Getter
     private Map<UUID, Integer> missedPots = Maps.newHashMap();
-    
-    @Getter
-    private List<ReplayableAction> replayableActions = Lists.newArrayList();
-    
-    @Getter
     private Set<UUID> allPlayers = Sets.newHashSet();
-    
-    @Getter
+
     private Set<UUID> winningPlayers;
-    @Getter
     private Set<UUID> losingPlayers;
     
     public Match(KitType kitType, Arena arena, List<MatchTeam> teams, boolean ranked, boolean allowRematches) {
@@ -179,8 +154,8 @@ public final class Match {
                 player.teleport(spawn);
                 player.getInventory().setHeldItemSlot(0);
                 
-                PotPvPRP.getInstance().getNameTagEngine().reloadPlayer(player);
-                PotPvPRP.getInstance().getNameTagEngine().reloadOthersFor(player);
+                PotPvPRP.getInstance().getNameTagHandler().reloadPlayer(player);
+                PotPvPRP.getInstance().getNameTagHandler().reloadOthersFor(player);
                 
                 updateVisiblity.add(player);
                 PatchedPlayerUtils.resetInventory(player, GameMode.SURVIVAL);
@@ -224,6 +199,7 @@ public final class Match {
         startedAt = new Date();
         
         messageAll(ChatColor.GREEN + "Match started.");
+
         Bukkit.getPluginManager().callEvent(new MatchStartEvent(this));
     }
     
@@ -404,8 +380,8 @@ public final class Match {
             player.getInventory().setHeldItemSlot(0);
         }
         
-        PotPvPRP.getInstance().getNameTagEngine().reloadPlayer(player);
-        PotPvPRP.getInstance().getNameTagEngine().reloadOthersFor(player);
+        PotPvPRP.getInstance().getNameTagHandler().reloadPlayer(player);
+        PotPvPRP.getInstance().getNameTagHandler().reloadOthersFor(player);
         
         VisibilityUtils.updateVisibility(player);
         PatchedPlayerUtils.resetInventory(player, GameMode.CREATIVE, true); // because we're about to reset their inv on a timer

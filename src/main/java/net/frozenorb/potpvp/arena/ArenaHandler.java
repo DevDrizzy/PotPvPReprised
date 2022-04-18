@@ -14,6 +14,9 @@ import java.util.TreeMap;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Predicate;
 
+import com.sk89q.worldedit.bukkit.WorldEditPlugin;
+import lombok.SneakyThrows;
+import net.frozenorb.potpvp.arena.listener.ArenaItemResetListener;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import com.google.gson.reflect.TypeToken;
@@ -23,13 +26,11 @@ import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.io.Files;
-import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 
 import lombok.Getter;
 import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.arena.event.ArenaAllocatedEvent;
 import net.frozenorb.potpvp.arena.event.ArenaReleasedEvent;
-import net.frozenorb.potpvp.arena.listener.ArenaItemResetListener;
 
 /**
  * Facilitates easy access to {@link ArenaSchematic}s and to {@link Arena}s
@@ -89,10 +90,11 @@ public final class ArenaHandler {
         }
     }
 
-    public void saveSchematics() throws IOException {
+    @SneakyThrows
+    public void saveSchematics() {
         Files.write(
             PotPvPRP.getGson().toJson(schematics.values()),
-            new File(getArenaWorld().getWorldFolder(), SCHEMATICS_FILE_NAME),
+            new File(PotPvPRP.getInstance().getDataFolder(), SCHEMATICS_FILE_NAME),
             Charsets.UTF_8
         );
     }
@@ -106,7 +108,7 @@ public final class ArenaHandler {
 
         Files.write(
             PotPvPRP.getGson().toJson(allArenas),
-            new File(getArenaWorld().getWorldFolder(), ARENA_INSTANCES_FILE_NAME),
+            new File(PotPvPRP.getInstance().getDataFolder(), ARENA_INSTANCES_FILE_NAME),
             Charsets.UTF_8
         );
     }

@@ -11,7 +11,3 @@ MONGO:
   URI:
     DATABASE: PotPvPSI
     CONNECTION_STRING: mongodb://127.0.0.1:27017/PotPvPSI
-REDIS:
-  HOST: localhost
-  PASSWORD: ""
-  PORT: 6379

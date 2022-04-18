@@ -12,9 +12,9 @@ import com.google.common.collect.Sets;
 
 import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.arena.ArenaSchematic;
-import net.frozenorb.potpvp.kittype.KitType;
-import net.frozenorb.potpvp.kittype.menu.select.SendDuelButton;
-import net.frozenorb.potpvp.kittype.menu.select.ToggleAllButton;
+import net.frozenorb.potpvp.kit.kittype.KitType;
+import net.frozenorb.potpvp.kit.kittype.menu.select.SendDuelButton;
+import net.frozenorb.potpvp.kit.kittype.menu.select.ToggleAllButton;
 import net.frozenorb.potpvp.match.MatchHandler;
 import net.frozenorb.potpvp.kt.menu.Button;
 import net.frozenorb.potpvp.kt.menu.Menu;

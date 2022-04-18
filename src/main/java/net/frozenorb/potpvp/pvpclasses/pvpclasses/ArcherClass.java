@@ -133,12 +133,12 @@ public class ArcherClass extends PvPClass {
                 getMarkedBy().putIfAbsent(shooter.getName(), new HashSet<>());
                 getMarkedBy().get(shooter.getName()).add(new Pair<>(player.getName(), System.currentTimeMillis() + (MARK_SECONDS * 1000)));
 
-                PotPvPRP.getInstance().getNameTagEngine().reloadPlayer(player);
+                PotPvPRP.getInstance().getNameTagHandler().reloadPlayer(player);
 
                 new BukkitRunnable() {
 
                     public void run() {
-                        PotPvPRP.getInstance().getNameTagEngine().reloadPlayer(player);
+                        PotPvPRP.getInstance().getNameTagHandler().reloadPlayer(player);
                     }
 
                 }.runTaskLater(PotPvPRP.getInstance(), (MARK_SECONDS * 20) + 5);

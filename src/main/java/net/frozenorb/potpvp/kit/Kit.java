@@ -1,7 +1,7 @@
 package net.frozenorb.potpvp.kit;
 
 import net.frozenorb.potpvp.PotPvPRP;
-import net.frozenorb.potpvp.kittype.KitType;
+import net.frozenorb.potpvp.kit.kittype.KitType;
 import net.frozenorb.potpvp.util.ItemUtils;
 import net.frozenorb.potpvp.util.PatchedPlayerUtils;
 

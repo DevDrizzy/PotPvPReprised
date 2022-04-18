@@ -1,13 +1,13 @@
 package net.frozenorb.potpvp.util;
 
 import net.frozenorb.potpvp.PotPvPRP;
-import net.frozenorb.potpvp.follow.FollowHandler;
+import net.frozenorb.potpvp.profile.follow.FollowHandler;
 import net.frozenorb.potpvp.match.Match;
 import net.frozenorb.potpvp.match.MatchHandler;
 import net.frozenorb.potpvp.party.Party;
 import net.frozenorb.potpvp.party.PartyHandler;
-import net.frozenorb.potpvp.setting.Setting;
-import net.frozenorb.potpvp.setting.SettingHandler;
+import net.frozenorb.potpvp.profile.setting.Setting;
+import net.frozenorb.potpvp.profile.setting.SettingHandler;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

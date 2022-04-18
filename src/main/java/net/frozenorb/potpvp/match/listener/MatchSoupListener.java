@@ -3,7 +3,7 @@ package net.frozenorb.potpvp.match.listener;
 import com.qrakn.morpheus.game.Game;
 import com.qrakn.morpheus.game.GameQueue;
 import net.frozenorb.potpvp.PotPvPRP;
-import net.frozenorb.potpvp.kittype.HealingMethod;
+import net.frozenorb.potpvp.kit.kittype.HealingMethod;
 import net.frozenorb.potpvp.match.Match;
 import net.frozenorb.potpvp.match.MatchHandler;
 

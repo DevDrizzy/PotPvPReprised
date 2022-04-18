@@ -3,12 +3,12 @@ package net.frozenorb.potpvp.command.impl.duel;
 import net.frozenorb.potpvp.PotPvPLang;
 import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.command.PotPvPCommand;
-import net.frozenorb.potpvp.duel.DuelHandler;
-import net.frozenorb.potpvp.duel.DuelInvite;
-import net.frozenorb.potpvp.duel.PartyDuelInvite;
-import net.frozenorb.potpvp.duel.PlayerDuelInvite;
-import net.frozenorb.potpvp.kittype.KitType;
-import net.frozenorb.potpvp.kittype.menu.select.SelectKitTypeMenu;
+import net.frozenorb.potpvp.match.duel.DuelHandler;
+import net.frozenorb.potpvp.match.duel.DuelInvite;
+import net.frozenorb.potpvp.match.duel.PartyDuelInvite;
+import net.frozenorb.potpvp.match.duel.PlayerDuelInvite;
+import net.frozenorb.potpvp.kit.kittype.KitType;
+import net.frozenorb.potpvp.kit.kittype.menu.select.SelectKitTypeMenu;
 import net.frozenorb.potpvp.lobby.LobbyHandler;
 import net.frozenorb.potpvp.party.Party;
 import net.frozenorb.potpvp.party.PartyHandler;
@@ -21,8 +21,8 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import xyz.refinedev.api.annotation.Command;
-import xyz.refinedev.api.annotation.Sender;
+import xyz.refinedev.command.annotation.Command;
+import xyz.refinedev.command.annotation.Sender;
 
 public final class DuelCommand implements PotPvPCommand {
 

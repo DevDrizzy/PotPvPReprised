@@ -1,18 +1,22 @@
 package net.frozenorb.potpvp.command.impl.silent;
 
 import net.frozenorb.potpvp.PotPvPRP;
-import net.frozenorb.potpvp.follow.FollowHandler;
+import net.frozenorb.potpvp.command.PotPvPCommand;
+import net.frozenorb.potpvp.profile.follow.FollowHandler;
 import net.frozenorb.potpvp.match.Match;
 import net.frozenorb.potpvp.match.MatchHandler;
-import net.frozenorb.potpvp.command.Command;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import xyz.refinedev.command.annotation.Command;
+import xyz.refinedev.command.annotation.Require;
+import xyz.refinedev.command.annotation.Sender;
 
-public final class UnfollowCommand {
+public class UnfollowCommand implements PotPvPCommand {
 
-    @Command(names={"unfollow"}, permission="")
-    public static void unfollow(Player sender) {
+    @Command(name = "", desc = "Unfollow the target you are currently following")
+    @Require("potpvp.staff.follow")
+    public void unfollow(@Sender Player sender) {
         FollowHandler followHandler = PotPvPRP.getInstance().getFollowHandler();
         MatchHandler matchHandler = PotPvPRP.getInstance().getMatchHandler();
 
@@ -30,4 +34,13 @@ public final class UnfollowCommand {
         followHandler.stopFollowing(sender);
     }
 
+    @Override
+    public String getCommandName() {
+        return "unfollow";
+    }
+
+    @Override
+    public String[] getAliases() {
+        return new String[]{};
+    }
 }

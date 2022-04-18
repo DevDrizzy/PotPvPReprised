@@ -4,7 +4,7 @@ import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 
 import net.frozenorb.potpvp.PotPvPRP;
-import net.frozenorb.potpvp.kittype.KitType;
+import net.frozenorb.potpvp.kit.kittype.KitType;
 import net.frozenorb.potpvp.party.Party;
 import net.frozenorb.potpvp.queue.listener.QueueGeneralListener;
 import net.frozenorb.potpvp.queue.listener.QueueItemListener;
