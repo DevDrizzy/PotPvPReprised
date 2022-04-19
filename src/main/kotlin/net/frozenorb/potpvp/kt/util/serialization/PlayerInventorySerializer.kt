@@ -11,12 +11,12 @@ object PlayerInventorySerializer {
 
     @JvmStatic
     fun serialize(player: Player): String {
-        return PotPvPRP.plainGson.toJson(PlayerInventoryWrapper(player) as Any)
+        return PotPvPRP.gson.toJson(PlayerInventoryWrapper(player) as Any)
     }
 
     @JvmStatic
     fun deserialize(json: String): PlayerInventoryWrapper {
-        return PotPvPRP.plainGson.fromJson(json, PlayerInventoryWrapper::class.java)
+        return PotPvPRP.gson.fromJson(json, PlayerInventoryWrapper::class.java)
     }
 
     @JvmStatic

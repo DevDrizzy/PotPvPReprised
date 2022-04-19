@@ -5,8 +5,6 @@ import net.frozenorb.potpvp.command.impl.PartyCommands;
 import net.frozenorb.potpvp.party.Party;
 import net.frozenorb.potpvp.party.PartyHandler;
 import net.frozenorb.potpvp.party.PartyItems;
-import net.frozenorb.potpvp.party.command.PartyLeaveCommand;
-import net.frozenorb.potpvp.party.command.PartyTeamSplitCommand;
 import net.frozenorb.potpvp.party.menu.RosterMenu;
 import net.frozenorb.potpvp.party.menu.otherparties.OtherPartiesMenu;
 import net.frozenorb.potpvp.util.ItemListener;
@@ -18,8 +16,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 public final class PartyItemListener extends ItemListener {
 
     public PartyItemListener(PartyHandler partyHandler) {
-        addHandler(PartyItems.LEAVE_PARTY_ITEM, PartyLeaveCommand::partyLeave);
-        addHandler(PartyItems.START_TEAM_SPLIT_ITEM, PartyTeamSplitCommand::partyTeamSplit);
+        addHandler(PartyItems.LEAVE_PARTY_ITEM, new PartyCommands()::leave);
+        addHandler(PartyItems.START_TEAM_SPLIT_ITEM, new PartyCommands()::teamSplit);
         addHandler(PartyItems.START_FFA_ITEM, new PartyCommands()::partyFFA);
         addHandler(PartyItems.OTHER_PARTIES_ITEM, p -> new OtherPartiesMenu().openMenu(p));
         addHandler(PartyItems.ASSIGN_CLASSES, p -> new RosterMenu(partyHandler.getParty(p)).openMenu(p));

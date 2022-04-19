@@ -1,31 +1,32 @@
 package net.frozenorb.potpvp.command.impl.match;
 
 import net.frozenorb.potpvp.PotPvPRP;
+import net.frozenorb.potpvp.command.PotPvPCommand;
 import net.frozenorb.potpvp.match.Match;
 import net.frozenorb.potpvp.match.MatchHandler;
 import net.frozenorb.potpvp.match.MatchTeam;
 import net.frozenorb.potpvp.profile.setting.Setting;
 import net.frozenorb.potpvp.profile.setting.SettingHandler;
 import net.frozenorb.potpvp.validation.PotPvPValidation;
-import net.frozenorb.potpvp.command.Command;
-import net.frozenorb.potpvp.command.param.Parameter;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import xyz.refinedev.command.annotation.Command;
+import xyz.refinedev.command.annotation.Sender;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-public final class SpectateCommand {
+public class SpectateCommand implements PotPvPCommand {
 
     private static final int SPECTATE_COOLDOWN_SECONDS = 2;
     private static final Map<UUID, Long> cooldowns = new HashMap<>();
 
-    @Command(names = {"spectate", "spec"}, permission = "")
-    public static void spectate(Player sender, @Parameter(name = "target") Player target) {
+    @Command(name = "", desc = "Spectate a specified target")
+    public void spectate(@Sender Player sender, Player target) {
         if (sender == target) {
             sender.sendMessage(ChatColor.RED + "You cannot spectate yourself.");
             return;
@@ -51,7 +52,7 @@ public final class SpectateCommand {
 
         // only check the seting if the target is actually playing in the match
         if (!bypassesSpectating && (targetMatch.getTeam(target.getUniqueId()) != null && !settingHandler.getSetting(target, Setting.ALLOW_SPECTATORS))) {
-            if (sender.isOp() || sender.hasPermission("basic.staff")) {
+            if (sender.isOp() || sender.hasPermission("potpvp.spectate")) {
                 sender.sendMessage(ChatColor.RED + "Bypassing " + target.getName() + "'s no spectators preference...");
             } else {
                 sender.sendMessage(ChatColor.RED + target.getName() + " doesn't allow spectators at the moment.");
@@ -59,7 +60,7 @@ public final class SpectateCommand {
             }
         }
 
-        if ((!sender.isOp() && !sender.hasPermission("basic.staff")) && targetMatch.getTeams().size() == 2 && !bypassesSpectating) {
+        if ((!sender.isOp() && !sender.hasPermission("potpvp.spectate")) && targetMatch.getTeams().size() == 2 && !bypassesSpectating) {
             MatchTeam teamA = targetMatch.getTeams().get(0);
             MatchTeam teamB = targetMatch.getTeams().get(1);
 
@@ -101,4 +102,13 @@ public final class SpectateCommand {
         }
     }
 
+    @Override
+    public String getCommandName() {
+        return "spectate";
+    }
+
+    @Override
+    public String[] getAliases() {
+        return new String[]{"spec"};
+    }
 }

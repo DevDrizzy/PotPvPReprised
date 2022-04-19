@@ -9,9 +9,7 @@ import net.frozenorb.potpvp.kit.kittype.menu.select.SelectKitTypeMenu;
 import net.frozenorb.potpvp.match.Match;
 import net.frozenorb.potpvp.match.MatchHandler;
 import net.frozenorb.potpvp.match.MatchTeam;
-import net.frozenorb.potpvp.party.Party;
-import net.frozenorb.potpvp.party.PartyHandler;
-import net.frozenorb.potpvp.party.PartyUtils;
+import net.frozenorb.potpvp.party.*;
 import net.frozenorb.potpvp.util.PatchedPlayerUtils;
 import net.frozenorb.potpvp.validation.PotPvPValidation;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -42,6 +40,10 @@ import java.util.UUID;
  */
 
 public class PartyCommands implements PotPvPCommand {
+
+    // default value for password parameter used to detect that password
+    // wasn't provided. No Optional<String> :(
+    private static final String NO_PASSWORD_PROVIDED = "skasjkdasdjhksahjd";
 
     private static final List<String> HELP_MESSAGE = ImmutableList.of(
             ChatColor.DARK_PURPLE + PotPvPLang.LONG_LINE,
@@ -314,6 +316,163 @@ public class PartyCommands implements PotPvPCommand {
             sender.sendMessage(ChatColor.YELLOW + "No invites to send.");
         } else {
             sender.sendMessage(ChatColor.YELLOW + "Sent " + sent + " invite" + (sent == 1 ? "" : "s") + ".");
+        }
+    }
+
+    @Command(name = "join", usage = "<target> [password]", desc = "Join a specified party")
+    public void partyJoin(Player sender, Player target, @OptArg(NO_PASSWORD_PROVIDED) String providedPassword) {
+        PartyHandler partyHandler = PotPvPRP.getInstance().getPartyHandler();
+        Party targetParty = partyHandler.getParty(target);
+
+        if (partyHandler.hasParty(sender)) {
+            sender.sendMessage(ChatColor.RED + "You are already in a party. You must leave your current party first.");
+            return;
+        }
+
+        if (targetParty == null) {
+            sender.sendMessage(ChatColor.RED + target.getName() + " is not in a party.");
+            return;
+        }
+
+        PartyInvite invite = targetParty.getInvite(sender.getUniqueId());
+
+        switch (targetParty.getAccessRestriction()) {
+            case PUBLIC:
+                targetParty.join(sender);
+                break;
+            case INVITE_ONLY:
+                if (invite != null) {
+                    targetParty.join(sender);
+                } else {
+                    sender.sendMessage(ChatColor.RED + "You don't have an invitation to this party.");
+                }
+
+                break;
+            case PASSWORD:
+                if (providedPassword.equals(NO_PASSWORD_PROVIDED) && invite == null) {
+                    sender.sendMessage(ChatColor.RED + "You need the password or an invitation to join this party.");
+                    sender.sendMessage(ChatColor.GRAY + "To join with a password, use " + ChatColor.YELLOW + "/party join " + target.getName() + " <password>");
+                    return;
+                }
+
+                String correctPassword = targetParty.getPassword();
+
+                if (invite == null && !correctPassword.equals(providedPassword)) {
+                    sender.sendMessage(ChatColor.RED + "Invalid password.");
+                } else {
+                    targetParty.join(sender);
+                }
+
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Command(name = "kick", usage = "<target>", desc = "Kick a specified target from your party")
+    public void kick(@Sender Player sender, Player target) {
+        Party party = PotPvPRP.getInstance().getPartyHandler().getParty(sender);
+
+        if (party == null) {
+            sender.sendMessage(PotPvPLang.NOT_IN_PARTY);
+        } else if (!party.isLeader(sender.getUniqueId())) {
+            sender.sendMessage(PotPvPLang.NOT_LEADER_OF_PARTY);
+        } else if (sender == target) {
+            sender.sendMessage(ChatColor.RED + "You cannot kick yourself.");
+        } else if (!party.isMember(target.getUniqueId())) {
+            sender.sendMessage(ChatColor.RED + target.getName() + " isn't in your party.");
+        } else {
+            party.kick(target);
+        }
+    }
+
+    @Command(name = "leader", aliases = "promote", usage = "<target>", desc = "Promote a specified target from your party")
+    public void leader(@Sender Player sender, Player target) {
+        Party party = PotPvPRP.getInstance().getPartyHandler().getParty(sender);
+
+        if (party == null) {
+            sender.sendMessage(PotPvPLang.NOT_IN_PARTY);
+        } else if (!party.isLeader(sender.getUniqueId())) {
+            sender.sendMessage(PotPvPLang.NOT_LEADER_OF_PARTY);
+        } else if (!party.isMember(target.getUniqueId())) {
+            sender.sendMessage(ChatColor.RED + target.getName() + " isn't in your party.");
+        } else if (sender == target) {
+            sender.sendMessage(ChatColor.RED + "You cannot promote yourself to the leader of your own party.");
+        } else {
+            party.setLeader(target);
+        }
+    }
+
+    @Command(name = "leave", desc = "Leave your current party")
+    public void leave(@Sender Player sender) {
+        Party party = PotPvPRP.getInstance().getPartyHandler().getParty(sender);
+
+        if (party == null) {
+            sender.sendMessage(PotPvPLang.NOT_IN_PARTY);
+        } else {
+            party.leave(sender);
+        }
+    }
+
+    @Command(name = "lock", aliases = "close", desc = "Privatise your party to the public")
+    public void lock(@Sender Player sender) {
+        Party party = PotPvPRP.getInstance().getPartyHandler().getParty(sender);
+
+        if (party == null) {
+            sender.sendMessage(PotPvPLang.NOT_IN_PARTY);
+        } else if (!party.isLeader(sender.getUniqueId())) {
+            sender.sendMessage(PotPvPLang.NOT_LEADER_OF_PARTY);
+        } else if (party.getAccessRestriction() == PartyAccessRestriction.INVITE_ONLY) {
+            sender.sendMessage(ChatColor.RED + "Your party is already locked.");
+        } else {
+            party.setAccessRestriction(PartyAccessRestriction.INVITE_ONLY);
+            sender.sendMessage(ChatColor.YELLOW + "Your party is now " + ChatColor.RED + "locked" + ChatColor.YELLOW + ".");
+        }
+    }
+
+    @Command(name = "unlock", aliases = "open", desc = "Publicize your party to the public")
+    public void unlock(@Sender Player sender) {
+        Party party = PotPvPRP.getInstance().getPartyHandler().getParty(sender);
+
+        if (party == null) {
+            sender.sendMessage(PotPvPLang.NOT_IN_PARTY);
+        } else if (!party.isLeader(sender.getUniqueId())) {
+            sender.sendMessage(PotPvPLang.NOT_LEADER_OF_PARTY);
+        } else if (party.getAccessRestriction() == PartyAccessRestriction.PUBLIC) {
+            sender.sendMessage(ChatColor.RED + "Your party is already open.");
+        } else {
+            party.setAccessRestriction(PartyAccessRestriction.PUBLIC);
+            sender.sendMessage(ChatColor.YELLOW + "Your party is now " + ChatColor.GREEN + "open" + ChatColor.YELLOW + ".");
+        }
+    }
+
+    @Command(name = "password", aliases = "pass", desc = "Set a password for your private party")
+    public void pass(@Sender Player sender, String password) {
+        Party party = PotPvPRP.getInstance().getPartyHandler().getParty(sender);
+
+        if (party == null) {
+            sender.sendMessage(PotPvPLang.NOT_IN_PARTY);
+        } else if (!party.isLeader(sender.getUniqueId())) {
+            sender.sendMessage(PotPvPLang.NOT_LEADER_OF_PARTY);
+        } else {
+            party.setAccessRestriction(PartyAccessRestriction.PASSWORD);
+            party.setPassword(password);
+
+            sender.sendMessage(ChatColor.YELLOW + "Your party's password is now " + ChatColor.AQUA + password + ChatColor.YELLOW + ".");
+        }
+    }
+
+    @Command(name = "teamSplit", aliases = "split", desc = "Start a team split match with your party")
+    public void teamSplit(@Sender Player sender) {
+        PartyHandler partyHandler = PotPvPRP.getInstance().getPartyHandler();
+        Party party = partyHandler.getParty(sender);
+
+        if (party == null) {
+            sender.sendMessage(PotPvPLang.NOT_IN_PARTY);
+        } else if (!party.isLeader(sender.getUniqueId())) {
+            sender.sendMessage(PotPvPLang.NOT_LEADER_OF_PARTY);
+        } else {
+            PartyUtils.startTeamSplit(party, sender);
         }
     }
 

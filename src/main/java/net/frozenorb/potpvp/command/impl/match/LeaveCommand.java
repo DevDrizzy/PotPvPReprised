@@ -1,17 +1,19 @@
 package net.frozenorb.potpvp.command.impl.match;
 
 import net.frozenorb.potpvp.PotPvPRP;
+import net.frozenorb.potpvp.command.PotPvPCommand;
 import net.frozenorb.potpvp.match.Match;
 import net.frozenorb.potpvp.match.MatchHandler;
-import net.frozenorb.potpvp.command.Command;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import xyz.refinedev.command.annotation.Command;
+import xyz.refinedev.command.annotation.Sender;
 
-public final class LeaveCommand {
+public class LeaveCommand implements PotPvPCommand {
 
-    @Command(names = { "spawn", "leave" }, permission = "")
-    public static void leave(Player sender) {
+    @Command(name = "", desc = "")
+    public void leave(@Sender Player sender) {
         MatchHandler matchHandler = PotPvPRP.getInstance().getMatchHandler();
 
         if (matchHandler.isPlayingMatch(sender)) {
@@ -30,4 +32,14 @@ public final class LeaveCommand {
         }
     }
 
+
+    @Override
+    public String getCommandName() {
+        return "spawn";
+    }
+
+    @Override
+    public String[] getAliases() {
+        return new String[]{"leave"};
+    }
 }

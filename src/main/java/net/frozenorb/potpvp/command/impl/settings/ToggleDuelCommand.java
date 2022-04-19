@@ -1,20 +1,21 @@
 package net.frozenorb.potpvp.command.impl.settings;
 
 import net.frozenorb.potpvp.PotPvPRP;
+import net.frozenorb.potpvp.command.PotPvPCommand;
 import net.frozenorb.potpvp.profile.setting.Setting;
 import net.frozenorb.potpvp.profile.setting.SettingHandler;
-import net.frozenorb.potpvp.command.Command;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import xyz.refinedev.command.annotation.Command;
 
 /**
  * /toggleduels command, allows players to toggle {@link Setting#RECEIVE_DUELS} setting
  */
-public final class ToggleDuelCommand {
+public class ToggleDuelCommand implements PotPvPCommand {
 
-    @Command(names = { "toggleduels", "td", "tduels" }, permission = "")
-    public static void toggleDuel(Player sender) {
+    @Command(name = "", desc = "Toggle duels for your profile")
+    public void toggleDuel(Player sender) {
         if (!Setting.RECEIVE_DUELS.canUpdate(sender)) {
             sender.sendMessage(ChatColor.RED + "No permission.");
             return;
@@ -32,4 +33,13 @@ public final class ToggleDuelCommand {
         }
     }
 
+    @Override
+    public String getCommandName() {
+        return "toggleduels";
+    }
+
+    @Override
+    public String[] getAliases() {
+        return new String[]{"td", "tduels"};
+    }
 }

@@ -5,7 +5,6 @@ import com.google.common.collect.ImmutableList;
 import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.kit.kittype.KitType;
 import net.frozenorb.potpvp.kit.kittype.menu.select.CustomSelectKitTypeMenu;
-import net.frozenorb.potpvp.listener.RankedMatchQualificationListener;
 import net.frozenorb.potpvp.match.MatchHandler;
 import net.frozenorb.potpvp.party.Party;
 import net.frozenorb.potpvp.queue.QueueHandler;
@@ -60,14 +59,6 @@ public final class QueueItemListener extends ItemListener {
 
     private Consumer<Player> joinSoloConsumer(boolean ranked) {
         return player -> {
-            if (ranked) {
-                if (!RankedMatchQualificationListener.isQualified(player.getUniqueId())) {
-                    int needed = RankedMatchQualificationListener.getWinsNeededToQualify(player.getUniqueId());
-                    player.sendMessage(ChatColor.RED + "You can't join ranked queues with less than " + RankedMatchQualificationListener.MIN_MATCH_WINS + " unranked 1v1 wins. You need " + needed + " more wins!");
-                    return;
-                }
-            }
-
             if (PotPvPValidation.canJoinQueue(player)) {
                 new CustomSelectKitTypeMenu(kitType -> {
                     queueHandler.joinQueue(player, kitType, ranked);
@@ -85,16 +76,6 @@ public final class QueueItemListener extends ItemListener {
             // of a party shouldn't even have this item
             if (party == null || !party.isLeader(player.getUniqueId())) {
                 return;
-            }
-
-            if (ranked) {
-                for (UUID member : party.getMembers()) {
-                    if (!RankedMatchQualificationListener.isQualified(member)) {
-                        int needed = RankedMatchQualificationListener.getWinsNeededToQualify(member);
-                        player.sendMessage(ChatColor.RED + "Your party can't join ranked queues because " + PotPvPRP.getInstance().getUuidCache().name(member) + " has less than " + RankedMatchQualificationListener.MIN_MATCH_WINS + " unranked 1v1 wins. They need " + needed + " more wins!");
-                        return;
-                    }
-                }
             }
 
             // try to check validation issues in advance

@@ -2,17 +2,19 @@ package net.frozenorb.potpvp.command.impl.match;
 
 import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.arena.Arena;
+import net.frozenorb.potpvp.command.PotPvPCommand;
 import net.frozenorb.potpvp.match.Match;
 import net.frozenorb.potpvp.match.MatchHandler;
-import net.frozenorb.potpvp.command.Command;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import xyz.refinedev.command.annotation.Command;
+import xyz.refinedev.command.annotation.Sender;
 
-public final class MapCommand {
+public class MapCommand implements PotPvPCommand {
 
-    @Command(names = { "map" }, permission = "")
-    public static void map(Player sender) {
+    @Command(name = "", desc = "")
+    public void map(@Sender Player sender) {
         MatchHandler matchHandler = PotPvPRP.getInstance().getMatchHandler();
         Match match = matchHandler.getMatchPlayingOrSpectating(sender);
 
@@ -25,4 +27,13 @@ public final class MapCommand {
         sender.sendMessage(ChatColor.YELLOW + "Playing on copy " + ChatColor.GOLD + arena.getCopy() + ChatColor.YELLOW + " of " + ChatColor.GOLD + arena.getSchematic() + ChatColor.YELLOW + ".");
     }
 
+    @Override
+    public String getCommandName() {
+        return "map";
+    }
+
+    @Override
+    public String[] getAliases() {
+        return new String[]{};
+    }
 }

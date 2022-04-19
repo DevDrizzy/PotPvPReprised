@@ -11,7 +11,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.metadata.FixedMetadataValue;
-import xyz.refinedev.spigot.utils.TaskUtil;
 
 import java.lang.reflect.Field;
 import java.util.Collections;
@@ -33,7 +32,7 @@ public final class NameTagListener implements Listener {
             team_players.set(a, Collections.singletonList(event.getPlayer().getName()));
 
             for (Player other : Bukkit.getOnlinePlayers()) {
-                TaskUtil.runAsync(() -> ((CraftPlayer) other).getHandle().playerConnection.sendPacket(a));
+                plugin.getServer().getScheduler().runTaskAsynchronously(PotPvPRP.getInstance(), () -> ((CraftPlayer) other).getHandle().playerConnection.sendPacket(a));
             }
         } catch (IllegalAccessException e) {
             e.printStackTrace();

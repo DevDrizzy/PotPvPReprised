@@ -53,8 +53,8 @@ public final class SpectatorItemListener extends ItemListener {
             toggleVisiblityUsable.put(playerUuid, System.currentTimeMillis() + 3_000L);
         };
 
-        addHandler(SpectatorItems.RETURN_TO_LOBBY_ITEM, LeaveCommand::leave);
-        addHandler(SpectatorItems.LEAVE_PARTY_ITEM, LeaveCommand::leave);
+        addHandler(SpectatorItems.RETURN_TO_LOBBY_ITEM, new LeaveCommand()::leave);
+        addHandler(SpectatorItems.LEAVE_PARTY_ITEM, new LeaveCommand()::leave);
         addHandler(SpectatorItems.SHOW_SPECTATORS_ITEM, toggleSpectatorsConsumer);
         addHandler(SpectatorItems.HIDE_SPECTATORS_ITEM, toggleSpectatorsConsumer);
     }

@@ -1,8 +1,6 @@
 package net.frozenorb.potpvp.kt.util
 
 import net.frozenorb.potpvp.PotPvPRP
-import net.frozenorb.potpvp.kt.protocol.InventoryAdapter
-import net.frozenorb.potpvp.kt.protocol.PingAdapter
 import net.minecraft.server.v1_8_R3.*
 import org.bukkit.Bukkit
 import org.bukkit.GameMode
@@ -67,21 +65,6 @@ object PlayerUtils {
             }
         }
         return playerDamager
-    }
-
-    @JvmStatic
-    fun hasOpenInventory(player: Player): Boolean {
-        return hasOwnInventoryOpen(player) || hasOtherInventoryOpen(player)
-    }
-
-    @JvmStatic
-    fun hasOwnInventoryOpen(player: Player): Boolean {
-        return InventoryAdapter.currentlyOpen.contains(player.uniqueId)
-    }
-
-    @JvmStatic
-    fun hasOtherInventoryOpen(player: Player): Boolean {
-        return Reflections.getFieldValue(Reflections.getFieldValue(Reflections.getHandle(player)!!, "activeContainer")!!, "windowId") as Int != 0
     }
 
     @JvmStatic

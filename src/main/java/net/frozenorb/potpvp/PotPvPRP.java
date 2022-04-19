@@ -58,7 +58,6 @@ import net.frozenorb.potpvp.listener.BowHealthListener;
 import net.frozenorb.potpvp.listener.ChatToggleListener;
 import net.frozenorb.potpvp.listener.NightModeListener;
 import net.frozenorb.potpvp.listener.PearlCooldownListener;
-import net.frozenorb.potpvp.listener.RankedMatchQualificationListener;
 import net.frozenorb.potpvp.listener.TabCompleteListener;
 import net.frozenorb.potpvp.lobby.LobbyHandler;
 import net.frozenorb.potpvp.match.MatchHandler;
@@ -78,11 +77,10 @@ import xyz.refinedev.spigot.utils.CC;
 @Getter
 public final class PotPvPRP extends JavaPlugin {
 
-    @Getter
     private static PotPvPRP instance;
 
     @Getter
-    private static final Gson gson = new GsonBuilder()
+    public static final Gson gson = new GsonBuilder()
         .registerTypeHierarchyAdapter(PotionEffect.class, new PotionEffectAdapter())
         .registerTypeHierarchyAdapter(ItemStack.class, new ItemStackAdapter())
         .registerTypeHierarchyAdapter(Location.class, new LocationAdapter())
@@ -172,7 +170,6 @@ public final class PotPvPRP extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new ChatToggleListener(), this);
         this.getServer().getPluginManager().registerEvents(new NightModeListener(), this);
         this.getServer().getPluginManager().registerEvents(new PearlCooldownListener(), this);
-        this.getServer().getPluginManager().registerEvents(new RankedMatchQualificationListener(), this);
         this.getServer().getPluginManager().registerEvents(new TabCompleteListener(), this);
         this.getServer().getPluginManager().registerEvents(new StatisticsHandler(), this);
         this.getServer().getPluginManager().registerEvents(new EventListeners(), this);
@@ -270,6 +267,7 @@ public final class PotPvPRP extends JavaPlugin {
         pm.addPermission(new Permission("potpvp.toggleduels", PermissionDefault.OP));
         pm.addPermission(new Permission("potpvp.togglelightning", PermissionDefault.OP));
         pm.addPermission(new Permission("potpvp.silent", PermissionDefault.OP));
+        pm.addPermission(new Permission("potpvp.spectate", PermissionDefault.OP));
 
         this.commandHandler.registerPermissions();
         this.logger("Registered permissions!");
@@ -295,6 +293,15 @@ public final class PotPvPRP extends JavaPlugin {
         public void write(JsonWriter arg0, ChunkSnapshot arg1) throws IOException {
             
         }
-        
     }
+
+    //fuck you kotlin
+    public static PotPvPRP getInstance() {
+        return instance;
+    }
+
+    public ArenaHandler getArenaHandler() {
+        return arenaHandler;
+    }
+    // fuck your mother, kotlin
 }
