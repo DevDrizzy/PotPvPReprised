@@ -6,6 +6,7 @@ import net.frozenorb.potpvp.profile.setting.Setting;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import xyz.refinedev.command.annotation.Command;
+import xyz.refinedev.command.annotation.Sender;
 
 /**
  * This Project is property of Refine Development © 2021 - 2022
@@ -19,7 +20,7 @@ import xyz.refinedev.command.annotation.Command;
 public class DEMCommand implements PotPvPCommand {
 
     @Command(name = "", desc = "Toggle tournament join messages")
-    public void joinMessages(Player sender) {
+    public void joinMessages(@Sender Player sender) {
         boolean oldValue = PotPvPRP.getInstance().getSettingHandler().getSetting(sender, Setting.SEE_TOURNAMENT_JOIN_MESSAGE);
         if (!oldValue) {
             sender.sendMessage(ChatColor.RED + "You have already disabled tournament join messages.");

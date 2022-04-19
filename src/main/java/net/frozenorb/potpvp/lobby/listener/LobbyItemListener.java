@@ -90,7 +90,7 @@ public final class LobbyItemListener extends ItemListener {
             new StatisticsMenu().openMenu(player);
         });
 
-        addHandler(LobbyItems.UNFOLLOW_ITEM, UnfollowCommand::unfollow);
+        addHandler(LobbyItems.UNFOLLOW_ITEM, new UnfollowCommand()::unfollow);
     }
 
     @EventHandler

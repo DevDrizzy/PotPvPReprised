@@ -85,7 +85,7 @@ public final class LobbyHandler {
             changed = spectatorMode.add(player.getUniqueId());
         } else {
             FollowHandler followHandler = PotPvPRP.getInstance().getFollowHandler();
-            followHandler.getFollowing(player).ifPresent(i -> UnfollowCommand.unfollow(player));
+            followHandler.getFollowing(player).ifPresent(i -> new UnfollowCommand().unfollow(player));
 
             changed = spectatorMode.remove(player.getUniqueId());
         }

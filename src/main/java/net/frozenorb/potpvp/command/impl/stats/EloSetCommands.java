@@ -15,6 +15,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import xyz.refinedev.command.annotation.Command;
 import xyz.refinedev.command.annotation.Require;
+import xyz.refinedev.command.annotation.Sender;
 
 import java.util.*;
 
@@ -22,7 +23,7 @@ public class EloSetCommands implements PotPvPCommand {
 
     @Command(name = "setSolo", usage = "<target> <kitType> <newElo>", desc = "Set a target's elo")
     @Require("potpvp.elo.admin")
-    public void eloSetSolo(Player sender, Player target, KitType kitType, int newElo) {
+    public void eloSetSolo(@Sender Player sender, Player target, KitType kitType, int newElo) {
         EloHandler eloHandler = PotPvPRP.getInstance().getEloHandler();
         eloHandler.setElo(target, kitType, newElo);
         sender.sendMessage(ChatColor.YELLOW + "Set " + target.getName() + "'s " + kitType.getDisplayName() + " elo to " + newElo + ".");
@@ -30,7 +31,7 @@ public class EloSetCommands implements PotPvPCommand {
 
     @Command(name = "setTeam", usage = "<targetParty> <kitType> <newElo>", desc = "Set a target party's elo")
     @Require("potpvp.elo.admin")
-    public void eloSetTeam(Player sender, Player target, KitType kitType, int newElo) {
+    public void eloSetTeam(@Sender Player sender, Player target, KitType kitType, int newElo) {
         PartyHandler partyHandler = PotPvPRP.getInstance().getPartyHandler();
         EloHandler eloHandler = PotPvPRP.getInstance().getEloHandler();
 
@@ -47,7 +48,7 @@ public class EloSetCommands implements PotPvPCommand {
 
     @Command(name = "recalcGlobalElo", desc = "Recalculate everyone's global ELO")
     @Require("potpvp.elo.admin")
-    public void recalcGlobalElo(Player sender) {
+    public void recalcGlobalElo(@Sender Player sender) {
         List<Document> documents = MongoUtils.getCollection(MongoEloRepository.MONGO_COLLECTION_NAME).find().into(new ArrayList<>());
         sender.sendMessage(ChatColor.GREEN + "Recalculating " + documents.size() + " players global elo...");
         final int[] wrapper = new int[2];

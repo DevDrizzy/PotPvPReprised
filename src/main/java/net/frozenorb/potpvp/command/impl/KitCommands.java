@@ -147,7 +147,7 @@ public class KitCommands implements PotPvPCommand {
 
     @Command(name = "import", desc = "Import kitTypes from KitTypes.json")
     @Require("potpvp.kit.admin")
-    public void importKitTypes(CommandSender sender) {
+    public void importKitTypes(@Sender CommandSender sender) {
         File file = new File(PotPvPRP.getInstance().getDataFolder(), "kitTypes.json");
 
         if (file.exists()) {
@@ -171,7 +171,7 @@ public class KitCommands implements PotPvPCommand {
 
     @Command(name = "export", desc = "Export kitTypes to KitTypes.json")
     @Require("potpvp.kit.admin")
-    public void exportKitTypes(CommandSender sender) {
+    public void exportKitTypes(@Sender CommandSender sender) {
         String json = PotPvPRP.getGson().toJson(KitType.getAllTypes());
 
         try {
@@ -189,14 +189,14 @@ public class KitCommands implements PotPvPCommand {
     }
 
     @Command(name = "wipeKits Type", usage = "<kitType>", desc = "Wipe KitTypes by Type")
-    public void kitWipeKitsType(Player sender, KitType kitType) {
+    public void kitWipeKitsType(@Sender Player sender, KitType kitType) {
         int modified = PotPvPRP.getInstance().getKitHandler().wipeKitsWithType(kitType);
         sender.sendMessage(ChatColor.YELLOW + "Wiped " + modified + " " + kitType.getDisplayName() + " kits.");
         sender.sendMessage(ChatColor.GRAY + "^ We would have a proper count here if we ran recent versions of MongoDB");
     }
 
     @Command(name = "wipeKits Player", usage = "<kitType>", desc = "Wipe KitTypes for a player")
-    public void kitWipeKitsPlayer(Player sender, UUID target) {
+    public void kitWipeKitsPlayer(@Sender Player sender, UUID target) {
         PotPvPRP.getInstance().getKitHandler().wipeKitsForPlayer(target);
         sender.sendMessage(ChatColor.YELLOW + "Wiped " + PotPvPRP.getInstance().getUuidCache().name(target) + "'s kits.");
     }

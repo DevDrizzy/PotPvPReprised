@@ -8,6 +8,7 @@ import net.frozenorb.potpvp.profile.setting.SettingHandler;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import xyz.refinedev.command.annotation.Command;
+import xyz.refinedev.command.annotation.Sender;
 
 /**
  * /night command, allows players to toggle {@link Setting#NIGHT_MODE} setting
@@ -15,7 +16,7 @@ import xyz.refinedev.command.annotation.Command;
 public class NightCommand implements PotPvPCommand {
 
     @Command(name = "", desc = "Set your time to night")
-    public void night(Player sender) {
+    public void night(@Sender Player sender) {
         if (!Setting.NIGHT_MODE.canUpdate(sender)) {
             sender.sendMessage(ChatColor.RED + "No permission.");
             return;

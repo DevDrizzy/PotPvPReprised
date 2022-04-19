@@ -3,6 +3,7 @@ package net.frozenorb.potpvp.arena.menu.manageschematics;
 import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.arena.ArenaHandler;
 import net.frozenorb.potpvp.arena.ArenaSchematic;
+import net.frozenorb.potpvp.arena.menu.manage.ManageMenu;
 import net.frozenorb.potpvp.command.impl.misc.ManageCommand;
 import net.frozenorb.potpvp.util.menu.MenuBackButton;
 import net.frozenorb.potpvp.kt.menu.Button;
@@ -26,7 +27,7 @@ public final class ManageSchematicsMenu extends Menu {
         Map<Integer, Button> buttons = new HashMap<>();
         int index = 0;
 
-        buttons.put(index++, new MenuBackButton(p -> new ManageCommand.ManageMenu().openMenu(p)));
+        buttons.put(index++, new MenuBackButton(p -> new ManageMenu().openMenu(p)));
 
         for (ArenaSchematic schematic : arenaHandler.getSchematics()) {
             buttons.put(index++, new ManageSchematicButton(schematic));

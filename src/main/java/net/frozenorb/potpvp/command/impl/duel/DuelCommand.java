@@ -85,7 +85,7 @@ public final class DuelCommand implements PotPvPCommand {
         }
     }
 
-    public void duel(Player sender, Player target, KitType kitType) {
+    public void duel(@Sender Player sender, Player target, KitType kitType) {
         if (!PotPvPValidation.canSendDuel(sender, target)) {
             return;
         }
@@ -120,7 +120,7 @@ public final class DuelCommand implements PotPvPCommand {
         duelHandler.insertInvite(new PlayerDuelInvite(sender, target, kitType));
     }
 
-    public void duel(Player sender, Party senderParty, Party targetParty, KitType kitType) {
+    public void duel(@Sender Player sender, Party senderParty, Party targetParty, KitType kitType) {
         if (!PotPvPValidation.canSendDuel(senderParty, targetParty, sender)) {
             return;
         }

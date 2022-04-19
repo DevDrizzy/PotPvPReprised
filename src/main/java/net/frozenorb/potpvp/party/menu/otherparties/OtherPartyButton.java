@@ -72,7 +72,7 @@ final class OtherPartyButton extends Button {
         }
 
         if (senderParty.isLeader(player.getUniqueId())) {
-            DuelCommand.duel(player, Bukkit.getPlayer(party.getLeader()));
+            new DuelCommand().duel(player, Bukkit.getPlayer(party.getLeader()));
         } else {
             player.sendMessage(ChatColor.RED + "Only the leader can duel other parties!");
         }

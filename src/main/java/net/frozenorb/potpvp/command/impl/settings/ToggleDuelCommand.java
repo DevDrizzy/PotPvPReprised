@@ -8,6 +8,7 @@ import net.frozenorb.potpvp.profile.setting.SettingHandler;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import xyz.refinedev.command.annotation.Command;
+import xyz.refinedev.command.annotation.Sender;
 
 /**
  * /toggleduels command, allows players to toggle {@link Setting#RECEIVE_DUELS} setting
@@ -15,7 +16,7 @@ import xyz.refinedev.command.annotation.Command;
 public class ToggleDuelCommand implements PotPvPCommand {
 
     @Command(name = "", desc = "Toggle duels for your profile")
-    public void toggleDuel(Player sender) {
+    public void toggleDuel(@Sender Player sender) {
         if (!Setting.RECEIVE_DUELS.canUpdate(sender)) {
             sender.sendMessage(ChatColor.RED + "No permission.");
             return;

@@ -1,12 +1,5 @@
 package net.frozenorb.potpvp;
 
-import java.io.IOException;
-import java.lang.reflect.Method;
-import java.util.Calendar;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -15,21 +8,43 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoDatabase;
 import com.qrakn.morpheus.Morpheus;
+import lombok.Getter;
 import lombok.SneakyThrows;
+import net.frozenorb.potpvp.adapter.nametag.NameTagAdapter;
+import net.frozenorb.potpvp.adapter.scoreboard.ScoreboardAdapter;
+import net.frozenorb.potpvp.arena.ArenaHandler;
 import net.frozenorb.potpvp.command.binds.ChatColorProvider;
 import net.frozenorb.potpvp.command.binds.KitTypeProvider;
+import net.frozenorb.potpvp.command.binds.UUIDDrinkProvider;
+import net.frozenorb.potpvp.command.impl.ArenaCommands;
+import net.frozenorb.potpvp.events.EventListeners;
+import net.frozenorb.potpvp.kit.KitHandler;
+import net.frozenorb.potpvp.kit.kittype.KitType;
+import net.frozenorb.potpvp.kit.kittype.KitTypeJsonAdapter;
 import net.frozenorb.potpvp.kt.menu.ButtonListeners;
 import net.frozenorb.potpvp.kt.util.serialization.*;
-import net.frozenorb.potpvp.events.EventListeners;
-import net.frozenorb.potpvp.util.nametag.NameTagHandler;
-import net.frozenorb.potpvp.adapter.nametag.NameTagAdapter;
+import net.frozenorb.potpvp.listener.*;
+import net.frozenorb.potpvp.lobby.LobbyHandler;
+import net.frozenorb.potpvp.match.MatchHandler;
+import net.frozenorb.potpvp.match.duel.DuelHandler;
+import net.frozenorb.potpvp.match.postmatchinv.PostMatchInvHandler;
+import net.frozenorb.potpvp.match.rematch.RematchHandler;
+import net.frozenorb.potpvp.party.PartyHandler;
+import net.frozenorb.potpvp.profile.elo.EloHandler;
+import net.frozenorb.potpvp.profile.follow.FollowHandler;
+import net.frozenorb.potpvp.profile.setting.SettingHandler;
+import net.frozenorb.potpvp.profile.statistics.StatisticsHandler;
 import net.frozenorb.potpvp.pvpclasses.PvPClassHandler;
-import net.frozenorb.potpvp.util.scoreboard.api.ScoreboardHandler;
+import net.frozenorb.potpvp.queue.QueueHandler;
 import net.frozenorb.potpvp.tournament.TournamentHandler;
 import net.frozenorb.potpvp.tournament.TournamentListener;
 import net.frozenorb.potpvp.util.event.HalfHourEvent;
+import net.frozenorb.potpvp.util.nametag.NameTagHandler;
+import net.frozenorb.potpvp.util.scoreboard.api.ScoreboardHandler;
 import net.frozenorb.potpvp.util.uuid.UUIDCache;
+import org.apache.logging.log4j.LogManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -42,37 +57,19 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.util.BlockVector;
 import org.bukkit.util.Vector;
-
-import com.mongodb.client.MongoDatabase;
-
-import lombok.Getter;
-import net.frozenorb.potpvp.arena.ArenaHandler;
-import net.frozenorb.potpvp.match.duel.DuelHandler;
-import net.frozenorb.potpvp.profile.elo.EloHandler;
-import net.frozenorb.potpvp.profile.follow.FollowHandler;
-import net.frozenorb.potpvp.kit.KitHandler;
-import net.frozenorb.potpvp.kit.kittype.KitType;
-import net.frozenorb.potpvp.kit.kittype.KitTypeJsonAdapter;
-import net.frozenorb.potpvp.listener.BasicPreventionListener;
-import net.frozenorb.potpvp.listener.BowHealthListener;
-import net.frozenorb.potpvp.listener.ChatToggleListener;
-import net.frozenorb.potpvp.listener.NightModeListener;
-import net.frozenorb.potpvp.listener.PearlCooldownListener;
-import net.frozenorb.potpvp.listener.TabCompleteListener;
-import net.frozenorb.potpvp.lobby.LobbyHandler;
-import net.frozenorb.potpvp.match.MatchHandler;
-import net.frozenorb.potpvp.party.PartyHandler;
-import net.frozenorb.potpvp.match.postmatchinv.PostMatchInvHandler;
-import net.frozenorb.potpvp.queue.QueueHandler;
-import net.frozenorb.potpvp.match.rematch.RematchHandler;
-import net.frozenorb.potpvp.adapter.scoreboard.ScoreboardAdapter;
-import net.frozenorb.potpvp.profile.setting.SettingHandler;
-import net.frozenorb.potpvp.profile.statistics.StatisticsHandler;
 import xyz.refinedev.command.CommandHandler;
 import xyz.refinedev.command.parametric.DrinkProvider;
 import xyz.refinedev.command.util.ClassUtil;
 import xyz.refinedev.spigot.chunk.ChunkSnapshot;
 import xyz.refinedev.spigot.utils.CC;
+
+import java.io.IOException;
+import java.lang.reflect.Method;
+import java.util.Calendar;
+import java.util.UUID;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 @Getter
 public final class PotPvPRP extends JavaPlugin {
@@ -135,6 +132,7 @@ public final class PotPvPRP extends JavaPlugin {
         this.commandHandler = new CommandHandler(this);
         this.commandHandler.bind(KitType.class).toProvider(new KitTypeProvider());
         this.commandHandler.bind(ChatColor.class).toProvider(new ChatColorProvider());
+        this.commandHandler.bind(UUID.class).toProvider(new UUIDDrinkProvider());
 
         this.registerCommands();
         this.registerPermission();
@@ -233,9 +231,9 @@ public final class PotPvPRP extends JavaPlugin {
         this.logger("Initialized MongoDB successfully!");
     }
 
-    @SneakyThrows
     private void registerCommands() {
-        for ( Class<?> clazz : ClassUtil.getClassesInPackage(this, "net.frozenorb.potpvp.command") ) {
+        // FUCK YOU DRINK
+        /*for ( Class<?> clazz : ClassUtil.getClassesInPackage(this, "net.frozenorb.potpvp.command") ) {
             if (clazz.isInstance(DrinkProvider.class)) continue;
 
             Object instance = clazz.newInstance();
@@ -257,7 +255,8 @@ public final class PotPvPRP extends JavaPlugin {
             } else {
                 commandHandler.register(instance, name);
             }
-        }
+        }*/
+        commandHandler.register(new ArenaCommands(), "arena");
         commandHandler.registerCommands();
         this.logger("Registered commands!");
     }

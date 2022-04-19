@@ -320,7 +320,7 @@ public class PartyCommands implements PotPvPCommand {
     }
 
     @Command(name = "join", usage = "<target> [password]", desc = "Join a specified party")
-    public void partyJoin(Player sender, Player target, @OptArg(NO_PASSWORD_PROVIDED) String providedPassword) {
+    public void partyJoin(@Sender Player sender, Player target, @OptArg(NO_PASSWORD_PROVIDED) String providedPassword) {
         PartyHandler partyHandler = PotPvPRP.getInstance().getPartyHandler();
         Party targetParty = partyHandler.getParty(target);
 

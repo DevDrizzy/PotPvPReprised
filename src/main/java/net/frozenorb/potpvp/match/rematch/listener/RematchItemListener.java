@@ -20,7 +20,7 @@ public final class RematchItemListener extends ItemListener {
 
             if (rematchData != null) {
                 Player target = Bukkit.getPlayer(rematchData.getTarget());
-                DuelCommand.duel(player, target, rematchData.getKitType());
+                new DuelCommand().duel(player, target, rematchData.getKitType());
 
                 InventoryUtils.resetInventoryDelayed(player);
                 InventoryUtils.resetInventoryDelayed(target);
@@ -34,7 +34,7 @@ public final class RematchItemListener extends ItemListener {
 
             if (rematchData != null) {
                 Player target = Bukkit.getPlayer(rematchData.getTarget());
-                AcceptCommand.accept(player, target);
+                new AcceptCommand().accept(player, target);
             }
         });
     }

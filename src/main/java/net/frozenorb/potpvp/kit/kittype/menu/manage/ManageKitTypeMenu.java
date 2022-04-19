@@ -2,6 +2,7 @@ package net.frozenorb.potpvp.kit.kittype.menu.manage;
 
 import com.google.common.collect.ImmutableList;
 
+import net.frozenorb.potpvp.arena.menu.manage.ManageMenu;
 import net.frozenorb.potpvp.command.impl.misc.ManageCommand;
 import net.frozenorb.potpvp.kit.kittype.KitType;
 import net.frozenorb.potpvp.util.menu.MenuBackButton;
@@ -85,7 +86,7 @@ public class ManageKitTypeMenu extends Menu {
         buttons.put(getSlot(1, 0), new SaveKitTypeButton(type));
         buttons.put(getSlot(2, 0), new CancelKitTypeEditButton());
 
-        buttons.put(getSlot(8, 0), new MenuBackButton(p -> new ManageCommand.ManageMenu().openMenu(p)));
+        buttons.put(getSlot(8, 0), new MenuBackButton(p -> new ManageMenu().openMenu(p)));
 
         ItemStack[] kit = type.getEditorItems();
         int x = 0;

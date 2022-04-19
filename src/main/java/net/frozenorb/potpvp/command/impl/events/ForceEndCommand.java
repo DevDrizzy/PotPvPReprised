@@ -6,12 +6,13 @@ import net.frozenorb.potpvp.command.PotPvPCommand;
 import org.bukkit.entity.Player;
 import xyz.refinedev.command.annotation.Command;
 import xyz.refinedev.command.annotation.Require;
+import xyz.refinedev.command.annotation.Sender;
 
 public class ForceEndCommand implements PotPvPCommand {
 
     @Command(name = "", desc = "Force-end an on-going event")
     @Require("potpvp.event.forceend")
-    public static void host(Player sender) {
+    public static void host(@Sender Player sender) {
         Game game = GameQueue.INSTANCE.getCurrentGame(sender);
 
         if (game == null) {

@@ -8,6 +8,7 @@ import net.frozenorb.potpvp.profile.setting.SettingHandler;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import xyz.refinedev.command.annotation.Command;
+import xyz.refinedev.command.annotation.Sender;
 
 /**
  * /toggleglobalchat command, allows players to toggle {@link Setting#ENABLE_GLOBAL_CHAT} setting
@@ -15,7 +16,7 @@ import xyz.refinedev.command.annotation.Command;
 public class ToggleGlobalChatCommand implements PotPvPCommand {
 
     @Command(name = "", desc = "Toggle global chat for your profile")
-    public void toggleGlobalChat(Player sender) {
+    public void toggleGlobalChat(@Sender Player sender) {
         if (!Setting.ENABLE_GLOBAL_CHAT.canUpdate(sender)) {
             sender.sendMessage(ChatColor.RED + "No permission.");
             return;

@@ -16,6 +16,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerHealthChangeEvent;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
@@ -101,6 +102,23 @@ public final class MatchHealthDisplayListener implements Listener {
 
         // clear the spectator's health display objective
         clearAll(event.getSpectator());
+    }
+
+    @EventHandler
+    public void onHealthChange(PlayerHealthChangeEvent event) {
+        Player player = event.getPlayer();
+        MatchHandler matchHandler = PotPvPRP.getInstance().getMatchHandler();
+
+        if (!matchHandler.isPlayingMatch(player)) {
+            return;
+        }
+
+        Match match = matchHandler.getMatchPlaying(player);
+
+        // send the health change to everyone
+        if (match.getKitType().isHealthShown()) {
+            sendAllTo(player, match);
+        }
     }
 
     private void sendAllTo(Player viewer, Match match) {

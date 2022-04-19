@@ -65,7 +65,7 @@ public class AcceptCommand implements PotPvPCommand {
         }
     }
 
-    private void acceptParty(Player sender, Party senderParty, Party targetParty, DuelInvite<?> invite) {
+    private void acceptParty(@Sender Player sender, Party senderParty, Party targetParty, DuelInvite<?> invite) {
         MatchHandler matchHandler = PotPvPRP.getInstance().getMatchHandler();
         DuelHandler duelHandler = PotPvPRP.getInstance().getDuelHandler();
 
@@ -94,7 +94,7 @@ public class AcceptCommand implements PotPvPCommand {
         }
     }
 
-    private void acceptPlayer(Player sender, Player target, DuelInvite<?> invite) {
+    private void acceptPlayer(@Sender Player sender, Player target, DuelInvite<?> invite) {
         MatchHandler matchHandler = PotPvPRP.getInstance().getMatchHandler();
         DuelHandler duelHandler = PotPvPRP.getInstance().getDuelHandler();
 
