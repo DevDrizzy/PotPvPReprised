@@ -94,7 +94,7 @@ public final class KitHandler {
         collection.deleteOne(new Document("_id", target.toString()));
     }
 
-    public int wipeKitsWithType(KitType kitType) {
+    public long wipeKitsWithType(KitType kitType) {
         // remove kits for online players
         for (List<Kit> playerKits : kitData.values()) {
             playerKits.removeIf(k -> k.getType() == kitType);
@@ -105,12 +105,10 @@ public final class KitHandler {
         MongoCollection<Document> collection = MongoUtils.getCollection(MONGO_COLLECTION_NAME);
         Document typeQuery = new Document("type", kitType.getId());
 
-        collection.updateMany(
+        return collection.updateMany(
             new Document("kits", new Document("$elemMatch", typeQuery)),
             new Document("$pull", new Document("kits", typeQuery))
-        );
-
-        return -1;
+        ).getModifiedCount();
     }
 
     public void loadKits(UUID playerUuid) {

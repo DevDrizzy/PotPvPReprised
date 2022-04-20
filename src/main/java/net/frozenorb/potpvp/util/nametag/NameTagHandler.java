@@ -26,7 +26,7 @@ public class NameTagHandler {
 
     private NametagThread thread;
 
-    private boolean initiated = false;
+    private boolean initiated;
     private boolean async = true;
     private static int teamCreateIndex = 1;
 
@@ -92,7 +92,7 @@ public class NameTagHandler {
     }
 
     public void reloadPlayerInternal(Player toRefresh, Player refreshFor) {
-        if (!refreshFor.hasMetadata("Test-LoggedIn")) return;
+        if (!refreshFor.hasMetadata("sl-LoggedIn")) return;
 
         NameTagInfo provided = null;
 

@@ -11,6 +11,7 @@ import java.io.IOException
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack
 
+@Suppress
 object ItemUtils {
 
     private val craftItemStack = Reflections.getCBClass("inventory.CraftItemStack")!!

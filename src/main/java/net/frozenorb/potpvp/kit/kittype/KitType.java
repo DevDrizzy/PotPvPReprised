@@ -24,7 +24,7 @@ import lombok.Setter;
  * Denotes a type of Kit, under which players can queue, edit kits,
  * have elo, etc.
  */
-// This class purposely uses qLib Gson (as we want to actualy serialize
+// This class purposely uses plain Gson (as we want to actually serialize
 // the fields within a KitType instead of pretending it's an enum) instead of ours.
 public final class KitType {
 
@@ -36,7 +36,7 @@ public final class KitType {
         MongoCollection<Document> collection = MongoUtils.getCollection(MONGO_COLLECTION_NAME);
 
         collection.find().iterator().forEachRemaining(doc -> {
-            allTypes.add(PotPvPRP.getGson().fromJson(doc.toJson(), KitType.class));
+            allTypes.add(PotPvPRP.plainGson.fromJson(doc.toJson(), KitType.class));
         });
 
         teamFight.icon = new MaterialData(Material.BEACON);
@@ -159,7 +159,7 @@ public final class KitType {
     public void saveAsync() {
         Bukkit.getScheduler().runTaskAsynchronously(PotPvPRP.getInstance(), () -> {
             MongoCollection<Document> collection = MongoUtils.getCollection(MONGO_COLLECTION_NAME);
-            Document kitTypeDoc = Document.parse(PotPvPRP.getGson().toJson(this));
+            Document kitTypeDoc = Document.parse(PotPvPRP.plainGson.toJson(this));
             kitTypeDoc.remove("_id"); // upserts with an _id field is weird.
 
             Document query = new Document("_id", id);

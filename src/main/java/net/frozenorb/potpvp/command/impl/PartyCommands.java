@@ -483,6 +483,6 @@ public class PartyCommands implements PotPvPCommand {
 
     @Override
     public String[] getAliases() {
-        return new String[]{"p", "t", "team"};
+        return new String[]{"p", "team"};
     }
 }

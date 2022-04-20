@@ -33,13 +33,11 @@ import java.util.stream.Collectors;
  */
 
 public class TournamentCommands implements PotPvPCommand {
-
-    public TournamentHandler instance = PotPvPRP.getInstance().getTournamentHandler();
-
+    
     @Command(name = "start", usage= "<kitType> <teamSize> <requiredTeams>", desc = "Host a tournament")
     @Require("tournament.create")
     public void tournamentCreate(@Sender CommandSender sender, KitType type, int teamSize, int requiredTeams) {
-        if (instance.getTournament() != null) {
+        if (PotPvPRP.getInstance().getTournamentHandler().getTournament() != null) {
             sender.sendMessage(ChatColor.RED + "There's already an ongoing tournament!");
             return;
         }
@@ -64,12 +62,12 @@ public class TournamentCommands implements PotPvPCommand {
         Bukkit.broadcastMessage("");
 
         Tournament tournament;
-        instance.setTournament(tournament = new Tournament(type, teamSize, requiredTeams));
+        PotPvPRP.getInstance().getTournamentHandler().setTournament(tournament = new Tournament(type, teamSize, requiredTeams));
 
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (instance.getTournament() == tournament) {
+                if (PotPvPRP.getInstance().getTournamentHandler().getTournament() == tournament) {
                     tournament.broadcastJoinMessage();
                 } else {
                     cancel();
@@ -80,14 +78,14 @@ public class TournamentCommands implements PotPvPCommand {
 
     @Command(name = "join", desc = "Join a tournament")
     public void tournamentJoin(@Sender Player sender) {
-        if (instance.getTournament() == null) {
+        if (PotPvPRP.getInstance().getTournamentHandler().getTournament() == null) {
             sender.sendMessage(ChatColor.RED + "There is no running tournament to join.");
             return;
         }
 
-        int tournamentTeamSize = instance.getTournament().getRequiredPartySize();
+        int tournamentTeamSize = PotPvPRP.getInstance().getTournamentHandler().getTournament().getRequiredPartySize();
 
-        if ((instance.getTournament().getCurrentRound() != -1 || instance.getTournament().getBeginNextRoundIn() != 31) && (instance.getTournament().getCurrentRound() != 0 || !sender.hasPermission("tournaments.joinduringcountdown"))) {
+        if ((PotPvPRP.getInstance().getTournamentHandler().getTournament().getCurrentRound() != -1 || PotPvPRP.getInstance().getTournamentHandler().getTournament().getBeginNextRoundIn() != 31) && (PotPvPRP.getInstance().getTournamentHandler().getTournament().getCurrentRound() != 0 || !sender.hasPermission("tournaments.joinduringcountdown"))) {
             sender.sendMessage(ChatColor.RED + "This tournament is already in progress.");
             return;
         }
@@ -129,13 +127,13 @@ public class TournamentCommands implements PotPvPCommand {
             return;
         }
 
-        if (instance.isInTournament(senderParty)) {
+        if (PotPvPRP.getInstance().getTournamentHandler().isInTournament(senderParty)) {
             sender.sendMessage(ChatColor.RED + "Your team is already in the tournament!");
             return;
         }
 
-        if (senderParty.getMembers().size() != instance.getTournament().getRequiredPartySize()) {
-            sender.sendMessage(ChatColor.RED + "You need exactly " + instance.getTournament().getRequiredPartySize() + " members in your party to join the tournament.");
+        if (senderParty.getMembers().size() != PotPvPRP.getInstance().getTournamentHandler().getTournament().getRequiredPartySize()) {
+            sender.sendMessage(ChatColor.RED + "You need exactly " + PotPvPRP.getInstance().getTournamentHandler().getTournament().getRequiredPartySize() + " members in your party to join the tournament.");
             return;
         }
 
@@ -145,12 +143,12 @@ public class TournamentCommands implements PotPvPCommand {
         }
 
         senderParty.message(ChatColor.GREEN + "Joined the tournament.");
-        instance.getTournament().addParty(senderParty);
+        PotPvPRP.getInstance().getTournamentHandler().getTournament().addParty(senderParty);
     }
 
     @Command(name = "status", desc = "View status of the current tournament")
     public void tournamentStatus(@Sender CommandSender sender) {
-        if (instance.getTournament() == null) {
+        if (PotPvPRP.getInstance().getTournamentHandler().getTournament() == null) {
             sender.sendMessage(ChatColor.RED + "There is no ongoing tournament to get the status of.");
             return;
         }
@@ -158,7 +156,7 @@ public class TournamentCommands implements PotPvPCommand {
         sender.sendMessage(PotPvPLang.LONG_LINE);
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Live &cTournament &7Fights"));
         sender.sendMessage("");
-        List<Match> ongoingMatches = instance.getTournament().getMatches().stream().filter(m -> m.getState() != MatchState.TERMINATED).collect(Collectors.toList());
+        List<Match> ongoingMatches = PotPvPRP.getInstance().getTournamentHandler().getTournament().getMatches().stream().filter(m -> m.getState() != MatchState.TERMINATED).collect(Collectors.toList());
 
         for (Match match : ongoingMatches) {
             MatchTeam firstTeam = match.getTeams().get(0);
@@ -176,7 +174,7 @@ public class TournamentCommands implements PotPvPCommand {
     @Command(name = "cancel", desc = "Cancel the on-going tournament")
     @Require("potpvp.tournament.cancel")
     public void tournamentCancel(@Sender CommandSender sender) {
-        if (instance.getTournament() == null) {
+        if (PotPvPRP.getInstance().getTournamentHandler().getTournament() == null) {
             sender.sendMessage(ChatColor.RED + "There is no running tournament to cancel.");
             return;
         }
@@ -184,23 +182,23 @@ public class TournamentCommands implements PotPvPCommand {
         Bukkit.broadcastMessage("");
         Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&7The &c&ltournament&7 was &ccancelled."));
         Bukkit.broadcastMessage("");
-        instance.setTournament(null);
+        PotPvPRP.getInstance().getTournamentHandler().setTournament(null);
     }
 
     @Command(name = "forcestart", desc = "Force start the on-going tournament")
     @Require("potpvp.tournament.forcestart")
     public void tournamentForceStart(@Sender CommandSender sender) {
-        if (instance.getTournament() == null) {
+        if (PotPvPRP.getInstance().getTournamentHandler().getTournament() == null) {
             sender.sendMessage(ChatColor.RED + "There is no tournament to force start.");
             return;
         }
 
-        if (instance.getTournament().getCurrentRound() != -1 || instance.getTournament().getBeginNextRoundIn() != 31) {
+        if (PotPvPRP.getInstance().getTournamentHandler().getTournament().getCurrentRound() != -1 || PotPvPRP.getInstance().getTournamentHandler().getTournament().getBeginNextRoundIn() != 31) {
             sender.sendMessage(ChatColor.RED + "This tournament is already in progress.");
             return;
         }
 
-        instance.getTournament().start();
+        PotPvPRP.getInstance().getTournamentHandler().getTournament().start();
         sender.sendMessage(ChatColor.GREEN + "Force started tournament.");
     }
     

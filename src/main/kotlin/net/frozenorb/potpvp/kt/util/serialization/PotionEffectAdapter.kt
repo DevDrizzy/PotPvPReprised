@@ -5,6 +5,7 @@ import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 import java.lang.reflect.Type
 
+@Suppress
 class PotionEffectAdapter : JsonDeserializer<PotionEffect>, JsonSerializer<PotionEffect> {
     override fun serialize(src: PotionEffect, typeOfSrc: Type, context: JsonSerializationContext): JsonElement {
         return toJson(src) as JsonElement
@@ -30,15 +31,15 @@ class PotionEffectAdapter : JsonDeserializer<PotionEffect>, JsonSerializer<Potio
         }
 
         fun fromJson(jsonElement: JsonElement?): PotionEffect? {
-            if (jsonElement == null || !jsonElement!!.isJsonObject()) {
+            if (jsonElement == null || !jsonElement.isJsonObject) {
                 return null
             }
 
-            val jsonObject = jsonElement!!.getAsJsonObject()
-            val effectType = PotionEffectType.getById(jsonObject.get("id").getAsInt())
-            val duration = jsonObject.get("duration").getAsInt()
-            val amplifier = jsonObject.get("amplifier").getAsInt()
-            val ambient = jsonObject.get("ambient").getAsBoolean()
+            val jsonObject = jsonElement.asJsonObject
+            val effectType = PotionEffectType.getById(jsonObject.get("id").asInt)
+            val duration = jsonObject.get("duration").asInt
+            val amplifier = jsonObject.get("amplifier").asInt
+            val ambient = jsonObject.get("ambient").asBoolean
 
             return PotionEffect(effectType, duration, amplifier, ambient)
         }

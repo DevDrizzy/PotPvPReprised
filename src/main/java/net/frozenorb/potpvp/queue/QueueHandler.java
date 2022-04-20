@@ -198,7 +198,6 @@ public final class QueueHandler {
         return entry != null && !entry.getQueue().isRanked();
     }
 
-
     public PartyMatchQueueEntry getQueueEntry(Party party) {
         return partyQueueCache.get(party);
     }

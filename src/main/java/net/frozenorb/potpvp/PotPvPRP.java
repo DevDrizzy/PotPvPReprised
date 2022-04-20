@@ -3,23 +3,38 @@ package net.frozenorb.potpvp;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.TypeAdapter;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
 import com.qrakn.morpheus.Morpheus;
 import lombok.Getter;
-import lombok.SneakyThrows;
 import net.frozenorb.potpvp.adapter.nametag.NameTagAdapter;
 import net.frozenorb.potpvp.adapter.scoreboard.ScoreboardAdapter;
 import net.frozenorb.potpvp.arena.ArenaHandler;
 import net.frozenorb.potpvp.command.binds.ChatColorProvider;
 import net.frozenorb.potpvp.command.binds.KitTypeProvider;
 import net.frozenorb.potpvp.command.binds.UUIDDrinkProvider;
-import net.frozenorb.potpvp.command.impl.ArenaCommands;
+import net.frozenorb.potpvp.command.impl.*;
+import net.frozenorb.potpvp.command.impl.duel.AcceptCommand;
+import net.frozenorb.potpvp.command.impl.duel.DuelCommand;
+import net.frozenorb.potpvp.command.impl.events.ForceEndCommand;
+import net.frozenorb.potpvp.command.impl.events.HostCommand;
+import net.frozenorb.potpvp.command.impl.match.LeaveCommand;
+import net.frozenorb.potpvp.command.impl.match.MapCommand;
+import net.frozenorb.potpvp.command.impl.match.SpectateCommand;
+import net.frozenorb.potpvp.command.impl.misc.*;
+import net.frozenorb.potpvp.command.impl.settings.NightCommand;
+import net.frozenorb.potpvp.command.impl.settings.SettingsCommand;
+import net.frozenorb.potpvp.command.impl.settings.ToggleDuelCommand;
+import net.frozenorb.potpvp.command.impl.settings.ToggleGlobalChatCommand;
+import net.frozenorb.potpvp.command.impl.silent.FollowCommand;
+import net.frozenorb.potpvp.command.impl.silent.SilentCommand;
+import net.frozenorb.potpvp.command.impl.silent.SilentFollowCommand;
+import net.frozenorb.potpvp.command.impl.silent.UnfollowCommand;
+import net.frozenorb.potpvp.command.impl.stats.EloSetCommands;
+import net.frozenorb.potpvp.command.impl.stats.StatsResetCommands;
 import net.frozenorb.potpvp.events.EventListeners;
+import net.frozenorb.potpvp.hologram.HologramHandler;
 import net.frozenorb.potpvp.kit.KitHandler;
 import net.frozenorb.potpvp.kit.kittype.KitType;
 import net.frozenorb.potpvp.kit.kittype.KitTypeJsonAdapter;
@@ -40,11 +55,13 @@ import net.frozenorb.potpvp.pvpclasses.PvPClassHandler;
 import net.frozenorb.potpvp.queue.QueueHandler;
 import net.frozenorb.potpvp.tournament.TournamentHandler;
 import net.frozenorb.potpvp.tournament.TournamentListener;
+import net.frozenorb.potpvp.util.ChunkSnapshotAdapter;
+import net.frozenorb.potpvp.util.config.impl.BasicConfigurationFile;
 import net.frozenorb.potpvp.util.event.HalfHourEvent;
 import net.frozenorb.potpvp.util.nametag.NameTagHandler;
+import net.frozenorb.potpvp.util.scoreboard.api.AssembleStyle;
 import net.frozenorb.potpvp.util.scoreboard.api.ScoreboardHandler;
 import net.frozenorb.potpvp.util.uuid.UUIDCache;
-import org.apache.logging.log4j.LogManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -58,13 +75,9 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.util.BlockVector;
 import org.bukkit.util.Vector;
 import xyz.refinedev.command.CommandHandler;
-import xyz.refinedev.command.parametric.DrinkProvider;
-import xyz.refinedev.command.util.ClassUtil;
 import xyz.refinedev.spigot.chunk.ChunkSnapshot;
 import xyz.refinedev.spigot.utils.CC;
 
-import java.io.IOException;
-import java.lang.reflect.Method;
 import java.util.Calendar;
 import java.util.UUID;
 import java.util.concurrent.Executors;
@@ -77,17 +90,25 @@ public final class PotPvPRP extends JavaPlugin {
     private static PotPvPRP instance;
 
     @Getter
-    public static final Gson gson = new GsonBuilder()
-        .registerTypeHierarchyAdapter(PotionEffect.class, new PotionEffectAdapter())
-        .registerTypeHierarchyAdapter(ItemStack.class, new ItemStackAdapter())
-        .registerTypeHierarchyAdapter(Location.class, new LocationAdapter())
-        .registerTypeHierarchyAdapter(Vector.class, new VectorAdapter())
-        .registerTypeAdapter(BlockVector.class, new BlockVectorAdapter())
-        .registerTypeHierarchyAdapter(KitType.class, new KitTypeJsonAdapter()) // custom KitType serializer
-        .registerTypeAdapter(ChunkSnapshot.class, new ChunkSnapshotAdapter())
-        .setPrettyPrinting()
-        .serializeNulls()
-        .create();
+    private final static Gson gson = new GsonBuilder()
+            .registerTypeHierarchyAdapter(PotionEffect.class, new PotionEffectAdapter())
+            .registerTypeHierarchyAdapter(ItemStack.class, new ItemStackAdapter())
+            .registerTypeHierarchyAdapter(Location.class, new LocationAdapter())
+            .registerTypeHierarchyAdapter(Vector.class, new VectorAdapter())
+            .registerTypeAdapter(BlockVector.class, new BlockVectorAdapter())
+            .registerTypeHierarchyAdapter(KitType.class, new KitTypeJsonAdapter()) // custom KitType serializer
+            .registerTypeAdapter(ChunkSnapshot.class, new ChunkSnapshotAdapter())
+            .serializeNulls()
+            .create();
+
+    public static Gson plainGson = new GsonBuilder()
+            .registerTypeHierarchyAdapter(PotionEffect.class, new PotionEffectAdapter())
+            .registerTypeHierarchyAdapter(ItemStack.class, new ItemStackAdapter())
+            .registerTypeHierarchyAdapter(Location.class, new LocationAdapter())
+            .registerTypeHierarchyAdapter(Vector.class, new VectorAdapter())
+            .registerTypeAdapter(BlockVector.class, new BlockVectorAdapter())
+            .serializeNulls()
+            .create();
 
     private MongoClient mongoClient;
     private MongoDatabase mongoDatabase;
@@ -108,6 +129,7 @@ public final class PotPvPRP extends JavaPlugin {
     private TournamentHandler tournamentHandler;
 
     public ScoreboardHandler scoreboardHandler;
+    public HologramHandler hologramHandler;
     public CommandHandler commandHandler;
     public NameTagHandler nameTagHandler;
 
@@ -115,6 +137,8 @@ public final class PotPvPRP extends JavaPlugin {
 
     private final ChatColor dominantColor = ChatColor.GOLD;
     private final PotPvPCache cache = new PotPvPCache();
+
+    private BasicConfigurationFile hologramsConfig;
 
     @Override
     public void onLoad() {
@@ -137,10 +161,30 @@ public final class PotPvPRP extends JavaPlugin {
         this.registerCommands();
         this.registerPermission();
 
-        this.nameTagHandler = new NameTagHandler(this);
-        this.nameTagHandler.registerAdapter(new NameTagAdapter());
+        ScoreboardAdapter scoreboardAdapter = new ScoreboardAdapter();
+        NameTagAdapter nameTagAdapter = new NameTagAdapter();
+        //TablistAdapter tablistAdapter = new TablistAdapter();
 
-        this.scoreboardHandler = new ScoreboardHandler(this, new ScoreboardAdapter());
+        this.scoreboardHandler = new ScoreboardHandler(this, scoreboardAdapter);
+        this.scoreboardHandler.setAssembleStyle(AssembleStyle.KOHI);
+        this.scoreboardHandler.setTicks(2);
+
+        this.nameTagHandler = new NameTagHandler(this);
+        this.nameTagHandler.registerAdapter(nameTagAdapter);
+
+        /*
+        if (this.configHandler.isTAB_ENABLED()) {
+           long tickTime = tablistConfig.getInteger("TABLIST.UPDATE_TICKS") * 20L;
+           this.tablistHandler = new TablistHandler(tablistAdapter, this, tickTime);
+        }
+         */
+
+        if (this.getServer().getPluginManager().isPluginEnabled("HolographicDisplays")) {
+            this.logger("&7Found &cHolographicDisplays&7, Hooking holograms....");
+            hologramsConfig = new BasicConfigurationFile(this, "holograms");
+            this.hologramHandler = new HologramHandler(this, hologramsConfig);
+            this.hologramHandler.init();
+        }
 
         for (World world : Bukkit.getWorlds()) {
             world.setGameRuleValue("doDaylightCycle", "false");
@@ -204,59 +248,75 @@ public final class PotPvPRP extends JavaPlugin {
     }
 
     private void setupMongo() {
-        if (getConfig().getBoolean("MONGO.URI-MODE")) {
-            this.mongoClient = MongoClients.create(getConfig().getString("MONGO.URI.CONNECTION_STRING"));
-            this.mongoDatabase = mongoClient.getDatabase(getConfig().getString("MONGO.URI.DATABASE"));
+        if (this.getConfig().getBoolean("MONGO.URI-MODE")) {
+            this.mongoClient = MongoClients.create(this.getConfig().getString("MONGO.URI.CONNECTION_STRING"));
+            this.mongoDatabase = mongoClient.getDatabase(this.getConfig().getString("MONGO.URI.DATABASE"));
 
             this.logger("Initialized MongoDB successfully!");
             return;
         }
 
-        boolean auth = getConfig().getBoolean("MONGO.NORMAL.AUTHENTICATION.ENABLED");
-        String host = getConfig().getString("MONGO.NORMAL.HOST");
-        int port = getConfig().getInt("MONGO.NORMAL.PORT");
+        boolean auth = this.getConfig().getBoolean("MONGO.NORMAL.AUTHENTICATION.ENABLED");
+        String host = this.getConfig().getString("MONGO.NORMAL.HOST");
+        int port = this.getConfig().getInt("MONGO.NORMAL.PORT");
 
         String uri = "mongodb://" + host + ":" + port;
 
         if (auth) {
-            String username = getConfig().getString("MONGO.NORMAL.AUTHENTICATION.USERNAME");
-            String password = getConfig().getString("MONGO.NORMAL.AUTHENTICATION.PASSWORD");
+            String username = this.getConfig().getString("MONGO.NORMAL.AUTHENTICATION.USERNAME");
+            String password = this.getConfig().getString("MONGO.NORMAL.AUTHENTICATION.PASSWORD");
             uri = "mongodb://" + username + ":" + password + "@" + host + ":" + port;
         }
 
 
         this.mongoClient = MongoClients.create(uri);
-        this.mongoDatabase = mongoClient.getDatabase(getConfig().getString("MONGO.URI.DATABASE"));
+        this.mongoDatabase = mongoClient.getDatabase(this.getConfig().getString("MONGO.URI.DATABASE"));
 
         this.logger("Initialized MongoDB successfully!");
     }
 
+    // kaya was here
     private void registerCommands() {
-        // FUCK YOU DRINK
-        /*for ( Class<?> clazz : ClassUtil.getClassesInPackage(this, "net.frozenorb.potpvp.command") ) {
-            if (clazz.isInstance(DrinkProvider.class)) continue;
-
-            Object instance = clazz.newInstance();
-            String name = null;
-            String[] aliases = null;
-
-            for ( Method method : clazz.getMethods() ) {
-                if (method.getName().equalsIgnoreCase("getCommandName")) {
-                    name = (String) method.invoke(instance);
-                } else if (method.getName().equalsIgnoreCase("getAliases")) {
-                    aliases = (String[]) method.invoke(instance);
-                }
-            }
-
-            if (name == null || aliases == null) continue;
-
-            if (aliases.length != 0) {
-                commandHandler.register(instance, name, aliases);
-            } else {
-                commandHandler.register(instance, name);
-            }
-        }*/
         commandHandler.register(new ArenaCommands(), "arena");
+        commandHandler.register(new KitCommands(), "kit", "kitType");
+        commandHandler.register(new MatchCommands(), "match");
+        commandHandler.register(new PartyCommands(), "party", "p", "f", "team");
+        commandHandler.register(new ToggleMatchCommands(), "toggleMatches");
+        commandHandler.register(new TournamentCommands(), "tournament", "tourney", "t");
+
+        commandHandler.register(new EloSetCommands(), "elo");
+        commandHandler.register(new StatsResetCommands(), "statsreset");
+
+        commandHandler.register(new FollowCommand(), "follow");
+        commandHandler.register(new SilentCommand(), "silent");
+        commandHandler.register(new SilentFollowCommand(), "silentfollow");
+        commandHandler.register(new UnfollowCommand(), "unfollow");
+
+        commandHandler.register(new NightCommand(), "night", "nightMode");
+        commandHandler.register(new SettingsCommand(), "settings");
+        commandHandler.register(new ToggleDuelCommand(), "toggleduels", "tduels", "td");
+        commandHandler.register(new ToggleGlobalChatCommand(), "toggleGlobalChat", "tgc", "togglechat");
+
+        commandHandler.register(new SetSpawnCommand(), "setspawn");
+        commandHandler.register(new PingCommand(), "ping");
+        commandHandler.register(new ManageCommand(), "manage");
+        commandHandler.register(new HelpCommand(), "help", "?", "halp", "helpme");
+        commandHandler.register(new EditPotionModifyCommand(), "editpotion");
+        commandHandler.register(new DJMCommand(), "djm");
+        commandHandler.register(new DEMCommand(), "dem");
+        commandHandler.register(new CheckPostMatchInvCommand(), "checkPostMatchInv");
+        commandHandler.register(new BuildCommand(), "build", "buildmode");
+
+        commandHandler.register(new SpectateCommand(), "spec", "spectate");
+        commandHandler.register(new MapCommand(), "map");
+        commandHandler.register(new LeaveCommand(), "leave", "spawn");
+
+        commandHandler.register(new ForceEndCommand(), "forceend");
+        commandHandler.register(new HostCommand(), "host", "events");
+
+        commandHandler.register(new AcceptCommand(), "accept");
+        commandHandler.register(new DuelCommand(), "duel");
+
         commandHandler.registerCommands();
         this.logger("Registered commands!");
     }
@@ -278,20 +338,6 @@ public final class PotPvPRP extends JavaPlugin {
 
     public void consoleLog(String string) {
         this.getServer().getConsoleSender().sendMessage(CC.translate(string));
-    }
-
-    // This is here because chunk snapshots are (still) being deserialized, and serialized sometimes.
-    private static class ChunkSnapshotAdapter extends TypeAdapter<ChunkSnapshot> {
-
-        @Override
-        public ChunkSnapshot read(JsonReader arg0) {
-            return null;
-        }
-
-        @Override
-        public void write(JsonWriter arg0, ChunkSnapshot arg1) throws IOException {
-            
-        }
     }
 
     //fuck you kotlin

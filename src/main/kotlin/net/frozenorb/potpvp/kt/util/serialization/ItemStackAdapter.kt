@@ -10,6 +10,7 @@ import org.bukkit.potion.PotionEffect
 import java.lang.reflect.Type
 import java.util.*
 
+@Suppress
 class ItemStackAdapter : JsonDeserializer<ItemStack>, JsonSerializer<ItemStack> {
     override fun serialize(item: ItemStack, type: Type, context: JsonSerializationContext): JsonElement {
         return serialize(item)
@@ -29,18 +30,18 @@ class ItemStackAdapter : JsonDeserializer<ItemStack>, JsonSerializer<ItemStack> 
             }
 
             val element = JsonObject()
-            element.addProperty("id", item.getTypeId() as Number)
-            element.addProperty(getDataKey(item), item.getDurability() as Number)
-            element.addProperty("count", item.getAmount() as Number)
+            element.addProperty("id", item.typeId as Number)
+            element.addProperty(getDataKey(item), item.durability as Number)
+            element.addProperty("count", item.amount as Number)
 
             if (item.hasItemMeta()) {
-                val meta = item.getItemMeta()
+                val meta = item.itemMeta
                 if (meta.hasDisplayName()) {
-                    element.addProperty("name", meta.getDisplayName())
+                    element.addProperty("name", meta.displayName)
                 }
 
                 if (meta.hasLore()) {
-                    element.add("lore", convertStringList(meta.getLore()) as JsonElement)
+                    element.add("lore", convertStringList(meta.lore) as JsonElement)
                 }
 
                 if (meta is LeatherArmorMeta) {
@@ -66,10 +67,10 @@ class ItemStackAdapter : JsonDeserializer<ItemStack>, JsonSerializer<ItemStack> 
                 }
             }
 
-            if (item.getEnchantments().isNotEmpty()) {
+            if (item.enchantments.isNotEmpty()) {
                 val enchantments = JsonObject()
-                for (entry2 in item.getEnchantments().entries) {
-                    enchantments.addProperty(entry2.key.getName(), entry2.value as Number)
+                for (entry2 in item.enchantments.entries) {
+                    enchantments.addProperty(entry2.key.name, entry2.value as Number)
                 }
                 element.add("enchants", enchantments as JsonElement)
             }
@@ -89,11 +90,11 @@ class ItemStackAdapter : JsonDeserializer<ItemStack>, JsonSerializer<ItemStack> 
             val meta = item.itemMeta
 
             if (element.has("name")) {
-                meta.setDisplayName(element.get("name").asString)
+                meta.displayName = element.get("name").asString
             }
 
             if (element.has("lore")) {
-                meta.setLore(convertStringList(element.get("lore")))
+                meta.lore = convertStringList(element.get("lore"))
             }
 
             if (element.has("color")) {
@@ -103,19 +104,19 @@ class ItemStackAdapter : JsonDeserializer<ItemStack>, JsonSerializer<ItemStack> 
             } else if (element.has("title")) {
                 (meta as BookMeta).title = element.get("title").asString
                 meta.author = element.get("author").asString
-                meta.setPages(convertStringList(element.get("pages")))
+                meta.pages = convertStringList(element.get("pages"))
             } else if (element.has("potion-effects")) {
                 val potionMeta = meta as PotionMeta
                 for (effect in convertPotionEffectList(element.get("potion-effects"))!!) {
                     potionMeta.addCustomEffect(effect, false)
                 }
             } else if (element.has("scaling")) {
-                (meta as MapMeta).isScaling = element.get("scaling").getAsBoolean()
+                (meta as MapMeta).isScaling = element.get("scaling").asBoolean
             } else if (element.has("stored-enchants")) {
                 val enchantments = element.get("stored-enchants") as JsonObject
                 for (enchantment in Enchantment.values()) {
-                    if (enchantments.has(enchantment.getName())) {
-                        (meta as EnchantmentStorageMeta).addStoredEnchant(enchantment, enchantments.get(enchantment.getName()).asInt, true)
+                    if (enchantments.has(enchantment.name)) {
+                        (meta as EnchantmentStorageMeta).addStoredEnchant(enchantment, enchantments.get(enchantment.name).asInt, true)
                     }
                 }
             }
@@ -125,8 +126,8 @@ class ItemStackAdapter : JsonDeserializer<ItemStack>, JsonSerializer<ItemStack> 
             if (element.has("enchants")) {
                 val enchantments = element.get("enchants") as JsonObject
                 for (enchantment in Enchantment.values()) {
-                    if (enchantments.has(enchantment.getName())) {
-                        item.addUnsafeEnchantment(enchantment, enchantments.get(enchantment.getName()).asInt)
+                    if (enchantments.has(enchantment.name)) {
+                        item.addUnsafeEnchantment(enchantment, enchantments.get(enchantment.name).asInt)
                     }
                 }
             }
@@ -135,7 +136,7 @@ class ItemStackAdapter : JsonDeserializer<ItemStack>, JsonSerializer<ItemStack> 
         }
 
         private fun getDataKey(item: ItemStack): String {
-            if (item.getType() === Material.AIR) {
+            if (item.type === Material.AIR) {
                 return "data"
             }
             return if (Enchantment.DURABILITY.canEnchantItem(item)) {
@@ -152,7 +153,7 @@ class ItemStackAdapter : JsonDeserializer<ItemStack>, JsonSerializer<ItemStack> 
         }
 
         fun convertStringList(jsonElement: JsonElement): List<String> {
-            val array = jsonElement.getAsJsonArray()
+            val array = jsonElement.asJsonArray
             val ret = ArrayList<String>()
             for (element in array) {
                 ret.add(element.asString)
@@ -173,11 +174,11 @@ class ItemStackAdapter : JsonDeserializer<ItemStack>, JsonSerializer<ItemStack> 
                 return null
             }
 
-            if (!jsonElement.isJsonArray()) {
+            if (!jsonElement.isJsonArray) {
                 return null
             }
 
-            val array = jsonElement.getAsJsonArray()
+            val array = jsonElement.asJsonArray
             val ret = ArrayList<PotionEffect>()
             for (element in array) {
                 val e = PotionEffectAdapter.fromJson(element) ?: continue

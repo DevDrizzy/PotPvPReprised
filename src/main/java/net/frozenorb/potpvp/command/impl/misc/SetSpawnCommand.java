@@ -3,6 +3,7 @@ package net.frozenorb.potpvp.command.impl.misc;
 import net.frozenorb.potpvp.command.PotPvPCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.entity.Player;
 import xyz.refinedev.command.annotation.Command;
 import xyz.refinedev.command.annotation.Require;
@@ -15,10 +16,14 @@ public class SetSpawnCommand implements PotPvPCommand {
     public void setSpawn(@Sender Player sender) {
         Location loc = sender.getLocation();
 
-        sender.getWorld().setSpawnLocation(
+        sender.getWorld().setSpawnLocation(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
+
+        ((CraftWorld)sender.getWorld()).getHandle().setSpawn(
             loc.getBlockX(),
             loc.getBlockY(),
-            loc.getBlockZ()
+            loc.getBlockZ(),
+            loc.getYaw(),
+            loc.getPitch()
         );
 
         sender.sendMessage(ChatColor.YELLOW + "Spawn point updated!");

@@ -35,22 +35,6 @@ import java.util.UUID;
 
 public class KitCommands implements PotPvPCommand {
 
-    //TODO: Do this lol
-    private static final String[] HELP_MESSAGE = {
-            ChatColor.DARK_PURPLE + PotPvPLang.LONG_LINE,
-            "§5§lKit Commands",
-            ChatColor.DARK_PURPLE + PotPvPLang.LONG_LINE,
-            "§c " + PotPvPLang.LEFT_ARROW_NAKED + " §a/kit create <name>",
-            "§c " + PotPvPLang.LEFT_ARROW_NAKED + " §a/kit delete <kitType>",
-            ChatColor.DARK_PURPLE + PotPvPLang.LONG_LINE,
-    };
-
-    @Command(name = "", desc = "Help message for kits")
-    @Require("potpvp.kit.admin")
-    public void help(@Sender Player sender) {
-        sender.sendMessage(HELP_MESSAGE);
-    }
-
     @Command(name = "create", usage = "<name>", desc = "Creates a new kit-type")
     @Require("potpvp.kit.admin")
     public void execute(@Sender Player player, String id) {
@@ -153,7 +137,7 @@ public class KitCommands implements PotPvPCommand {
         if (file.exists()) {
             try (Reader schematicsFileReader = Files.newReader(file, Charsets.UTF_8)) {
                 Type schematicListType = new TypeToken<List<KitType>>() {}.getType();
-                List<KitType> kitTypes = PotPvPRP.getGson().fromJson(schematicsFileReader, schematicListType);
+                List<KitType> kitTypes = PotPvPRP.plainGson.fromJson(schematicsFileReader, schematicListType);
 
                 for (KitType kitType : kitTypes) {
                     KitType.getAllTypes().removeIf(otherKitType -> otherKitType.getId().equals(kitType.getId()));
@@ -172,7 +156,7 @@ public class KitCommands implements PotPvPCommand {
     @Command(name = "export", desc = "Export kitTypes to KitTypes.json")
     @Require("potpvp.kit.admin")
     public void exportKitTypes(@Sender CommandSender sender) {
-        String json = PotPvPRP.getGson().toJson(KitType.getAllTypes());
+        String json = PotPvPRP.plainGson.toJson(KitType.getAllTypes());
 
         try {
             Files.write(
@@ -190,9 +174,8 @@ public class KitCommands implements PotPvPCommand {
 
     @Command(name = "wipeKits Type", usage = "<kitType>", desc = "Wipe KitTypes by Type")
     public void kitWipeKitsType(@Sender Player sender, KitType kitType) {
-        int modified = PotPvPRP.getInstance().getKitHandler().wipeKitsWithType(kitType);
+        long modified = PotPvPRP.getInstance().getKitHandler().wipeKitsWithType(kitType);
         sender.sendMessage(ChatColor.YELLOW + "Wiped " + modified + " " + kitType.getDisplayName() + " kits.");
-        sender.sendMessage(ChatColor.GRAY + "^ We would have a proper count here if we ran recent versions of MongoDB");
     }
 
     @Command(name = "wipeKits Player", usage = "<kitType>", desc = "Wipe KitTypes for a player")
