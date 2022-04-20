@@ -142,6 +142,7 @@ public class KitCommands implements PotPvPCommand {
                 for (KitType kitType : kitTypes) {
                     KitType.getAllTypes().removeIf(otherKitType -> otherKitType.getId().equals(kitType.getId()));
                     KitType.getAllTypes().add(kitType);
+                    PotPvPRP.getInstance().getQueueHandler().addQueues(kitType);
                     kitType.saveAsync();
                 }
             } catch (IOException e) {

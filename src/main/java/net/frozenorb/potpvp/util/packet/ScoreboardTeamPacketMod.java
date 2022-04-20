@@ -72,14 +72,14 @@ public final class ScoreboardTeamPacketMod {
 
     }
 
-    private void addAll(Collection col) {
+    private void addAll(Collection<String> col) {
 
         try {
 
             final Field fieldObject = this.packet.getClass().getDeclaredField(fieldPlayers);
 
             fieldObject.setAccessible(true);
-            ((Collection) fieldObject.get(this.packet)).addAll(col);
+            ((Collection<String>) fieldObject.get(this.packet)).addAll(col);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -172,12 +172,10 @@ public final class PotPvPRP extends JavaPlugin {
         this.nameTagHandler = new NameTagHandler(this);
         this.nameTagHandler.registerAdapter(nameTagAdapter);
 
-        /*
-        if (this.configHandler.isTAB_ENABLED()) {
+        /*if (this.configHandler.isTAB_ENABLED()) {
            long tickTime = tablistConfig.getInteger("TABLIST.UPDATE_TICKS") * 20L;
            this.tablistHandler = new TablistHandler(tablistAdapter, this, tickTime);
-        }
-         */
+        }*/
 
         if (this.getServer().getPluginManager().isPluginEnabled("HolographicDisplays")) {
             this.logger("&7Found &cHolographicDisplays&7, Hooking holograms....");
@@ -304,7 +302,7 @@ public final class PotPvPRP extends JavaPlugin {
         commandHandler.register(new EditPotionModifyCommand(), "editpotion");
         commandHandler.register(new DJMCommand(), "djm");
         commandHandler.register(new DEMCommand(), "dem");
-        commandHandler.register(new CheckPostMatchInvCommand(), "checkPostMatchInv");
+        commandHandler.register(new CheckPostMatchInvCommand(), "checkPostMatchInv", "_");
         commandHandler.register(new BuildCommand(), "build", "buildmode");
 
         commandHandler.register(new SpectateCommand(), "spec", "spectate");

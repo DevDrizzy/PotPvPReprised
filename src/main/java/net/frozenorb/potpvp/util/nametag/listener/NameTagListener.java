@@ -1,6 +1,7 @@
 package net.frozenorb.potpvp.util.nametag.listener;
 
 import net.frozenorb.potpvp.PotPvPRP;
+import net.frozenorb.potpvp.util.packet.ScoreboardTeamPacketMod;
 import net.minecraft.server.v1_8_R3.PacketPlayOutScoreboardTeam;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
@@ -19,15 +20,15 @@ public final class NameTagListener implements Listener {
 
     private final PotPvPRP plugin = PotPvPRP.getInstance();
 
-    @EventHandler(priority = EventPriority.NORMAL)
+    @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerJoin(PlayerJoinEvent event) {
-        event.getPlayer().setMetadata("sl-LoggedIn", new FixedMetadataValue(plugin, true));
+        event.getPlayer().setMetadata("potpvp-LoggedIn", new FixedMetadataValue(plugin, true));
 
         try {
             PacketPlayOutScoreboardTeam a = new PacketPlayOutScoreboardTeam();
             team_mode.set(a, 3);
-            team_name.set(a, "zLane");
-            team_display.set(a, "zLane");
+            team_name.set(a, "potpvp");
+            team_display.set(a, "potpvp");
             team_color.set(a, -1);
             team_players.set(a, Collections.singletonList(event.getPlayer().getName()));
 
@@ -45,7 +46,7 @@ public final class NameTagListener implements Listener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        event.getPlayer().removeMetadata("sl-LoggedIn", plugin);
+        event.getPlayer().removeMetadata("potpvp-LoggedIn", plugin);
         plugin.getNameTagHandler().getTeamMap().remove(event.getPlayer().getName());
     }
 

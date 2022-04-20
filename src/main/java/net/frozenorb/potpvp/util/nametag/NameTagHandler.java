@@ -75,14 +75,14 @@ public class NameTagHandler {
 
     public void applyUpdate(NametagUpdate nametagUpdate) {
         if (nametagUpdate.getToRefresh() != null){
-            Player toRefreshPlayer = Bukkit.getPlayerExact(nametagUpdate.getToRefresh());
+            Player toRefreshPlayer = Bukkit.getPlayer(nametagUpdate.getToRefresh());
 
             if (toRefreshPlayer == null) return;
 
             if (nametagUpdate.getRefreshFor() == null) {
                 Bukkit.getOnlinePlayers().forEach(refreshFor -> reloadPlayerInternal(toRefreshPlayer, refreshFor));
             } else {
-                Player refreshForPlayer = Bukkit.getPlayerExact(nametagUpdate.getRefreshFor());
+                Player refreshForPlayer = Bukkit.getPlayer(nametagUpdate.getRefreshFor());
 
                 if(refreshForPlayer != null) {
                     reloadPlayerInternal(toRefreshPlayer, refreshForPlayer);
@@ -92,7 +92,7 @@ public class NameTagHandler {
     }
 
     public void reloadPlayerInternal(Player toRefresh, Player refreshFor) {
-        if (!refreshFor.hasMetadata("sl-LoggedIn")) return;
+        if (!refreshFor.hasMetadata("potpvp-LoggedIn")) return;
 
         NameTagInfo provided = null;
 

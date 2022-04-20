@@ -191,7 +191,7 @@ public class Tournament {
         // Next round has begun...
 
         Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&c&lRound " + ++currentRound + " &7has begun. Good luck!"));
-        Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&7Use &6/status &7to see who is fighting."));
+        Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&7Use &6/t status &7to see who is fighting."));
 
         List<Party> oldPartyList = Lists.newArrayList(activeParties);
         // Collections.shuffle(oldPartyList);
@@ -246,7 +246,7 @@ public class Tournament {
         if (this.getCurrentRound() != -1) return;
 
         Bukkit.broadcastMessage("");
-        Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&7A &c&ltournament&7 has started. Type &6/join&7 to play. (" + (this.activeParties.size() * multiplier) + "/" + (requiredTeams * multiplier) + ")"));
+        Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&7A &c&ltournament&7 has started. Type &6/t join&7 to play. (" + (this.activeParties.size() * multiplier) + "/" + (requiredTeams * multiplier) + ")"));
         Bukkit.broadcastMessage("");
     }
 

@@ -34,11 +34,7 @@ public class StatisticsHandler implements Listener {
         statisticsMap = Maps.newConcurrentMap();
         
         Bukkit.getScheduler().runTaskTimerAsynchronously(PotPvPRP.getInstance(), () -> {
-            
-            long start = System.currentTimeMillis();
             statisticsMap.keySet().forEach(this::saveStatistics);
-            Bukkit.getLogger().info("Saved " + statisticsMap.size() + " statistics in " + (System.currentTimeMillis() - start) + "ms.");
-            
         }, 30 * 20, 30 * 20);
     }
     
