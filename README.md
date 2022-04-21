@@ -14,7 +14,8 @@ Although in the future, I might add an open source TablistAPI in this later but 
 - Removed PlayerMoveEvent usage to hold player at spawn point and utilized PlayerUtil#denyMovement
 - Removed Token based Stats resetting and made it admin only
 - Completely changed all permissions
-- New APIS (Command, NameTag)
+- New CommandAPI
+- Ported NameTagAPI (Still not working for some reason?)
 - Removed a lot of junk from kotlin qLib
 - Removed unused dependencies
 - Cleaned up general code
