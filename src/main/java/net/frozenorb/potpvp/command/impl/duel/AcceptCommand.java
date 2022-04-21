@@ -23,7 +23,7 @@ import xyz.refinedev.command.annotation.Sender;
 
 public class AcceptCommand implements PotPvPCommand {
 
-    @Command(name = "accept", usage = "<target>", desc = "Duel accept command")
+    @Command(name = "", usage = "<target>", desc = "Duel accept command")
     public void accept(@Sender Player sender, Player target) {
         if (sender == target) {
             sender.sendMessage(ChatColor.RED + "You can't accept a duel from yourself!");

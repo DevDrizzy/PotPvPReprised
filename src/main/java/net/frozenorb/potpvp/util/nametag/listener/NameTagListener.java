@@ -16,28 +16,13 @@ import org.bukkit.metadata.FixedMetadataValue;
 import java.lang.reflect.Field;
 import java.util.Collections;
 
-public final class NameTagListener implements Listener {
+public class NameTagListener implements Listener {
 
     private final PotPvPRP plugin = PotPvPRP.getInstance();
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerJoin(PlayerJoinEvent event) {
         event.getPlayer().setMetadata("potpvp-LoggedIn", new FixedMetadataValue(plugin, true));
-
-        try {
-            PacketPlayOutScoreboardTeam a = new PacketPlayOutScoreboardTeam();
-            team_mode.set(a, 3);
-            team_name.set(a, "potpvp");
-            team_display.set(a, "potpvp");
-            team_color.set(a, -1);
-            team_players.set(a, Collections.singletonList(event.getPlayer().getName()));
-
-            for (Player other : Bukkit.getOnlinePlayers()) {
-                plugin.getServer().getScheduler().runTaskAsynchronously(PotPvPRP.getInstance(), () -> ((CraftPlayer) other).getHandle().playerConnection.sendPacket(a));
-            }
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
 
         plugin.getNameTagHandler().initiatePlayer(event.getPlayer());
         plugin.getNameTagHandler().reloadPlayer(event.getPlayer());
@@ -48,36 +33,6 @@ public final class NameTagListener implements Listener {
     public void onPlayerQuit(PlayerQuitEvent event) {
         event.getPlayer().removeMetadata("potpvp-LoggedIn", plugin);
         plugin.getNameTagHandler().getTeamMap().remove(event.getPlayer().getName());
-    }
-
-
-    private Field team_name;
-    private Field team_display;
-    private Field team_players;
-    private Field team_mode;
-    private Field team_color;
-
-    {
-        try {
-            team_name = PacketPlayOutScoreboardTeam.class.getDeclaredField("a");
-            team_name.setAccessible(true);
-            team_display = PacketPlayOutScoreboardTeam.class.getDeclaredField("b");
-            team_display.setAccessible(true);
-            Field team_prefix = PacketPlayOutScoreboardTeam.class.getDeclaredField("c");
-            team_prefix.setAccessible(true);
-            Field team_suffix = PacketPlayOutScoreboardTeam.class.getDeclaredField("d");
-            team_suffix.setAccessible(true);
-            team_players = PacketPlayOutScoreboardTeam.class.getDeclaredField("g");
-            team_players.setAccessible(true);
-            team_color = PacketPlayOutScoreboardTeam.class.getDeclaredField("f");
-            team_color.setAccessible(true);
-            team_mode = PacketPlayOutScoreboardTeam.class.getDeclaredField("h");
-            team_mode.setAccessible(true);
-            Field team_nametag = PacketPlayOutScoreboardTeam.class.getDeclaredField("e");
-            team_nametag.setAccessible(true);
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        }
     }
 
 }

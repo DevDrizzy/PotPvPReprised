@@ -51,10 +51,10 @@ public final class ArenaHandler {
     public ArenaHandler() {
         Bukkit.getPluginManager().registerEvents(new ArenaItemResetListener(), PotPvPRP.getInstance());
 
-        File worldFolder = getArenaWorld().getWorldFolder();
+        File folder = PotPvPRP.getInstance().getDataFolder();
 
-        File arenaInstancesFile = new File(worldFolder, ARENA_INSTANCES_FILE_NAME);
-        File schematicsFile = new File(worldFolder, SCHEMATICS_FILE_NAME);
+        File arenaInstancesFile = new File(folder, ARENA_INSTANCES_FILE_NAME);
+        File schematicsFile = new File(folder, SCHEMATICS_FILE_NAME);
 
         try {
             // parsed as a List<Arena> and then inserted into Map<String, Map<Integer. Arena>>

@@ -17,14 +17,27 @@ import java.util.UUID;
 public class CheckPostMatchInvCommand implements PotPvPCommand {
 
     @Command(name = "" , usage = "<target-uuid>", desc = "View inventory menu")
-    public void checkPostMatchInv(@Sender Player sender, UUID target) {
+    public void checkPostMatchInv(@Sender Player sender, String target) {
+
+        UUID uuid;
+        try {
+            uuid = UUID.fromString(target);
+        } catch (Exception e) {
+            UUID cached = PotPvPRP.getInstance().getUuidCache().uuid(target);
+            if (cached == null) {
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cUUID does not exist!"));
+                return;
+            }
+            uuid = cached;
+        }
+
         PostMatchInvHandler postMatchInvHandler = PotPvPRP.getInstance().getPostMatchInvHandler();
         Map<UUID, PostMatchPlayer> players = postMatchInvHandler.getPostMatchData(sender.getUniqueId());
 
-        if (players.containsKey(target)) {
-            new PostMatchMenu(players.get(target)).openMenu(sender);
+        if (players.containsKey(uuid)) {
+            new PostMatchMenu(players.get(uuid)).openMenu(sender);
         } else {
-            sender.sendMessage(ChatColor.RED + "Data for " + PotPvPRP.getInstance().getUuidCache().name(target) + " not found.");
+            sender.sendMessage(ChatColor.RED + "Data for " + PotPvPRP.getInstance().getUuidCache().name(uuid) + " not found.");
         }
     }
 

@@ -8,7 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import net.frozenorb.potpvp.util.nametag.construct.NameTagComparator;
 import net.frozenorb.potpvp.util.nametag.construct.NameTagInfo;
-import net.frozenorb.potpvp.util.nametag.construct.NametagUpdate;
+import net.frozenorb.potpvp.util.nametag.construct.NameTagUpdate;
 import net.frozenorb.potpvp.util.nametag.listener.NameTagListener;
 import net.frozenorb.potpvp.util.nametag.provider.NameTagProvider;
 
@@ -46,7 +46,7 @@ public class NameTagHandler {
     }
 
     public void reloadPlayer(Player toRefresh) {
-        NametagUpdate update = new NametagUpdate(toRefresh);
+        NameTagUpdate update = new NameTagUpdate(toRefresh);
 
         if (async) {
             thread.getPendingUpdates().put(update, true);
@@ -64,7 +64,7 @@ public class NameTagHandler {
     }
 
     public void reloadPlayer(Player toRefresh, Player refreshFor) {
-        NametagUpdate update = new NametagUpdate(toRefresh, refreshFor);
+        NameTagUpdate update = new NameTagUpdate(toRefresh, refreshFor);
 
         if (async) {
             thread.getPendingUpdates().put(update, true);
@@ -73,7 +73,7 @@ public class NameTagHandler {
         }
     }
 
-    public void applyUpdate(NametagUpdate nametagUpdate) {
+    public void applyUpdate(NameTagUpdate nametagUpdate) {
         if (nametagUpdate.getToRefresh() != null){
             Player toRefreshPlayer = Bukkit.getPlayer(nametagUpdate.getToRefresh());
 

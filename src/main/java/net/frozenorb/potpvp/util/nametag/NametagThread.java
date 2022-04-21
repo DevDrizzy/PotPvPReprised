@@ -2,7 +2,7 @@ package net.frozenorb.potpvp.util.nametag;
 
 import lombok.Getter;
 import net.frozenorb.potpvp.PotPvPRP;
-import net.frozenorb.potpvp.util.nametag.construct.NametagUpdate;
+import net.frozenorb.potpvp.util.nametag.construct.NameTagUpdate;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Getter
 public class NametagThread extends Thread {
 
-    private final Map<NametagUpdate, Boolean> pendingUpdates = new ConcurrentHashMap<>();
+    private final Map<NameTagUpdate, Boolean> pendingUpdates = new ConcurrentHashMap<>();
 
     public NametagThread() {
         super("PotPvPSI - NameTags Thread");
@@ -20,10 +20,10 @@ public class NametagThread extends Thread {
 
     public void run() {
         while (true) {
-            Iterator<NametagUpdate> pendingUpdatesIterator = pendingUpdates.keySet().iterator();
+            Iterator<NameTagUpdate> pendingUpdatesIterator = pendingUpdates.keySet().iterator();
 
             while(pendingUpdatesIterator.hasNext()) {
-                NametagUpdate pendingUpdate = pendingUpdatesIterator.next();
+                NameTagUpdate pendingUpdate = pendingUpdatesIterator.next();
 
                 try {
                     PotPvPRP.getInstance().getNameTagHandler().applyUpdate(pendingUpdate);
