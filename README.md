@@ -22,6 +22,18 @@ Although in the future, I might add an open source TablistAPI in this later but 
 - Changed from Fanciful API to Clickable Util
 - Removed Tablist and its API (Reason: Incompatibility and time shortage)
 
+## Compiling
+You are required to compile this with Java 8+ and must use maven.
+Secondly, this also requires Refine's fork of Drink CommandAPI.
+You can download it here,
+
+[Download Here](https://cdn.discordapp.com/attachments/826102925805092885/966575292460179536/CommandAPI-1.1-SNAPSHOT.jar)
+
+After downloading, run this maven command with cmd or your IDE.
+```
+mvn install:install-file -Dfile=<DOWNLOADED JAR FILE LOCATION.jar> -DgroupId=xyz.refinedev.api -DartifactId=CommandAPI -Dversion=1.1-SNAPSHOT -Dpackaging=jar
+```
+
 ## Note
 I don't claim ANY ownership on this code, I have simply ported this to 1.8 with a few additions as my code.
 All ownership goes to Hylist/FrozenOrb. I made this open source because PotPvP forks are going all around the community
