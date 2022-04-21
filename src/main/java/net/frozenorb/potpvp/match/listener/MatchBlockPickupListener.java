@@ -11,7 +11,7 @@ public class MatchBlockPickupListener implements Listener {
         Player recipient = event.getPlayer();
         if (recipient == null) return;
 
-        Match match = PotPvPSI.getInstance().getMatchHandler().getMatchPlaying(recipient);
+        Match match = PotPvPRP.getInstance().getMatchHandler().getMatchPlaying(recipient);
         if (match == null) return;
 
         if (!match.getKitType().getId().equals("SPLEEF")) return;

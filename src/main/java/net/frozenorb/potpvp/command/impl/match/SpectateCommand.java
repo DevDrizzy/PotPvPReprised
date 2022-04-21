@@ -47,7 +47,7 @@ public class SpectateCommand implements PotPvPCommand {
             return;
         }
 
-        //boolean bypassesSpectating = PotPvPSI.getInstance().getTournamentHandler().isInTournament(targetMatch);
+        //boolean bypassesSpectating = PotPvPRP.getInstance().getTournamentHandler().isInTournament(targetMatch);
         boolean bypassesSpectating = false;
 
         // only check the seting if the target is actually playing in the match

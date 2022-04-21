@@ -9,5 +9,5 @@ MONGO:
       USERNAME: ''
       PASSWORD: ''
   URI:
-    DATABASE: PotPvPSI
-    CONNECTION_STRING: mongodb://127.0.0.1:27017/PotPvPSI
+    DATABASE: PotPvPRP
+    CONNECTION_STRING: mongodb://127.0.0.1:27017/PotPvPRP

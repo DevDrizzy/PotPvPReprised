@@ -39,6 +39,7 @@ import net.frozenorb.potpvp.kit.KitHandler;
 import net.frozenorb.potpvp.kit.kittype.KitType;
 import net.frozenorb.potpvp.kit.kittype.KitTypeJsonAdapter;
 import net.frozenorb.potpvp.kt.menu.ButtonListeners;
+import net.frozenorb.potpvp.kt.nametag.NameTagHandler;
 import net.frozenorb.potpvp.kt.util.serialization.*;
 import net.frozenorb.potpvp.listener.*;
 import net.frozenorb.potpvp.lobby.LobbyHandler;
@@ -58,7 +59,6 @@ import net.frozenorb.potpvp.tournament.TournamentListener;
 import net.frozenorb.potpvp.util.ChunkSnapshotAdapter;
 import net.frozenorb.potpvp.util.config.impl.BasicConfigurationFile;
 import net.frozenorb.potpvp.util.event.HalfHourEvent;
-import net.frozenorb.potpvp.util.nametag.NameTagHandler;
 import net.frozenorb.potpvp.util.scoreboard.api.AssembleStyle;
 import net.frozenorb.potpvp.util.scoreboard.api.ScoreboardHandler;
 import net.frozenorb.potpvp.util.uuid.UUIDCache;
@@ -169,13 +169,8 @@ public final class PotPvPRP extends JavaPlugin {
         this.scoreboardHandler.setAssembleStyle(AssembleStyle.KOHI);
         this.scoreboardHandler.setTicks(2);
 
-        this.nameTagHandler = new NameTagHandler(this);
-        this.nameTagHandler.registerAdapter(nameTagAdapter);
-
-        /*if (this.configHandler.isTAB_ENABLED()) {
-           long tickTime = tablistConfig.getInteger("TABLIST.UPDATE_TICKS") * 20L;
-           this.tablistHandler = new TablistHandler(tablistAdapter, this, tickTime);
-        }*/
+        this.nameTagHandler = new NameTagHandler();
+        this.nameTagHandler.registerProvider(nameTagAdapter);
 
         if (this.getServer().getPluginManager().isPluginEnabled("HolographicDisplays")) {
             this.logger("&7Found &cHolographicDisplays&7, Hooking holograms....");

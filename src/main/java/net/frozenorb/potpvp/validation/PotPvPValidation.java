@@ -374,7 +374,7 @@ public final class PotPvPValidation {
 
     private boolean isInTournament(Party party) {
         return false;
-        /*TournamentHandler tournamentHandler = PotPvPSI.getInstance().getTournamentHandler();
+        /*TournamentHandler tournamentHandler = PotPvPRP.getInstance().getTournamentHandler();
         return tournamentHandler.isInTournament(party);*/
     }
 
