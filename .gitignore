@@ -13,8 +13,5 @@ log/
 target/
 dependency-reduced-pom.xml
 
-# Java
-*.jar
-
 # JRebel
 rebel.xml
