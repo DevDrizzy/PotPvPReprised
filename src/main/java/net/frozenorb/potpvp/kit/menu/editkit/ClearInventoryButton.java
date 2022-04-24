@@ -3,7 +3,7 @@ package net.frozenorb.potpvp.kit.menu.editkit;
 import com.google.common.collect.ImmutableList;
 
 import net.frozenorb.potpvp.PotPvPRP;
-import net.frozenorb.potpvp.kt.menu.Button;
+import net.frozenorb.potpvp.util.menu.Button;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -42,7 +42,7 @@ final class ClearInventoryButton extends Button {
     }
 
     @Override
-    public void clicked(final Player player, int slot, ClickType clickType, InventoryView view) {
+    public void clicked(Player player, int slot, ClickType clickType) {
         player.getInventory().clear();
 
         Bukkit.getScheduler().runTaskLater(PotPvPRP.getInstance(), player::updateInventory, 1L);

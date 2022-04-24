@@ -14,7 +14,7 @@ import net.frozenorb.potpvp.queue.QueueItems;
 import net.frozenorb.potpvp.match.rematch.RematchData;
 import net.frozenorb.potpvp.match.rematch.RematchHandler;
 import net.frozenorb.potpvp.match.rematch.RematchItems;
-import net.frozenorb.potpvp.kt.menu.Menu;
+import net.frozenorb.potpvp.util.menu.Menu;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -31,7 +31,7 @@ public final class LobbyUtils {
         // prevents players with the kit editor from having their
         // inventory updated (kit items go into their inventory)
         // also, admins in GM don't get invs updated (to prevent annoying those editing kits)
-        if (Menu.getCurrentlyOpenedMenus().get(player.getName()) instanceof EditKitMenu || player.getGameMode() == GameMode.CREATIVE) {
+        if (Menu.getCurrentlyOpenedMenus().get(player.getUniqueId()) instanceof EditKitMenu || player.getGameMode() == GameMode.CREATIVE) {
             return;
         }
 

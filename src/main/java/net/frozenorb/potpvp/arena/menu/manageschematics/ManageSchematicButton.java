@@ -7,7 +7,7 @@ import net.frozenorb.potpvp.arena.Arena;
 import net.frozenorb.potpvp.arena.ArenaHandler;
 import net.frozenorb.potpvp.arena.ArenaSchematic;
 import net.frozenorb.potpvp.arena.menu.manageschematic.ManageSchematicMenu;
-import net.frozenorb.potpvp.kt.menu.Button;
+import net.frozenorb.potpvp.util.menu.Button;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -67,7 +67,7 @@ final class ManageSchematicButton extends Button {
     }
 
     @Override
-    public void clicked(Player player, int slot, ClickType clickType, InventoryView view) {
+    public void clicked(Player player, int slot, ClickType clickType) {
         player.closeInventory();
         new ManageSchematicMenu(schematic).openMenu(player);
     }

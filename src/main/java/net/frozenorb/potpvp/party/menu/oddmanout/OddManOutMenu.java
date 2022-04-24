@@ -2,9 +2,9 @@ package net.frozenorb.potpvp.party.menu.oddmanout;
 
 import com.google.common.base.Preconditions;
 
-import net.frozenorb.potpvp.kt.menu.Button;
-import net.frozenorb.potpvp.kt.menu.Menu;
-import net.frozenorb.potpvp.kt.util.Callback;
+import net.frozenorb.potpvp.util.menu.Button;
+import net.frozenorb.potpvp.util.menu.Menu;
+import net.frozenorb.potpvp.util.Callback;
 
 import org.bukkit.entity.Player;
 
@@ -16,9 +16,12 @@ public final class OddManOutMenu extends Menu {
     private final Callback<Boolean> callback;
 
     public OddManOutMenu(Callback<Boolean> callback) {
-        super("Continue with unbalanced teams?");
-
         this.callback = Preconditions.checkNotNull(callback, "callback");
+    }
+
+    @Override
+    public String getTitle(Player player) {
+        return "Continue with unbalanced teams?";
     }
 
     @Override

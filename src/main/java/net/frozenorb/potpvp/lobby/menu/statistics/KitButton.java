@@ -12,7 +12,7 @@ import com.google.common.collect.Lists;
 import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.profile.elo.EloHandler;
 import net.frozenorb.potpvp.kit.kittype.KitType;
-import net.frozenorb.potpvp.kt.menu.Button;
+import net.frozenorb.potpvp.util.menu.Button;
 
 public class KitButton extends Button {
 

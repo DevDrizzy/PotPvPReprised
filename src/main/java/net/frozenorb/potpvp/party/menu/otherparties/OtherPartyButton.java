@@ -5,7 +5,7 @@ import com.google.common.base.Preconditions;
 import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.command.impl.duel.DuelCommand;
 import net.frozenorb.potpvp.party.Party;
-import net.frozenorb.potpvp.kt.menu.Button;
+import net.frozenorb.potpvp.util.menu.Button;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -64,7 +64,7 @@ final class OtherPartyButton extends Button {
     }
 
     @Override
-    public void clicked(Player player, int slot, ClickType clickType, InventoryView view) {
+    public void clicked(Player player, int slot, ClickType clickType) {
         Party senderParty = PotPvPRP.getInstance().getPartyHandler().getParty(player);
 
         if (senderParty == null) {

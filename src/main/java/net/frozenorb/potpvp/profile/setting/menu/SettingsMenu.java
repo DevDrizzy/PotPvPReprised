@@ -1,8 +1,8 @@
 package net.frozenorb.potpvp.profile.setting.menu;
 
 import net.frozenorb.potpvp.profile.setting.Setting;
-import net.frozenorb.potpvp.kt.menu.Button;
-import net.frozenorb.potpvp.kt.menu.Menu;
+import net.frozenorb.potpvp.util.menu.Button;
+import net.frozenorb.potpvp.util.menu.Menu;
 
 import org.bukkit.entity.Player;
 
@@ -15,9 +15,12 @@ import java.util.Map;
 public final class SettingsMenu extends Menu {
 
     public SettingsMenu() {
-        super("Edit settings");
-
         setAutoUpdate(true);
+    }
+
+    @Override
+    public String getTitle(Player player) {
+        return "Edit settings";
     }
 
     @Override

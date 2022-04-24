@@ -4,7 +4,7 @@ import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.match.Match;
 import net.frozenorb.potpvp.match.MatchHandler;
 import net.frozenorb.potpvp.match.MatchState;
-import net.frozenorb.potpvp.kt.util.Cuboid;
+import net.frozenorb.potpvp.util.Cuboid;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;

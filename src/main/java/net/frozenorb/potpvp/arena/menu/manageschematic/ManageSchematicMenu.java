@@ -3,12 +3,12 @@ package net.frozenorb.potpvp.arena.menu.manageschematic;
 import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.arena.ArenaSchematic;
 import net.frozenorb.potpvp.arena.menu.manageschematics.ManageSchematicsMenu;
-import net.frozenorb.potpvp.util.menu.MenuBackButton;
 import net.frozenorb.potpvp.util.menu.BooleanTraitButton;
 import net.frozenorb.potpvp.util.menu.IntegerTraitButton;
-import net.frozenorb.potpvp.kt.menu.Button;
-import net.frozenorb.potpvp.kt.menu.Menu;
+import net.frozenorb.potpvp.util.menu.Button;
+import net.frozenorb.potpvp.util.menu.Menu;
 
+import net.frozenorb.potpvp.util.menu.buttons.BackButton;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -27,10 +27,14 @@ public final class ManageSchematicMenu extends Menu {
     private final ArenaSchematic schematic;
 
     public ManageSchematicMenu(ArenaSchematic schematic) {
-        super("Manage " + schematic.getName());
         setAutoUpdate(true);
 
         this.schematic = schematic;
+    }
+
+    @Override
+    public String getTitle(Player player) {
+        return "Manage " + schematic.getName();
     }
 
     @Override
@@ -53,7 +57,7 @@ public final class ManageSchematicMenu extends Menu {
             buttons.put(8, new RemoveCopiesButton(schematic));
         }
 
-        buttons.put(9, new MenuBackButton(p -> new ManageSchematicsMenu().openMenu(p)));
+        buttons.put(9, new BackButton(new ManageSchematicsMenu()));
 
         Consumer<ArenaSchematic> save = schematic -> {
             try {
@@ -89,7 +93,7 @@ public final class ManageSchematicMenu extends Menu {
             }
 
             @Override
-            public void clicked(Player player, int slot, ClickType clickType, InventoryView view) {
+            public void clicked(Player player, int slot, ClickType clickType) {
                 new ManageEventsMenu(schematic).openMenu(player);
             }
         });

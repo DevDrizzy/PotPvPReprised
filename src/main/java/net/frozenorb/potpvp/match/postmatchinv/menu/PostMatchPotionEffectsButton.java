@@ -2,9 +2,9 @@ package net.frozenorb.potpvp.match.postmatchinv.menu;
 
 import com.google.common.collect.ImmutableList;
 
-import net.frozenorb.potpvp.kt.menu.Button;
+import net.frozenorb.potpvp.util.menu.Button;
 
-import net.frozenorb.potpvp.kt.util.TimeUtils;
+import net.frozenorb.potpvp.util.TimeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

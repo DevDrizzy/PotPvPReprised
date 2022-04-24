@@ -3,7 +3,7 @@ package net.frozenorb.potpvp.kit.kittype.menu.manage;
 import com.google.common.collect.ImmutableList;
 
 import net.frozenorb.potpvp.kit.kittype.KitType;
-import net.frozenorb.potpvp.kt.menu.Button;
+import net.frozenorb.potpvp.util.menu.Button;
 
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
@@ -47,7 +47,7 @@ final class SaveKitTypeButton extends Button {
     }
 
     @Override
-    public void clicked(Player player, int slot, ClickType clickType, InventoryView view) {
+    public void clicked(Player player, int slot, ClickType clickType) {
         ItemStack[] fullInv = player.getOpenInventory().getTopInventory().getContents();
         ItemStack[] kitInventory = new ItemStack[28];
         int index = -1;

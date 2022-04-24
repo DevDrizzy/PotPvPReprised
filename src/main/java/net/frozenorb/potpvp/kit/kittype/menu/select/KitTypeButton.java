@@ -4,8 +4,8 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 
 import net.frozenorb.potpvp.kit.kittype.KitType;
-import net.frozenorb.potpvp.kt.menu.Button;
-import net.frozenorb.potpvp.kt.util.Callback;
+import net.frozenorb.potpvp.util.menu.Button;
+import net.frozenorb.potpvp.util.Callback;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -76,7 +76,7 @@ final class KitTypeButton extends Button {
     }
 
     @Override
-    public void clicked(Player player, int slot, ClickType clickType, InventoryView view) {
+    public void clicked(Player player, int slot, ClickType clickType) {
         callback.callback(kitType);
     }
 

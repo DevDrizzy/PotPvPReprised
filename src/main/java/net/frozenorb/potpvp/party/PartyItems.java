@@ -1,7 +1,7 @@
 package net.frozenorb.potpvp.party;
 
 import net.frozenorb.potpvp.PotPvPRP;
-import net.frozenorb.potpvp.kt.util.ItemUtils;
+import net.frozenorb.potpvp.util.ItemUtils;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 

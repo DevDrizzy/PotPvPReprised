@@ -1,6 +1,6 @@
 package net.frozenorb.potpvp.match.rematch;
 
-import net.frozenorb.potpvp.kt.util.ItemUtils;
+import net.frozenorb.potpvp.util.ItemUtils;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 

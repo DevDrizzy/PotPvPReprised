@@ -3,7 +3,7 @@ package net.frozenorb.potpvp.kit.menu.editkit;
 import com.google.common.base.Preconditions;
 
 import net.frozenorb.potpvp.PotPvPRP;
-import net.frozenorb.potpvp.kt.menu.Button;
+import net.frozenorb.potpvp.util.menu.Button;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -36,7 +36,7 @@ final class TakeItemButton extends Button {
     @Override public Material getMaterial(Player player) { return null; }
 
     @Override
-    public void clicked(final Player player, final int slot, ClickType clickType, InventoryView view) {
+    public void clicked(final Player player, final int slot, ClickType clickType) {
         // make the item show up again
         Bukkit.getScheduler().runTaskLater(PotPvPRP.getInstance(), () -> {
             player.getOpenInventory().getTopInventory().setItem(slot, item);

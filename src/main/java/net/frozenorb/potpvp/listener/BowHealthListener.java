@@ -1,7 +1,7 @@
 package net.frozenorb.potpvp.listener;
 
 import net.frozenorb.potpvp.PotPvPRP;
-import net.frozenorb.potpvp.kt.util.PlayerUtils;
+import net.frozenorb.potpvp.util.PlayerUtils;
 import net.frozenorb.potpvp.match.MatchHandler;
 
 import org.bukkit.Bukkit;

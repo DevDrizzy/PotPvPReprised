@@ -6,10 +6,10 @@ import net.frozenorb.potpvp.kit.KitHandler;
 import net.frozenorb.potpvp.kit.kittype.KitType;
 import net.frozenorb.potpvp.kit.kittype.menu.select.SelectKitTypeMenu;
 import net.frozenorb.potpvp.util.InventoryUtils;
-import net.frozenorb.potpvp.util.menu.MenuBackButton;
-import net.frozenorb.potpvp.kt.menu.Button;
-import net.frozenorb.potpvp.kt.menu.Menu;
+import net.frozenorb.potpvp.util.menu.Button;
+import net.frozenorb.potpvp.util.menu.Menu;
 
+import net.frozenorb.potpvp.util.menu.buttons.BackButton;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -23,8 +23,6 @@ public final class KitsMenu extends Menu {
     private final KitType kitType;
 
     public KitsMenu(KitType kitType) {
-        super("Viewing " + kitType.getDisplayName() + " kits");
-
         setPlaceholder(true);
         setAutoUpdate(true);
 
@@ -32,8 +30,13 @@ public final class KitsMenu extends Menu {
     }
 
     @Override
-    public void onClose(Player player, boolean manualClose) {
+    public void onClose(Player player) {
         InventoryUtils.resetInventoryDelayed(player);
+    }
+
+    @Override
+    public String getTitle(Player player) {
+        return "Viewing " + kitType.getDisplayName() + " kits";
     }
 
     @Override
@@ -58,11 +61,7 @@ public final class KitsMenu extends Menu {
             }
         }
 
-        buttons.put(getSlot(0, 4), new MenuBackButton(p -> {
-            new SelectKitTypeMenu(kitType -> {
-                new KitsMenu(kitType).openMenu(p);
-            }, "Select a kit type...").openMenu(p);
-        }));
+        buttons.put(getSlot(0, 4), new BackButton(new SelectKitTypeMenu(kitType -> new KitsMenu(kitType).openMenu(player), "Select a kit type...")));
 
         return buttons;
     }

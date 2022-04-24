@@ -4,7 +4,7 @@ import com.qrakn.morpheus.game.Game;
 import com.qrakn.morpheus.game.GameQueue;
 import com.qrakn.morpheus.game.event.GameEvent;
 import net.frozenorb.potpvp.events.menu.parameter.HostParametersMenu;
-import net.frozenorb.potpvp.kt.menu.Button;
+import net.frozenorb.potpvp.util.menu.Button;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -24,7 +24,7 @@ public class HostEventButton extends Button {
     }
 
     @Override
-    public void clicked(Player player, int slot, ClickType clickType, InventoryView view) {
+    public void clicked(Player player, int slot, ClickType clickType) {
         if (player.hasPermission(event.getPermission())) {
             if (event.getParameters().isEmpty()) {
 

@@ -3,10 +3,10 @@ package net.frozenorb.potpvp.kit.kittype.menu.select;
 import com.google.common.base.Preconditions;
 
 import net.frozenorb.potpvp.kit.kittype.KitType;
-import net.frozenorb.potpvp.kt.util.Callback;
+import net.frozenorb.potpvp.util.Callback;
 import net.frozenorb.potpvp.util.InventoryUtils;
-import net.frozenorb.potpvp.kt.menu.Button;
-import net.frozenorb.potpvp.kt.menu.Menu;
+import net.frozenorb.potpvp.util.menu.Button;
+import net.frozenorb.potpvp.util.menu.Menu;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -29,20 +29,25 @@ public final class CustomSelectKitTypeMenu extends Menu {
     private final Callback<KitType> callback;
     private final Function<KitType, CustomKitTypeMeta> metaFunc;
     private final boolean ranked;
+    private final String title;
 
     public CustomSelectKitTypeMenu(Callback<KitType> callback, Function<KitType, CustomKitTypeMeta> metaFunc, String title, boolean ranked) {
-        super(ChatColor.RED + title);
-
         setAutoUpdate(true);
 
         this.callback = Preconditions.checkNotNull(callback, "callback");
         this.metaFunc = Preconditions.checkNotNull(metaFunc, "metaFunc");
         this.ranked = ranked;
+        this.title = title;
     }
 
     @Override
-    public void onClose(Player player, boolean manualClose) {
+    public void onClose(Player player) {
         InventoryUtils.resetInventoryDelayed(player);
+    }
+
+    @Override
+    public String getTitle(Player player) {
+        return ChatColor.RED + title;
     }
 
     @Override

@@ -6,7 +6,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.ReplaceOptions;
 import net.frozenorb.potpvp.command.PotPvPCommand;
-import net.frozenorb.potpvp.kt.menu.menus.ConfirmMenu;
+import net.frozenorb.potpvp.util.menu.menus.ConfirmMenu;
 import net.frozenorb.potpvp.util.MongoUtils;
 import org.bson.Document;
 import org.bukkit.Bukkit;
@@ -28,17 +28,14 @@ public class StatsResetCommands implements PotPvPCommand {
     public void reset(@Sender Player sender, Player target) {
         Bukkit.getScheduler().runTask(PotPvPRP.getInstance(), () -> {
             new ConfirmMenu("Stats reset", (reset) -> {
-                if (!reset) {
+                if (reset) {
+                    Bukkit.getScheduler().runTaskAsynchronously(PotPvPRP.getInstance(), () -> {
+                        PotPvPRP.getInstance().getEloHandler().resetElo(target.getUniqueId());
+                        sender.sendMessage(ChatColor.GREEN + "Reset the target's stats!");
+                    });
+                } else {
                     sender.sendMessage(ChatColor.RED + "Stats reset aborted.");
-                    return null;
                 }
-
-                Bukkit.getScheduler().runTaskAsynchronously(PotPvPRP.getInstance(), () -> {
-                    PotPvPRP.getInstance().getEloHandler().resetElo(target.getUniqueId());
-                    sender.sendMessage(ChatColor.GREEN + "Reset the target's stats!");
-                });
-
-                return null;
             }).openMenu(sender);
         });
     }

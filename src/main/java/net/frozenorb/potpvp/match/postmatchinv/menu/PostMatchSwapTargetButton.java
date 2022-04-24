@@ -4,7 +4,7 @@ import com.google.common.base.Preconditions;
 
 import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.match.postmatchinv.PostMatchPlayer;
-import net.frozenorb.potpvp.kt.menu.Button;
+import net.frozenorb.potpvp.util.menu.Button;
 import com.google.common.collect.ImmutableList;
 
 import org.bukkit.ChatColor;
@@ -42,7 +42,7 @@ final class PostMatchSwapTargetButton extends Button {
     }
 
     @Override
-    public void clicked(Player player, int slot, ClickType clickType, InventoryView view) {
+    public void clicked(Player player, int slot, ClickType clickType) {
         new PostMatchMenu(newTarget).openMenu(player);
     }
 

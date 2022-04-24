@@ -1,6 +1,6 @@
 package net.frozenorb.potpvp.match;
 
-import net.frozenorb.potpvp.kt.util.ItemUtils;
+import net.frozenorb.potpvp.util.ItemUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;

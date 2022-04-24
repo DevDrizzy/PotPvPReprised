@@ -3,8 +3,8 @@ package net.frozenorb.potpvp.party.menu;
 import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.party.Party;
 import net.frozenorb.potpvp.pvpclasses.PvPClasses;
-import net.frozenorb.potpvp.kt.menu.Button;
-import net.frozenorb.potpvp.kt.menu.pagination.PaginatedMenu;
+import net.frozenorb.potpvp.util.menu.Button;
+import net.frozenorb.potpvp.util.menu.pagination.PaginatedMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -25,8 +25,6 @@ public class RosterMenu extends PaginatedMenu {
         setUpdateAfterClick(true);
         setPlaceholder(true);
     }
-
-
 
     @Override
     public String getPrePaginatedTitle(Player player) {
@@ -88,7 +86,7 @@ public class RosterMenu extends PaginatedMenu {
                 }
 
                 @Override
-                public void clicked(Player player, int slot, ClickType clickType, InventoryView view) {
+                public void clicked(Player player, int slot, ClickType clickType) {
                     if (party.isLeader(player.getUniqueId())) {
                         List<PvPClasses> kits = Arrays.asList(PvPClasses.values());
                         int index = kits.indexOf(selected);
@@ -129,7 +127,7 @@ public class RosterMenu extends PaginatedMenu {
     }
 
     @Override
-    public int size(Map<Integer, ? extends Button> buttons) {
+    public int size(Player player) {
         return 9 * 5;
     }
 

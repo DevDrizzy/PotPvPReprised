@@ -6,7 +6,7 @@ import com.qrakn.morpheus.game.event.impl.lms.LastManStandingGameEvent
 import com.qrakn.morpheus.game.event.impl.skywars.SkywarsGameEvent
 import com.qrakn.morpheus.game.event.impl.sumo.SumoGameEvent
 import com.qrakn.morpheus.game.parameter.GameParameter
-import net.frozenorb.potpvp.kt.util.ItemBuilder
+import net.frozenorb.potpvp.util.ItemBuilder
 import org.bukkit.ChatColor
 import org.bukkit.Material
 import org.bukkit.entity.Player

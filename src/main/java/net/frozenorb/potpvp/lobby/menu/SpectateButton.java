@@ -6,7 +6,7 @@ import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.match.Match;
 import net.frozenorb.potpvp.match.MatchTeam;
 import net.frozenorb.potpvp.validation.PotPvPValidation;
-import net.frozenorb.potpvp.kt.menu.Button;
+import net.frozenorb.potpvp.util.menu.Button;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -80,7 +80,7 @@ final class SpectateButton extends Button {
     }
 
     @Override
-    public void clicked(Player player, int slot, ClickType clickType, InventoryView view) {
+    public void clicked(Player player, int slot, ClickType clickType) {
         if (!PotPvPValidation.canUseSpectateItemIgnoreMatchSpectating(player)) {
             return;
         }

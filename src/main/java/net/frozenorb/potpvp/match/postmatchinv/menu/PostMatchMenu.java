@@ -7,8 +7,8 @@ import net.frozenorb.potpvp.kit.kittype.HealingMethod;
 import net.frozenorb.potpvp.match.postmatchinv.PostMatchInvHandler;
 import net.frozenorb.potpvp.match.postmatchinv.PostMatchPlayer;
 import net.frozenorb.potpvp.util.InventoryUtils;
-import net.frozenorb.potpvp.kt.menu.Button;
-import net.frozenorb.potpvp.kt.menu.Menu;
+import net.frozenorb.potpvp.util.menu.Button;
+import net.frozenorb.potpvp.util.menu.Menu;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -20,9 +20,12 @@ public final class PostMatchMenu extends Menu {
     private final PostMatchPlayer target;
 
     public PostMatchMenu(PostMatchPlayer target) {
-        super("Inventory of " + PotPvPRP.getInstance().getUuidCache().name(target.getPlayerUuid()));
-
         this.target = Preconditions.checkNotNull(target, "target");
+    }
+
+    @Override
+    public String getTitle(Player player) {
+        return "Inventory of " + PotPvPRP.getInstance().getUuidCache().name(target.getPlayerUuid());
     }
 
     @Override
@@ -89,7 +92,7 @@ public final class PostMatchMenu extends Menu {
     }
 
     @Override
-    public void onClose(Player player, boolean manualClose) {
+    public void onClose(Player player) {
         InventoryUtils.resetInventoryDelayed(player);
     }
 

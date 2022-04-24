@@ -2,7 +2,7 @@ package net.frozenorb.potpvp.match.listener;
 
 import java.util.UUID;
 
-import net.frozenorb.potpvp.kt.util.PlayerUtils;
+import net.frozenorb.potpvp.util.PlayerUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -31,7 +31,7 @@ import net.frozenorb.potpvp.match.MatchHandler;
 import net.frozenorb.potpvp.match.MatchState;
 import net.frozenorb.potpvp.match.MatchTeam;
 import net.frozenorb.potpvp.adapter.nametag.NameTagAdapter;
-import net.frozenorb.potpvp.kt.util.Cuboid;
+import net.frozenorb.potpvp.util.Cuboid;
 
 public final class MatchGeneralListener implements Listener {
 

@@ -5,8 +5,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.function.BiConsumer;
 
-import net.frozenorb.potpvp.kt.util.PlayerUtils;
-import net.frozenorb.potpvp.kt.util.TimeUtils;
+import net.frozenorb.potpvp.util.PlayerUtils;
+import net.frozenorb.potpvp.util.TimeUtils;
 import net.frozenorb.potpvp.pvpclasses.pvpclasses.ArcherClass;
 import net.frozenorb.potpvp.pvpclasses.pvpclasses.BardClass;
 import net.frozenorb.potpvp.util.scoreboard.construct.ScoreFunction;
@@ -323,7 +323,7 @@ final class MatchScoreGetter implements BiConsumer<Player, List<String>> {
         } else {
             // we go from when it started to either now (if it's in progress)
             // or the timestamp at which the match actually ended
-            formattedDuration = TimeUtils.formatLongIntoMMSS(ChronoUnit.SECONDS.between(
+            formattedDuration = TimeUtils.formatLongIntoHHMMSS(ChronoUnit.SECONDS.between(
                     startedAt.toInstant(),
                     endedAt == null ? Instant.now() : endedAt.toInstant()
             ));

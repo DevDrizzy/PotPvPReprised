@@ -1,6 +1,8 @@
 package net.frozenorb.potpvp.util;
 
+import kotlin.jvm.JvmStatic;
 import lombok.experimental.UtilityClass;
+import lombok.val;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -37,6 +39,11 @@ public final class TimeUtils {
 
         long hours = minutesCount / 60;
         return (hours > 0 ? (hours < 10 ? "0" : "") + hours + ":" : "") + (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+    }
+
+    public String formatLongIntoHHMMSS(Long secs) {
+        int unconvertedSeconds = secs.intValue();
+        return formatIntoMMSS(unconvertedSeconds);
     }
 
     /**

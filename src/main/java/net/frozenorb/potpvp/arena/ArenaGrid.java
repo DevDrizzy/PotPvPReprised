@@ -10,7 +10,7 @@ import com.sk89q.worldedit.Vector;
 
 import lombok.Getter;
 import net.frozenorb.potpvp.PotPvPRP;
-import net.frozenorb.potpvp.kt.util.Cuboid;
+import net.frozenorb.potpvp.util.Cuboid;
 
 /**
  * Represents the grid on the world

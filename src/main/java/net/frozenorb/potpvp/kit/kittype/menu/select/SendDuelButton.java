@@ -12,8 +12,8 @@ import org.bukkit.event.inventory.ClickType;
 import com.google.common.collect.ImmutableList;
 
 import lombok.AllArgsConstructor;
-import net.frozenorb.potpvp.kt.menu.Button;
-import net.frozenorb.potpvp.kt.util.Callback;
+import net.frozenorb.potpvp.util.menu.Button;
+import net.frozenorb.potpvp.util.Callback;
 import org.bukkit.inventory.InventoryView;
 
 @AllArgsConstructor
@@ -43,7 +43,7 @@ public class SendDuelButton extends Button {
     }
     
     @Override
-    public void clicked(Player player, int slot, ClickType clickType, InventoryView view) {
+    public void clicked(Player player, int slot, ClickType clickType) {
         if (maps.size() < 2) {
             player.sendMessage(ChatColor.RED + "You must select at least two maps.");
             return;

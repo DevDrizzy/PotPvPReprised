@@ -24,7 +24,7 @@ import lombok.Setter;
 
 public class LobbyParkourListener implements Listener {
 
-    @Getter private static Map<UUID, Parkour> parkourMap = Maps.newHashMap();
+    @Getter private static final Map<UUID, Parkour> parkourMap = Maps.newHashMap();
 
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = false)
     public void onPlayerInteractEvent(PlayerInteractEvent event) {

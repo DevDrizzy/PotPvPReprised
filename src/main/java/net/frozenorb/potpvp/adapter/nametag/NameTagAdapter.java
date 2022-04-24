@@ -1,14 +1,14 @@
 package net.frozenorb.potpvp.adapter.nametag;
 
 import net.frozenorb.potpvp.PotPvPRP;
-import net.frozenorb.potpvp.kt.nametag.NametagInfo;
-import net.frozenorb.potpvp.kt.nametag.NametagProvider;
 import net.frozenorb.potpvp.profile.follow.FollowHandler;;
 import net.frozenorb.potpvp.match.Match;
 import net.frozenorb.potpvp.match.MatchHandler;
 import net.frozenorb.potpvp.match.MatchTeam;
+import net.frozenorb.potpvp.util.nametag.construct.NameTagInfo;
 import net.frozenorb.potpvp.pvpclasses.pvpclasses.ArcherClass;
 
+import net.frozenorb.potpvp.util.nametag.provider.NameTagProvider;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -16,16 +16,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public final class NameTagAdapter extends NametagProvider {
+public final class NameTagAdapter extends NameTagProvider {
 
     public NameTagAdapter() {
         super("PotPvP Provider", 1);
     }
 
     @Override
-    public NametagInfo fetchNametag(Player toRefresh, Player refreshFor) {
+    public NameTagInfo fetchNameTag(Player toRefresh, Player refreshFor) {
         ChatColor prefixColor = getNameColor(toRefresh, refreshFor);
-        return createNametag(prefixColor.toString(), "");
+        return createNameTag(prefixColor.toString(), "");
     }
 
     public static ChatColor getNameColor(Player toRefresh, Player refreshFor) {

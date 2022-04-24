@@ -22,7 +22,7 @@ import org.spigotmc.event.player.PlayerSpawnLocationEvent;
 
 import net.frozenorb.potpvp.lobby.LobbyHandler;
 import net.frozenorb.potpvp.lobby.listener.LobbyParkourListener.Parkour;
-import net.frozenorb.potpvp.kt.menu.Menu;
+import net.frozenorb.potpvp.util.menu.Menu;
 
 public final class LobbyGeneralListener implements Listener {
 
@@ -87,11 +87,11 @@ public final class LobbyGeneralListener implements Listener {
             return;
         }
 
-        Menu openMenu = Menu.getCurrentlyOpenedMenus().get(player.getName());
+        Menu openMenu = Menu.getCurrentlyOpenedMenus().get(player.getUniqueId());
 
         // just remove the item for players in these menus, so they can 'drop' items to remove them
         // same thing for admins in build mode, just pretend to drop the item
-        if (player.hasMetadata("Build") || (openMenu != null && openMenu.getNoncancellingInventory())) {
+        if (player.hasMetadata("Build") || (openMenu != null && openMenu.isNoncancellingInventory())) {
             event.getItemDrop().remove();
         } else {
             event.setCancelled(true);
@@ -103,7 +103,7 @@ public final class LobbyGeneralListener implements Listener {
     public void onInventoryClick(InventoryClickEvent event) {
         Player clicked = (Player) event.getWhoClicked();
 
-        if (!lobbyHandler.isInLobby(clicked) || clicked.hasMetadata("Build") || Menu.getCurrentlyOpenedMenus().containsKey(clicked.getName())) {
+        if (!lobbyHandler.isInLobby(clicked) || clicked.hasMetadata("Build") || Menu.getCurrentlyOpenedMenus().containsKey(clicked.getUniqueId())) {
             return;
         }
 
@@ -114,7 +114,7 @@ public final class LobbyGeneralListener implements Listener {
     public void onInventoryDrag(InventoryDragEvent event) {
         Player clicked = (Player) event.getWhoClicked();
 
-        if (!lobbyHandler.isInLobby(clicked) || clicked.hasMetadata("Build") || Menu.getCurrentlyOpenedMenus().containsKey(clicked.getName())) {
+        if (!lobbyHandler.isInLobby(clicked) || clicked.hasMetadata("Build") || Menu.getCurrentlyOpenedMenus().containsKey(clicked.getUniqueId())) {
             return;
         }
 
@@ -135,7 +135,7 @@ public final class LobbyGeneralListener implements Listener {
         if (inventoryHolder instanceof Player) {
             Player player = (Player) inventoryHolder;
 
-            if (!lobbyHandler.isInLobby(player) || Menu.getCurrentlyOpenedMenus().containsKey(player.getName())) {
+            if (!lobbyHandler.isInLobby(player) || Menu.getCurrentlyOpenedMenus().containsKey(player.getUniqueId())) {
                 return;
             }
 

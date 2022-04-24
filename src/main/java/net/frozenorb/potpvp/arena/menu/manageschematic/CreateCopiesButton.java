@@ -6,7 +6,7 @@ import com.google.common.collect.ImmutableList;
 import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.arena.ArenaHandler;
 import net.frozenorb.potpvp.arena.ArenaSchematic;
-import net.frozenorb.potpvp.kt.menu.Button;
+import net.frozenorb.potpvp.util.menu.Button;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -47,7 +47,7 @@ final class CreateCopiesButton extends Button {
     }
 
     @Override
-    public void clicked(Player player, int slot, ClickType clickType, InventoryView view) {
+    public void clicked(Player player, int slot, ClickType clickType) {
         ArenaHandler arenaHandler = PotPvPRP.getInstance().getArenaHandler();
         int existing = arenaHandler.countArenas(schematic);
         int create = clickType.isShiftClick() ? 10 : 1;

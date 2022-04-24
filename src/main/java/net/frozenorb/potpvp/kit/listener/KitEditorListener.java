@@ -1,7 +1,7 @@
 package net.frozenorb.potpvp.kit.listener;
 
 import net.frozenorb.potpvp.kit.menu.editkit.EditKitMenu;
-import net.frozenorb.potpvp.kt.menu.Menu;
+import net.frozenorb.potpvp.util.menu.Menu;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -30,7 +30,7 @@ public final class KitEditorListener implements Listener {
             return;
         }
 
-        if (Menu.getCurrentlyOpenedMenus().get(player.getName()) instanceof EditKitMenu) {
+        if (Menu.getCurrentlyOpenedMenus().get(player.getUniqueId()) instanceof EditKitMenu) {
             event.setCancelled(true);
         }
     }
@@ -45,7 +45,7 @@ public final class KitEditorListener implements Listener {
     public void onInventoryDrag(InventoryDragEvent event) {
         Player player = (Player) event.getWhoClicked();
 
-        if (Menu.getCurrentlyOpenedMenus().get(player.getName()) instanceof EditKitMenu) {
+        if (Menu.getCurrentlyOpenedMenus().get(player.getUniqueId()) instanceof EditKitMenu) {
             event.setCancelled(true);
         }
     }

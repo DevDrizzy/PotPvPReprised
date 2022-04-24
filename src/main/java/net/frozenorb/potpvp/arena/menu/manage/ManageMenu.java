@@ -5,8 +5,8 @@ import com.google.common.collect.ImmutableMap;
 import net.frozenorb.potpvp.arena.menu.manageschematics.ManageSchematicsMenu;
 import net.frozenorb.potpvp.kit.kittype.menu.manage.ManageKitTypeMenu;
 import net.frozenorb.potpvp.kit.kittype.menu.select.SelectKitTypeMenu;
-import net.frozenorb.potpvp.kt.menu.Button;
-import net.frozenorb.potpvp.kt.menu.Menu;
+import net.frozenorb.potpvp.util.menu.Button;
+import net.frozenorb.potpvp.util.menu.Menu;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -27,8 +27,9 @@ import java.util.Map;
 
 public class ManageMenu extends Menu {
 
-    public ManageMenu() {
-        super("Admin Management Menu");
+    @Override
+    public String getTitle(Player player) {
+        return "Admin Management Menu";
     }
 
     @Override
@@ -57,7 +58,7 @@ public class ManageMenu extends Menu {
         }
 
         @Override
-        public void clicked(Player player, int slot, ClickType clickType, InventoryView view) {
+        public void clicked(Player player, int slot, ClickType clickType) {
             player.closeInventory();
 
             new SelectKitTypeMenu((kitType) -> {
@@ -86,7 +87,7 @@ public class ManageMenu extends Menu {
         }
 
         @Override
-        public void clicked(Player player, int slot, ClickType clickType, InventoryView view) {
+        public void clicked(Player player, int slot, ClickType clickType) {
             player.closeInventory();
             new ManageSchematicsMenu().openMenu(player);
         }

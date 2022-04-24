@@ -3,7 +3,7 @@ package net.frozenorb.potpvp.events.menu.parameter;
 import com.qrakn.morpheus.game.parameter.GameParameter;
 import com.qrakn.morpheus.game.parameter.GameParameterOption;
 import lombok.Getter;
-import net.frozenorb.potpvp.kt.menu.Button;
+import net.frozenorb.potpvp.util.menu.Button;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -24,7 +24,7 @@ public class HostParameterButton extends Button {
     }
 
     @Override
-    public void clicked(Player player, int slot, ClickType clickType, InventoryView view) {
+    public void clicked(Player player, int slot, ClickType clickType) {
         int index = parameter.getOptions().indexOf(selectedOption);
 
         if (index + 1 == parameter.getOptions().size()) {

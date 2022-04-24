@@ -5,11 +5,11 @@ import com.google.common.collect.ImmutableList;
 import net.frozenorb.potpvp.arena.menu.manage.ManageMenu;
 import net.frozenorb.potpvp.command.impl.misc.ManageCommand;
 import net.frozenorb.potpvp.kit.kittype.KitType;
-import net.frozenorb.potpvp.util.menu.MenuBackButton;
 import net.frozenorb.potpvp.util.menu.BooleanTraitButton;
-import net.frozenorb.potpvp.kt.menu.Button;
-import net.frozenorb.potpvp.kt.menu.Menu;
+import net.frozenorb.potpvp.util.menu.Button;
+import net.frozenorb.potpvp.util.menu.Menu;
 
+import net.frozenorb.potpvp.util.menu.buttons.BackButton;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -28,12 +28,15 @@ public class ManageKitTypeMenu extends Menu {
     private final KitType type;
 
     public ManageKitTypeMenu(KitType type) {
-        super("Editing " + type.getDisplayName());
-
         setNoncancellingInventory(true);
         setUpdateAfterClick(false);
 
         this.type = type;
+    }
+
+    @Override
+    public String getTitle(Player player) {
+        return "Editing " + type.getDisplayName();
     }
 
     @Override
@@ -86,7 +89,7 @@ public class ManageKitTypeMenu extends Menu {
         buttons.put(getSlot(1, 0), new SaveKitTypeButton(type));
         buttons.put(getSlot(2, 0), new CancelKitTypeEditButton());
 
-        buttons.put(getSlot(8, 0), new MenuBackButton(p -> new ManageMenu().openMenu(p)));
+        buttons.put(getSlot(8, 0), new BackButton(new ManageMenu()));
 
         ItemStack[] kit = type.getEditorItems();
         int x = 0;

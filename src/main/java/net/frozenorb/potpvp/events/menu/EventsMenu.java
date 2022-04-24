@@ -3,24 +3,26 @@ package net.frozenorb.potpvp.events.menu;
 import com.qrakn.morpheus.game.Game;
 import com.qrakn.morpheus.game.GameQueue;
 import com.qrakn.morpheus.game.GameState;
-import net.frozenorb.potpvp.kt.menu.Button;
-import net.frozenorb.potpvp.kt.menu.Menu;
+import net.frozenorb.potpvp.util.menu.Button;
+import net.frozenorb.potpvp.util.menu.Menu;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
-import org.bukkit.inventory.InventoryView;
 
 import java.util.*;
 
 public class EventsMenu extends Menu {
 
     public EventsMenu() {
-        super(ChatColor.DARK_PURPLE + "Join an event");
         setAutoUpdate(true);
     }
 
+    @Override
+    public String getTitle(Player player) {
+        return ChatColor.DARK_PURPLE + "Join an event";
+    }
 
     @Override
     public Map<Integer, Button> getButtons(Player player) {
@@ -63,7 +65,7 @@ public class EventsMenu extends Menu {
                 }
 
                 @Override
-                public void clicked(Player player, int slot, ClickType clickType, InventoryView view) {
+                public void clicked(Player player, int slot, ClickType clickType) {
                     player.closeInventory();
                     if (game.getState() == GameState.STARTING) {
                         if (game.getMaxPlayers() > 0 && game.getPlayers().size() >= game.getMaxPlayers()) {

@@ -13,7 +13,7 @@ import com.sk89q.worldedit.regions.Region;
 import com.sk89q.worldedit.schematic.SchematicFormat;
 
 import net.frozenorb.potpvp.PotPvPRP;
-import net.frozenorb.potpvp.kt.util.Cuboid;
+import net.frozenorb.potpvp.util.Cuboid;
 
 import org.bukkit.Location;
 import org.bukkit.Material;

@@ -2,14 +2,12 @@ package net.frozenorb.potpvp.arena.menu.manageschematic;
 
 import com.qrakn.morpheus.game.event.GameEvent;
 import net.frozenorb.potpvp.arena.ArenaSchematic;
-import net.frozenorb.potpvp.kt.menu.Button;
-import net.frozenorb.potpvp.kt.menu.Menu;
+import net.frozenorb.potpvp.util.menu.Button;
+import net.frozenorb.potpvp.util.menu.Menu;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
-import org.bukkit.inventory.InventoryView;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,10 +19,14 @@ public final class ManageEventsMenu extends Menu {
     private final ArenaSchematic schematic;
 
     public ManageEventsMenu(ArenaSchematic schematic) {
-        super("Manage " + schematic.getName() + "Events");
         setAutoUpdate(true);
 
         this.schematic = schematic;
+    }
+
+    @Override
+    public String getTitle(Player player) {
+        return "Manage " + schematic.getName() + "Events";
     }
 
     @Override
@@ -61,7 +63,7 @@ public final class ManageEventsMenu extends Menu {
                 }
 
                 @Override
-                public void clicked(Player player, int slot, ClickType clickType, InventoryView view) {
+                public void clicked(Player player, int slot, ClickType clickType) {
                     if (schematic.getEvent() != event) {
                         schematic.setArcherOnly(false);
                         schematic.setBuildUHCOnly(false);

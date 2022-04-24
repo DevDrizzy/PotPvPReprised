@@ -5,7 +5,7 @@ import com.google.common.collect.ImmutableList;
 
 import net.frozenorb.potpvp.arena.ArenaSchematic;
 import net.frozenorb.potpvp.arena.WorldEditUtils;
-import net.frozenorb.potpvp.kt.menu.Button;
+import net.frozenorb.potpvp.util.menu.Button;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -43,7 +43,7 @@ final class SaveModelButton extends Button {
     }
 
     @Override
-    public void clicked(Player player, int slot, ClickType clickType, InventoryView view) {
+    public void clicked(Player player, int slot, ClickType clickType) {
         player.closeInventory();
 
         try {

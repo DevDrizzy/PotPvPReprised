@@ -2,7 +2,7 @@ package net.frozenorb.potpvp.command.impl.misc;
 
 import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.command.PotPvPCommand;
-import net.frozenorb.potpvp.kt.util.PlayerUtils;
+import net.frozenorb.potpvp.util.PlayerUtils;
 import net.frozenorb.potpvp.match.Match;
 import net.frozenorb.potpvp.match.MatchTeam;
 

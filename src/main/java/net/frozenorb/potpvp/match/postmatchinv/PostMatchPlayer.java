@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 
 import net.frozenorb.potpvp.kit.kittype.HealingMethod;
 
-import net.frozenorb.potpvp.kt.util.PlayerUtils;
+import net.frozenorb.potpvp.util.PlayerUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;

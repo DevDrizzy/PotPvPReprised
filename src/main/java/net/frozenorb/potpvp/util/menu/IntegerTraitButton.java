@@ -2,7 +2,7 @@ package net.frozenorb.potpvp.util.menu;
 
 import com.google.common.collect.ImmutableList;
 
-import net.frozenorb.potpvp.kt.menu.Button;
+import net.frozenorb.potpvp.util.menu.Button;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -64,7 +64,7 @@ public final class IntegerTraitButton<T> extends Button {
     }
 
     @Override
-    public void clicked(Player player, int slot, ClickType clickType, InventoryView view) {
+    public void clicked(Player player, int slot, ClickType clickType) {
         int current = readFunction.apply(target);
         int change = clickType.isShiftClick() ? 10 : 1;
 

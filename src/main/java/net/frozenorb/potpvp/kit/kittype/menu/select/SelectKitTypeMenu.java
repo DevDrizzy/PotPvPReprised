@@ -4,11 +4,11 @@ import com.google.common.base.Preconditions;
 
 import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.kit.kittype.KitType;
-import net.frozenorb.potpvp.kt.util.Callback;
+import net.frozenorb.potpvp.util.Callback;
 import net.frozenorb.potpvp.party.Party;
 import net.frozenorb.potpvp.util.InventoryUtils;
-import net.frozenorb.potpvp.kt.menu.Button;
-import net.frozenorb.potpvp.kt.menu.Menu;
+import net.frozenorb.potpvp.util.menu.Button;
+import net.frozenorb.potpvp.util.menu.Menu;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -19,6 +19,7 @@ import java.util.Map;
 public final class SelectKitTypeMenu extends Menu {
 
     private final boolean reset;
+    private final String title;
     private final Callback<KitType> callback;
 
     public SelectKitTypeMenu(Callback<KitType> callback, String title) {
@@ -26,17 +27,22 @@ public final class SelectKitTypeMenu extends Menu {
     }
 
     public SelectKitTypeMenu(Callback<KitType> callback, boolean reset, String title) {
-        super(ChatColor.BLUE.toString() + ChatColor.BOLD + title);
-
         this.callback = Preconditions.checkNotNull(callback, "callback");
         this.reset = reset;
+        this.title = title;
     }
+    
 
     @Override
-    public void onClose(Player player, boolean manualClose) {
+    public void onClose(Player player) {
         if (reset) {
             InventoryUtils.resetInventoryDelayed(player);
         }
+    }
+
+    @Override
+    public String getTitle(Player player) {
+        return ChatColor.BLUE.toString() + ChatColor.BOLD + title;
     }
 
     @Override

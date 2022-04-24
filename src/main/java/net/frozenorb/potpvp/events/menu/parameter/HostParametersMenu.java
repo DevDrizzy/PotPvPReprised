@@ -5,8 +5,8 @@ import com.qrakn.morpheus.game.GameQueue;
 import com.qrakn.morpheus.game.event.GameEvent;
 import com.qrakn.morpheus.game.parameter.GameParameter;
 import com.qrakn.morpheus.game.parameter.GameParameterOption;
-import net.frozenorb.potpvp.kt.menu.Button;
-import net.frozenorb.potpvp.kt.menu.Menu;
+import net.frozenorb.potpvp.util.menu.Button;
+import net.frozenorb.potpvp.util.menu.Menu;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -21,7 +21,6 @@ public class HostParametersMenu extends Menu {
     private final List<HostParameterButton> buttons = new ArrayList<>();
 
     public HostParametersMenu(GameEvent event) {
-        super(ChatColor.DARK_PURPLE + event.getName() + " options");
         setUpdateAfterClick(true);
         setPlaceholder(true);
 
@@ -30,6 +29,11 @@ public class HostParametersMenu extends Menu {
         }
 
         this.event = event;
+    }
+
+    @Override
+    public String getTitle(Player player) {
+        return ChatColor.DARK_PURPLE + event.getName() + " options";
     }
 
     @Override
@@ -57,7 +61,7 @@ public class HostParametersMenu extends Menu {
             }
 
             @Override
-            public void clicked(Player player, int slot, ClickType clickType, InventoryView view) {
+            public void clicked(Player player, int slot, ClickType clickType) {
                 for (Game game : GameQueue.INSTANCE.getGames()) {
                     if (game.getHost().equals(player)) {
                         player.sendMessage(ChatColor.RED + "You've already queued an event!");

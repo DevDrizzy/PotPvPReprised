@@ -16,22 +16,22 @@ import net.frozenorb.potpvp.kit.kittype.KitType;
 import net.frozenorb.potpvp.kit.kittype.menu.select.SendDuelButton;
 import net.frozenorb.potpvp.kit.kittype.menu.select.ToggleAllButton;
 import net.frozenorb.potpvp.match.MatchHandler;
-import net.frozenorb.potpvp.kt.menu.Button;
-import net.frozenorb.potpvp.kt.menu.Menu;
-import net.frozenorb.potpvp.kt.util.Callback;
+import net.frozenorb.potpvp.util.menu.Button;
+import net.frozenorb.potpvp.util.menu.Menu;
+import net.frozenorb.potpvp.util.Callback;
 
 public class SelectArenaMenu extends Menu {
     
     private KitType kitType;
     private Callback<Set<String>> mapsCallback;
+    private String title;
     Set<String> allMaps;
     Set<String> enabledSchematics = Sets.newHashSet();
     
     public SelectArenaMenu(KitType kitType, Callback<Set<String>> mapsCallback, String title) {
-        super(ChatColor.BLUE.toString() + ChatColor.BOLD + title);
-
         this.kitType = kitType;
         this.mapsCallback = mapsCallback;
+        this.title = title;
         
         for (ArenaSchematic schematic : PotPvPRP.getInstance().getArenaHandler().getSchematics()) {
             if (MatchHandler.canUseSchematic(this.kitType, schematic)) {
@@ -40,6 +40,11 @@ public class SelectArenaMenu extends Menu {
         }
         
         this.allMaps = ImmutableSet.copyOf(enabledSchematics);
+    }
+
+    @Override
+    public String getTitle(Player player) {
+        return ChatColor.BLUE.toString() + ChatColor.BOLD + title;
     }
 
     @Override

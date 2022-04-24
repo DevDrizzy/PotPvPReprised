@@ -3,7 +3,7 @@ package net.frozenorb.potpvp.lobby.menu;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.frozenorb.potpvp.kt.util.ItemBuilder;
+import net.frozenorb.potpvp.util.ItemBuilder;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -12,8 +12,8 @@ import net.frozenorb.potpvp.kit.kittype.KitType;
 import net.frozenorb.potpvp.lobby.menu.statistics.GlobalEloButton;
 import net.frozenorb.potpvp.lobby.menu.statistics.KitButton;
 import net.frozenorb.potpvp.lobby.menu.statistics.PlayerButton;
-import net.frozenorb.potpvp.kt.menu.Button;
-import net.frozenorb.potpvp.kt.menu.Menu;
+import net.frozenorb.potpvp.util.menu.Button;
+import net.frozenorb.potpvp.util.menu.Menu;
 import org.jetbrains.annotations.NotNull;
 
 public final class StatisticsMenu extends Menu {
@@ -58,7 +58,7 @@ public final class StatisticsMenu extends Menu {
     }
 
     @Override
-    public int size(@NotNull Map<Integer, ? extends Button> buttons) {
+    public int size(Player player) {
         return 9 * 6;
     }
 

@@ -1,7 +1,7 @@
 package net.frozenorb.potpvp.arena.listener;
 
 import net.frozenorb.potpvp.arena.event.ArenaReleasedEvent;
-import net.frozenorb.potpvp.kt.util.Cuboid;
+import net.frozenorb.potpvp.util.Cuboid;
 
 import org.bukkit.Chunk;
 import org.bukkit.Location;

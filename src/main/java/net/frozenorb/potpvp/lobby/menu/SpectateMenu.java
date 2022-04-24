@@ -6,8 +6,8 @@ import net.frozenorb.potpvp.match.MatchState;
 import net.frozenorb.potpvp.match.MatchTeam;
 import net.frozenorb.potpvp.profile.setting.Setting;
 import net.frozenorb.potpvp.profile.setting.SettingHandler;
-import net.frozenorb.potpvp.kt.menu.Button;
-import net.frozenorb.potpvp.kt.menu.pagination.PaginatedMenu;
+import net.frozenorb.potpvp.util.menu.Button;
+import net.frozenorb.potpvp.util.menu.pagination.PaginatedMenu;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -76,7 +76,7 @@ public final class SpectateMenu extends PaginatedMenu {
     // the menu with 8 entries, then it grows to 11 [and onto the second row]
     // - this breaks things)
     @Override
-    public int size(@NotNull Map<Integer, ? extends Button> buttons) {
+    public int size(Player player) {
         return 9 * 6;
     }
     

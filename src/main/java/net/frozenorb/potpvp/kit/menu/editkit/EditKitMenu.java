@@ -5,8 +5,8 @@ import com.google.common.base.Preconditions;
 import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.kit.Kit;
 import net.frozenorb.potpvp.util.InventoryUtils;
-import net.frozenorb.potpvp.kt.menu.Button;
-import net.frozenorb.potpvp.kt.menu.Menu;
+import net.frozenorb.potpvp.util.menu.Button;
+import net.frozenorb.potpvp.util.menu.Menu;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -26,8 +26,6 @@ public final class EditKitMenu extends Menu {
     private final Kit kit;
 
     public EditKitMenu(Kit kit) {
-        super("Editing " + kit.getName());
-
         setNoncancellingInventory(true);
         setUpdateAfterClick(false);
 
@@ -42,8 +40,13 @@ public final class EditKitMenu extends Menu {
     }
 
     @Override
-    public void onClose(Player player, boolean manualClose) {
+    public void onClose(Player player) {
         InventoryUtils.resetInventoryDelayed(player);
+    }
+
+    @Override
+    public String getTitle(Player player) {
+        return "Editing " + kit.getName();
     }
 
     @Override

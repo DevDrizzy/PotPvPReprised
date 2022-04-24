@@ -6,7 +6,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.function.BiConsumer;
 
-import net.frozenorb.potpvp.kt.util.TimeUtils;
+import net.frozenorb.potpvp.util.TimeUtils;
 import net.frozenorb.potpvp.tournament.Tournament;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

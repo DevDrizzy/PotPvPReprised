@@ -6,7 +6,7 @@ import com.google.common.collect.ImmutableList;
 import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.kit.KitHandler;
 import net.frozenorb.potpvp.kit.kittype.KitType;
-import net.frozenorb.potpvp.kt.menu.Button;
+import net.frozenorb.potpvp.util.menu.Button;
 
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
@@ -53,7 +53,7 @@ final class KitDeleteButton extends Button {
     }
 
     @Override
-    public void clicked(Player player, int slot, ClickType clickType, InventoryView view) {
+    public void clicked(Player player, int slot, ClickType clickType) {
         KitHandler kitHandler = PotPvPRP.getInstance().getKitHandler();
         kitHandler.removeKit(player, kitType, this.slot);
     }

@@ -3,8 +3,8 @@ package net.frozenorb.potpvp.arena;
 import java.util.*;
 import java.util.function.Predicate;
 
-import net.frozenorb.potpvp.kt.util.Callback;
-import net.frozenorb.potpvp.kt.util.Cuboid;
+import net.frozenorb.potpvp.util.Callback;
+import net.frozenorb.potpvp.util.Cuboid;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;

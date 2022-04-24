@@ -1,7 +1,7 @@
 package net.frozenorb.potpvp.match.listener;
 
 import net.frozenorb.potpvp.PotPvPRP;
-import net.frozenorb.potpvp.kt.util.TimeUtils;
+import net.frozenorb.potpvp.util.TimeUtils;
 import net.frozenorb.potpvp.match.Match;
 import net.frozenorb.potpvp.match.MatchEndReason;
 import net.frozenorb.potpvp.match.MatchState;

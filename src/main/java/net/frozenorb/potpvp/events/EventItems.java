@@ -3,7 +3,7 @@ package net.frozenorb.potpvp.events;
 import com.qrakn.morpheus.game.Game;
 import com.qrakn.morpheus.game.GameQueue;
 import lombok.experimental.UtilityClass;
-import net.frozenorb.potpvp.kt.util.ItemBuilder;
+import net.frozenorb.potpvp.util.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 

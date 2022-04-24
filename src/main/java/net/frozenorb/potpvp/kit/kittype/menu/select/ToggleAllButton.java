@@ -11,7 +11,7 @@ import org.bukkit.event.inventory.ClickType;
 import com.google.common.collect.ImmutableList;
 
 import lombok.AllArgsConstructor;
-import net.frozenorb.potpvp.kt.menu.Button;
+import net.frozenorb.potpvp.util.menu.Button;
 import org.bukkit.inventory.InventoryView;
 
 @AllArgsConstructor
@@ -36,7 +36,7 @@ public class ToggleAllButton extends Button {
     }
     
     @Override
-    public void clicked(Player player, int slot, ClickType clickType, InventoryView view) {
+    public void clicked(Player player, int slot, ClickType clickType) {
         if (maps.isEmpty()) {
             maps.addAll(allMaps);
         } else {

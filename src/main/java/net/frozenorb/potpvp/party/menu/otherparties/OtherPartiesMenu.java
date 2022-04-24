@@ -15,8 +15,8 @@ import net.frozenorb.potpvp.party.Party;
 import net.frozenorb.potpvp.party.PartyHandler;
 import net.frozenorb.potpvp.profile.setting.Setting;
 import net.frozenorb.potpvp.profile.setting.SettingHandler;
-import net.frozenorb.potpvp.kt.menu.Button;
-import net.frozenorb.potpvp.kt.menu.pagination.PaginatedMenu;
+import net.frozenorb.potpvp.util.menu.Button;
+import net.frozenorb.potpvp.util.menu.pagination.PaginatedMenu;
 
 public final class OtherPartiesMenu extends PaginatedMenu {
 
@@ -55,7 +55,7 @@ public final class OtherPartiesMenu extends PaginatedMenu {
                 continue;
             }
 
-            /* if (PotPvPRP.getInstance().getTournamentHandler().isInTournament(party)) {
+            /* if (PotPvPSI.getInstance().getTournamentHandler().isInTournament(party)) {
                 continue;
             } */
 
@@ -70,7 +70,7 @@ public final class OtherPartiesMenu extends PaginatedMenu {
     // the menu with 8 entries, then it grows to 11 [and onto the second row]
     // - this breaks things)
     @Override
-    public int size(Map<Integer, ? extends Button> buttons) {
+    public int size(Player player) {
         return 9 * 6;
     }
 

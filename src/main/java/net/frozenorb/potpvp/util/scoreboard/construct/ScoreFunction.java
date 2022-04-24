@@ -1,6 +1,6 @@
 package net.frozenorb.potpvp.util.scoreboard.construct;
 
-import net.frozenorb.potpvp.kt.util.TimeUtils;
+import net.frozenorb.potpvp.util.TimeUtils;
 
 public interface ScoreFunction<T> {
 

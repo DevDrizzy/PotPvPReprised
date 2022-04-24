@@ -5,7 +5,7 @@ import com.google.common.collect.ImmutableList;
 
 import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.kit.kittype.KitType;
-import net.frozenorb.potpvp.kt.menu.Button;
+import net.frozenorb.potpvp.util.menu.Button;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -51,7 +51,7 @@ final class LoadDefaultKitButton extends Button {
     }
 
     @Override
-    public void clicked(final Player player, int slot, ClickType clickType, InventoryView view) {
+    public void clicked(Player player, int slot, ClickType clickType) {
         /* Duplication fix. When players click this button we must set whatever they might have in their hand to air
          * Otherwise they can duplicate items infinitely. This exploits kits like archer and axe pvp. */
         player.setItemOnCursor(new ItemStack(Material.AIR));

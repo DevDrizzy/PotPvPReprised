@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 
 import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.kit.kittype.HealingMethod;
-import net.frozenorb.potpvp.kt.menu.Button;
+import net.frozenorb.potpvp.util.menu.Button;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

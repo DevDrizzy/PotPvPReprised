@@ -1,6 +1,6 @@
 package com.qrakn.morpheus.game.util.team
 
-import net.frozenorb.potpvp.kt.util.PlayerUtils
+import net.frozenorb.potpvp.util.PlayerUtils
 import org.apache.commons.lang.StringUtils
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player

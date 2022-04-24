@@ -4,7 +4,7 @@ import com.qrakn.morpheus.game.event.impl.skywars.loot.SkywarsGameEventLoot
 import com.qrakn.morpheus.game.event.impl.skywars.loot.SkywarsGameEventLootTier
 import com.qrakn.morpheus.game.parameter.GameParameter
 import com.qrakn.morpheus.game.parameter.GameParameterOption
-import net.frozenorb.potpvp.kt.util.ItemBuilder
+import net.frozenorb.potpvp.util.ItemBuilder
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack

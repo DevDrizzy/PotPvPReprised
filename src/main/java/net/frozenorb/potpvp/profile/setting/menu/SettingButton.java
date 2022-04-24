@@ -5,7 +5,7 @@ import com.google.common.base.Preconditions;
 import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.profile.setting.Setting;
 import net.frozenorb.potpvp.profile.setting.SettingHandler;
-import net.frozenorb.potpvp.kt.menu.Button;
+import net.frozenorb.potpvp.util.menu.Button;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -60,7 +60,7 @@ final class SettingButton extends Button {
     }
 
     @Override
-    public void clicked(Player player, int slot, ClickType clickType, InventoryView view) {
+    public void clicked(Player player, int slot, ClickType clickType) {
         if (!setting.canUpdate(player)) {
             return;
         }
