@@ -2,6 +2,7 @@ package net.frozenorb.potpvp.party;
 
 import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.util.ItemUtils;
+import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -14,7 +15,7 @@ public final class PartyItems {
 
     public static final Material ICON_TYPE = Material.NETHER_STAR;
 
-    public static final ItemStack LEAVE_PARTY_ITEM = new ItemStack(Material.FIRE);
+    public static final ItemStack LEAVE_PARTY_ITEM = new ItemStack(Material.INK_SACK, 1, (byte) DyeColor.RED.getDyeData());
     public static final ItemStack ASSIGN_CLASSES = new ItemStack(Material.ITEM_FRAME);
     public static final ItemStack START_TEAM_SPLIT_ITEM = new ItemStack(Material.DIAMOND_SWORD);
     public static final ItemStack START_FFA_ITEM = new ItemStack(Material.GOLD_SWORD);
