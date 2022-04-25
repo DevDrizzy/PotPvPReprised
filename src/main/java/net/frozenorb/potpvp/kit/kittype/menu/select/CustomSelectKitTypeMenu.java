@@ -2,6 +2,7 @@ package net.frozenorb.potpvp.kit.kittype.menu.select;
 
 import com.google.common.base.Preconditions;
 
+import lombok.RequiredArgsConstructor;
 import net.frozenorb.potpvp.kit.kittype.KitType;
 import net.frozenorb.potpvp.util.Callback;
 import net.frozenorb.potpvp.util.InventoryUtils;
@@ -33,6 +34,7 @@ public final class CustomSelectKitTypeMenu extends Menu {
 
     public CustomSelectKitTypeMenu(Callback<KitType> callback, Function<KitType, CustomKitTypeMeta> metaFunc, String title, boolean ranked) {
         setAutoUpdate(true);
+        setPlaceholder(true);
 
         this.callback = Preconditions.checkNotNull(callback, "callback");
         this.metaFunc = Preconditions.checkNotNull(metaFunc, "metaFunc");
@@ -53,7 +55,7 @@ public final class CustomSelectKitTypeMenu extends Menu {
     @Override
     public Map<Integer, Button> getButtons(Player player) {
         Map<Integer, Button> buttons = new HashMap<>();
-        int index = 0;
+        int index = 10;
 
         for (KitType kitType : KitType.getAllTypes()) {
             if (!player.isOp() && kitType.isHidden()) {
@@ -65,17 +67,21 @@ public final class CustomSelectKitTypeMenu extends Menu {
             }
 
             CustomKitTypeMeta meta = metaFunc.apply(kitType);
-            buttons.put(index++, new KitTypeButton(kitType, callback, meta.getDescription(), meta.getQuantity()));
+            buttons.put(index, new KitTypeButton(kitType, callback, meta.getDescription(), meta.getQuantity()));
+
+            if ((++index + 1) % 9 != 0) continue;
+            index += 2;
         }
 
         return buttons;
     }
 
-    @AllArgsConstructor
+    @Getter
+    @RequiredArgsConstructor
     public static final class CustomKitTypeMeta {
 
-        @Getter private int quantity;
-        @Getter private List<String> description;
+        private final int quantity;
+         private final List<String> description;
 
     }
 

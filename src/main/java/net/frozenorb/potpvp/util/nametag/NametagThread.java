@@ -14,7 +14,7 @@ public class NametagThread extends Thread {
     private final Map<NameTagUpdate, Boolean> pendingUpdates = new ConcurrentHashMap<>();
 
     public NametagThread() {
-        super("PotPvPSI - NameTags Thread");
+        super("PotPvPRP - NameTags Thread");
         setDaemon(false);
     }
 

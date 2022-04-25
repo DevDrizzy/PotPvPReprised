@@ -89,6 +89,13 @@ public final class QueueHandler {
         partyQueues.remove(kitType, false);
     }
 
+    public int countPlayersQueued(KitType kitType) {
+        return soloQueues.get(kitType, true).countPlayersQueued() +
+                partyQueues.get(kitType, true).countPlayersQueued() +
+                soloQueues.get(kitType, false).countPlayersQueued() +
+                partyQueues.get(kitType, false).countPlayersQueued();
+    }
+
     public int countPlayersQueued(KitType kitType, boolean ranked) {
         return soloQueues.get(kitType, ranked).countPlayersQueued() +
                partyQueues.get(kitType, ranked).countPlayersQueued();

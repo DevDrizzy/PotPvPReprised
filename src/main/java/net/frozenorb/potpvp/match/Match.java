@@ -76,7 +76,7 @@ public final class Match {
     private Date endedAt;
     private boolean ranked;
 
-    // we track if matches should give a rematch diamond manually. previouly
+    // we track if matches should give a rematch diamond manually. previously
     // we just checked if both teams had 1 player on them, but this wasn't
     // always accurate. Scenarios like a team split of a 3 man team (with one
     // sitting out) would get treated as a 1v1 when calculating rematches.
@@ -180,14 +180,14 @@ public final class Match {
                 }
                 
                 if (countdownTimeRemaining == 0) {
-                    playSoundAll(Sound.NOTE_PLING, 2F);
+                    playSoundAll(Sound.FIREWORK_BLAST, 1F);
                     startMatch();
                     return; // so we don't send '0...' message
                 } else if (countdownTimeRemaining <= 3) {
-                    playSoundAll(Sound.NOTE_PLING, 1F);
+                    playSoundAll(Sound.CLICK, 1F);
                 }
                 
-                messageAll(ChatColor.YELLOW.toString() + countdownTimeRemaining + "...");
+                messageAll(ChatColor.WHITE + "Match starting in " + ChatColor.RED + this.countdownTimeRemaining + ChatColor.WHITE + "...");
                 countdownTimeRemaining--;
             }
             
@@ -197,8 +197,11 @@ public final class Match {
     private void startMatch() {
         state = MatchState.IN_PROGRESS;
         startedAt = new Date();
-        
-        messageAll(ChatColor.GREEN + "Match started.");
+
+        messageAll(ChatColor.WHITE + "Match started.");
+        messageAll("");
+        messageAll(ChatColor.DARK_RED + ChatColor.BOLD.toString() + "(WARNING) " + ChatColor.RED + "Butterfly clicking / Block glitch is allowed. and they may resulting into a ban.");
+        messageAll("");
 
         Bukkit.getPluginManager().callEvent(new MatchStartEvent(this));
     }

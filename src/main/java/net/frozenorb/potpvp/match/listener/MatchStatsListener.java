@@ -97,9 +97,9 @@ public class MatchStatsListener implements Listener {
         Match match = event.getMatch();
         match.getTeams().forEach(team -> {
             if (match.getWinner() == team) {
-                team.getAllMembers().forEach(PotPvPSI.getInstance().getWinsMap()::incrementWins);
+                team.getAllMembers().forEach(PotPvPRP.getInstance().getWinsMap()::incrementWins);
             } else {
-                team.getAllMembers().forEach(PotPvPSI.getInstance().getLossMap()::incrementLosses);
+                team.getAllMembers().forEach(PotPvPRP.getInstance().getLossMap()::incrementLosses);
             }
         });
     }

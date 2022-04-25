@@ -4,7 +4,7 @@
     <groupId>net.frozenorb.potpvp</groupId>
     <artifactId>potpvp-reprised</artifactId>
     <name>PotPvP Reprised</name>
-    <version>1.0</version>
+    <version>1.1</version>
 
     <properties>
         <kotlin.version>1.3.11</kotlin.version>
@@ -136,11 +136,18 @@
             <version>6.0.0-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+
         <!--Fork of Drink by JonahSeguin-->
         <dependency>
             <groupId>xyz.refinedev.api</groupId>
             <artifactId>CommandAPI</artifactId>
             <version>1.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>xyz.refinedev.api</groupId>
+            <artifactId>TablistAPI</artifactId>
+            <version>1.7-SNAPSHOT</version>
         </dependency>
 
         <!--Mongo-->

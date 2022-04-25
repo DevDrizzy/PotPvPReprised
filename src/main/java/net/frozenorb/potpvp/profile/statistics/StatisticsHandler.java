@@ -27,7 +27,7 @@ import com.google.common.collect.ImmutableMap;
 public class StatisticsHandler implements Listener {
     
     private static MongoCollection<Document> COLLECTION;
-    private Map<UUID, Map<String, Map<Statistic, Double>>> statisticsMap;
+    private final Map<UUID, Map<String, Map<Statistic, Double>>> statisticsMap;
     
     public StatisticsHandler() {
         COLLECTION = MongoUtils.getCollection("playerStatistics");
@@ -139,13 +139,11 @@ public class StatisticsHandler implements Listener {
         }
 
         Document toInsert = new Document();
-        subMap.entrySet().forEach(entry -> {
+        subMap.forEach((key, value) -> {
             Document typeStats = new Document();
-            entry.getValue().entrySet().forEach(subEntry -> {
-                typeStats.put(subEntry.getKey().name(), subEntry.getValue());
-            });
+            value.forEach((key1, value1) -> typeStats.put(key1.name(), value1));
 
-            toInsert.put(entry.getKey(), typeStats);
+            toInsert.put(key, typeStats);
         });
         
         toInsert.put("lastUsername", PotPvPRP.getInstance().getUuidCache().name(uuid));
@@ -210,7 +208,7 @@ public class StatisticsHandler implements Listener {
         return Objects.firstNonNull(statisticsMap.getOrDefault(uuid, ImmutableMap.of()).getOrDefault(kitType, ImmutableMap.of()).get(statistic), 0D);
     }
 
-    private static enum Statistic {
+    private enum Statistic {
         WINS, LOSSES, WLR, KILLS, DEATHS, KDR;
     }
 

@@ -117,7 +117,7 @@ public final class MatchQueue {
                 teamBElo = " (" + eloHandler.getElo(teamB.getAliveMembers(), kitType) + " Elo)";
             }
 
-            String foundStart = ChatColor.YELLOW.toString() + ChatColor.BOLD + "Match found!" + ChatColor.YELLOW + " Opponent: " + ChatColor.AQUA;
+            String foundStart = ChatColor.RED.toString() + ChatColor.BOLD + "Match found!" + ChatColor.WHITE + " Opponent: " + ChatColor.RED;
 
             teamA.messageAlive(foundStart + Joiner.on(", ").join(PatchedPlayerUtils.mapToNames(teamB.getAllMembers())) + teamBElo);
             teamB.messageAlive(foundStart + Joiner.on(", ").join(PatchedPlayerUtils.mapToNames(teamA.getAllMembers())) + teamAElo);

@@ -63,7 +63,7 @@ public final class QueueItemListener extends ItemListener {
                 new CustomSelectKitTypeMenu(kitType -> {
                     queueHandler.joinQueue(player, kitType, ranked);
                     player.closeInventory();
-                }, ranked ? selectionAdditionRanked : selectionAdditionUnranked, ChatColor.BLUE + "" + ChatColor.BOLD + "Join " + (ranked ? "Ranked" : "Unranked") + " Queue...", ranked).openMenu(player);
+                }, ranked ? selectionAdditionRanked : selectionAdditionUnranked, ChatColor.GRAY + "" + ChatColor.BOLD + "Join " + (ranked ? "Ranked" : "Unranked") + " Queue...", ranked).openMenu(player);
             }
         };
     }
@@ -93,35 +93,18 @@ public final class QueueItemListener extends ItemListener {
         return kitType -> {
             MatchHandler matchHandler = PotPvPRP.getInstance().getMatchHandler();
 
-            int inFightsRanked = matchHandler.countPlayersPlayingMatches(m -> m.getKitType() == kitType && m.isRanked());
-            int inQueueRanked = queueHandler.countPlayersQueued(kitType, true);
-
-            int inFightsUnranked = matchHandler.countPlayersPlayingMatches(m -> m.getKitType() == kitType && !m.isRanked());
-            int inQueueUnranked = queueHandler.countPlayersQueued(kitType, false);
+            int inFightsRanked = matchHandler.countPlayersPlayingMatches(m -> m.getKitType() == kitType);
+            int inQueueRanked = queueHandler.countPlayersQueued(kitType);
 
             return new CustomSelectKitTypeMenu.CustomKitTypeMeta(
-                // clamp value to >= 1 && <= 64
-                Math.max(1, Math.min(64, ranked ? inQueueRanked + inFightsRanked : inQueueUnranked + inFightsUnranked)),
-                ranked ?  ImmutableList.of(
-                        ChatColor.WHITE + " ",
-                        ChatColor.AQUA + "" + BOLD + ChatColor.UNDERLINE + "Ranked:",
-                        ChatColor.GREEN + "  In fights: " + ChatColor.WHITE + inFightsRanked,
-                        ChatColor.GREEN + "  In queue: " + ChatColor.WHITE + inQueueRanked,
-                        ChatColor.WHITE + " ",
-                        ChatColor.AQUA + "" + BOLD + "Unranked:",
-                        ChatColor.GREEN + "  In fights: " + ChatColor.WHITE + inFightsUnranked,
-                        ChatColor.GREEN + "  In queue: " + ChatColor.WHITE + inQueueUnranked) :
+                Math.max(1, Math.min(64, inQueueRanked + inFightsRanked)),
                 ImmutableList.of(
                         ChatColor.WHITE + " ",
-                        ChatColor.AQUA + "" + BOLD + "Ranked:",
-                        ChatColor.GREEN + "  In fights: " + ChatColor.WHITE + inFightsRanked,
-                        ChatColor.GREEN + "  In queue: " + ChatColor.WHITE + inQueueRanked,
-                        ChatColor.AQUA + " ",
-                        ChatColor.AQUA + "" + BOLD + ChatColor.UNDERLINE + "Unranked:",
-                        ChatColor.GREEN + "  In fights: " + ChatColor.WHITE + inFightsUnranked,
-                        ChatColor.GREEN + "  In queue: " + ChatColor.WHITE + inQueueUnranked
-
-                )
+                        "&c&lQueue",
+                        " &fIn fights: " + ChatColor.RED + inFightsRanked,
+                        " &fIn queue: " + ChatColor.RED + inQueueRanked,
+                        " ",
+                        ChatColor.RED + "Click to play!")
             );
         };
     }

@@ -10,6 +10,7 @@ import com.qrakn.morpheus.Morpheus;
 import lombok.Getter;
 import net.frozenorb.potpvp.adapter.nametag.NameTagAdapter;
 import net.frozenorb.potpvp.adapter.scoreboard.ScoreboardAdapter;
+import net.frozenorb.potpvp.adapter.tablist.TablistAdapter;
 import net.frozenorb.potpvp.arena.ArenaHandler;
 import net.frozenorb.potpvp.command.binds.ChatColorProvider;
 import net.frozenorb.potpvp.command.binds.KitTypeProvider;
@@ -77,6 +78,7 @@ import org.bukkit.util.Vector;
 import xyz.refinedev.command.CommandHandler;
 import xyz.refinedev.spigot.chunk.ChunkSnapshot;
 import xyz.refinedev.spigot.utils.CC;
+import xyz.refinedev.tablist.TablistHandler;
 
 import java.util.Calendar;
 import java.util.UUID;
@@ -132,10 +134,11 @@ public final class PotPvPRP extends JavaPlugin {
     public HologramHandler hologramHandler;
     public CommandHandler commandHandler;
     public NameTagHandler nameTagHandler;
+    public TablistHandler tablistHandler;
 
     public UUIDCache uuidCache;
 
-    private final ChatColor dominantColor = ChatColor.GOLD;
+    private final ChatColor dominantColor = ChatColor.RED;
     private final PotPvPCache cache = new PotPvPCache();
 
     private BasicConfigurationFile hologramsConfig;
@@ -163,7 +166,7 @@ public final class PotPvPRP extends JavaPlugin {
 
         ScoreboardAdapter scoreboardAdapter = new ScoreboardAdapter();
         NameTagAdapter nameTagAdapter = new NameTagAdapter();
-        //TablistAdapter tablistAdapter = new TablistAdapter();
+        TablistAdapter tablistAdapter = new TablistAdapter();
 
         this.scoreboardHandler = new ScoreboardHandler(this, scoreboardAdapter);
         this.scoreboardHandler.setAssembleStyle(AssembleStyle.KOHI);
@@ -172,10 +175,8 @@ public final class PotPvPRP extends JavaPlugin {
         this.nameTagHandler = new NameTagHandler(this);
         this.nameTagHandler.registerAdapter(nameTagAdapter);
 
-        /*if (this.configHandler.isTAB_ENABLED()) {
-           long tickTime = tablistConfig.getInteger("TABLIST.UPDATE_TICKS") * 20L;
-           this.tablistHandler = new TablistHandler(tablistAdapter, this, tickTime);
-        }*/
+        this.tablistHandler = new TablistHandler(this);
+        this.tablistHandler.registerAdapter(tablistAdapter, 20L);
 
         if (this.getServer().getPluginManager().isPluginEnabled("HolographicDisplays")) {
             this.logger("&7Found &cHolographicDisplays&7, Hooking holograms....");

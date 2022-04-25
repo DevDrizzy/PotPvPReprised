@@ -89,14 +89,16 @@ final class MatchScoreGetter implements BiConsumer<Player, List<String>> {
         // this method shouldn't have even been called if
         // they're not in a match
         if (match == null) {
-            if (followingOpt.isPresent()) {
-                scores.add("&5Following: *&7" + PotPvPRP.getInstance().getUuidCache().name(followingOpt.get()));
-            }
+            followingOpt.ifPresent(uuid -> scores.add("&fFollowing: &c" + PotPvPRP.getInstance().getUuidCache().name(uuid)));
 
             if (player.hasMetadata("ModMode")) {
                 scores.add(ChatColor.GRAY.toString() + ChatColor.BOLD + "In Silent Mode");
             }
             return;
+        }
+
+        if (match.getState() == MatchState.ENDING) {
+            scores.add(ChatColor.WHITE + "Match ended");
         }
 
         boolean participant = match.getTeam(player.getUniqueId()) != null;
@@ -116,13 +118,13 @@ final class MatchScoreGetter implements BiConsumer<Player, List<String>> {
         }
 
         // this definitely can be a .ifPresent, however creating the new lambda that often
-        // was causing some performance issues, so we do this less pretty (but more efficent)
+        // was causing some performance issues, so we do this less pretty (but more efficient)
         // check (we can't define the lambda up top and reference because we reference the
         // scores variable)
-        if (followingOpt.isPresent()) {
-            scores.add("&5Following: *&7" + PotPvPRP.getInstance().getUuidCache().name(followingOpt.get()));
-        }
 
+        followingOpt.ifPresent(uuid -> scores.add("&fFollowing: &c" + PotPvPRP.getInstance().getUuidCache().name(uuid)));
+        scores.add("");
+        scores.add("&ctest.refinedev.xyz");
         if (player.hasMetadata("ModMode")) {
             scores.add(ChatColor.GRAY.toString() + ChatColor.BOLD + "In Silent Mode");
         }
