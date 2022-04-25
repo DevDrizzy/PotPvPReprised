@@ -123,11 +123,6 @@ final class MatchScoreGetter implements BiConsumer<Player, List<String>> {
         // scores variable)
 
         followingOpt.ifPresent(uuid -> scores.add("&fFollowing: &c" + PotPvPRP.getInstance().getUuidCache().name(uuid)));
-        scores.add("");
-        scores.add("&ctest.refinedev.xyz");
-        if (player.hasMetadata("ModMode")) {
-            scores.add(ChatColor.GRAY.toString() + ChatColor.BOLD + "In Silent Mode");
-        }
     }
 
     private boolean renderParticipantLines(List<String> scores, Match match, Player player) {
@@ -147,8 +142,11 @@ final class MatchScoreGetter implements BiConsumer<Player, List<String>> {
         int ourTeamSize = ourTeam.getAllMembers().size();
         int otherTeamSize = otherTeam.getAllMembers().size();
 
+        boolean ping = false;
+
         if (ourTeamSize == 1 && otherTeamSize == 1) {
             render1v1MatchLines(scores, otherTeam);
+            ping = true;
         } else if (ourTeamSize <= 2 && otherTeamSize <= 2) {
             render2v2MatchLines(scores, ourTeam, otherTeam, player, match.getKitType().getHealingMethod());
         } else if (ourTeamSize <= 4 && otherTeamSize <= 4) {
@@ -175,7 +173,7 @@ final class MatchScoreGetter implements BiConsumer<Player, List<String>> {
             scores.add("&b&lBard Energy&7: &c" + bardEnergyScore);
         }
 
-        return false;
+        return ping;
     }
 
     private void render1v1MatchLines(List<String> scores, MatchTeam otherTeam) {

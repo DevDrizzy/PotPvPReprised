@@ -13,8 +13,6 @@ import java.util.List;
 
 public abstract class Button {
 
-    /** @deprecated */
-    @Deprecated
     public static Button placeholder(Material material, byte data, String... title) {
         return placeholder(material, data, title != null && title.length != 0 ? Joiner.on(" ").join(title) : " ");
     }

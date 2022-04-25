@@ -96,14 +96,9 @@ final class LobbyScoreGetter implements BiConsumer<Player, List<String>> {
             }
         } else if (playerParty != null) {
             scores.add("");
-            scores.add("&cParty: ");
+            scores.add("&c&lParty: ");
             scores.add("&f Leader: " + ChatColor.RED + PotPvPRP.getInstance().getUuidCache().name(playerParty.getLeader()));
             scores.add("&f Members: " + ChatColor.RED + playerParty.getMembers().size() + "/" + Party.MAX_SIZE);
-        }
-        scores.add("");
-        scores.add("&rtest.refinedev.xyz");
-        if (player.hasMetadata("Silent")) {
-            scores.add(ChatColor.GRAY + ChatColor.BOLD.toString() + "Silent Mode");
         }
     }
 

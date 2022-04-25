@@ -6,10 +6,13 @@ import lombok.RequiredArgsConstructor;
 import net.frozenorb.potpvp.kit.kittype.KitType;
 import net.frozenorb.potpvp.util.Callback;
 import net.frozenorb.potpvp.util.InventoryUtils;
+import net.frozenorb.potpvp.util.ItemBuilder;
 import net.frozenorb.potpvp.util.menu.Button;
 import net.frozenorb.potpvp.util.menu.Menu;
 
 import org.bukkit.ChatColor;
+import org.bukkit.DyeColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -34,7 +37,6 @@ public final class CustomSelectKitTypeMenu extends Menu {
 
     public CustomSelectKitTypeMenu(Callback<KitType> callback, Function<KitType, CustomKitTypeMeta> metaFunc, String title, boolean ranked) {
         setAutoUpdate(true);
-        setPlaceholder(true);
 
         this.callback = Preconditions.checkNotNull(callback, "callback");
         this.metaFunc = Preconditions.checkNotNull(metaFunc, "metaFunc");
@@ -67,10 +69,14 @@ public final class CustomSelectKitTypeMenu extends Menu {
             }
 
             CustomKitTypeMeta meta = metaFunc.apply(kitType);
-            buttons.put(index, new KitTypeButton(kitType, callback, meta.getDescription(), meta.getQuantity()));
+            buttons.put(index, new KitTypeButton(kitType, callback, meta.getDescription(), meta.getQuantity(), false));
 
             if ((++index + 1) % 9 != 0) continue;
             index += 2;
+
+            for (int i = 0; i < this.size(player); ++i) {
+                buttons.putIfAbsent(i, Button.placeholder(Material.STAINED_GLASS_PANE, (byte) 15));
+            }
         }
 
         return buttons;
@@ -81,7 +87,7 @@ public final class CustomSelectKitTypeMenu extends Menu {
     public static final class CustomKitTypeMeta {
 
         private final int quantity;
-         private final List<String> description;
+        private final List<String> description;
 
     }
 

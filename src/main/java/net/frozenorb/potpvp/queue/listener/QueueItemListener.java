@@ -28,8 +28,7 @@ import static net.md_5.bungee.api.ChatColor.BOLD;
 // harder to follow, but saves us from a lot of duplication
 public final class QueueItemListener extends ItemListener {
 
-    private final Function<KitType, CustomSelectKitTypeMenu.CustomKitTypeMeta> selectionAdditionRanked = selectionMenuAddition(true);
-    private final Function<KitType, CustomSelectKitTypeMenu.CustomKitTypeMeta> selectionAdditionUnranked = selectionMenuAddition(false);
+    private final Function<KitType, CustomSelectKitTypeMenu.CustomKitTypeMeta> selectionMenuAddition = selectionMenuAddition();
     private final QueueHandler queueHandler;
 
     public QueueItemListener(QueueHandler queueHandler) {
@@ -63,7 +62,7 @@ public final class QueueItemListener extends ItemListener {
                 new CustomSelectKitTypeMenu(kitType -> {
                     queueHandler.joinQueue(player, kitType, ranked);
                     player.closeInventory();
-                }, ranked ? selectionAdditionRanked : selectionAdditionUnranked, ChatColor.GRAY + "" + ChatColor.BOLD + "Join " + (ranked ? "Ranked" : "Unranked") + " Queue...", ranked).openMenu(player);
+                }, selectionMenuAddition, ChatColor.GRAY + "" + ChatColor.BOLD + "Join " + (ranked ? "Ranked" : "Unranked") + " Queue...", ranked).openMenu(player);
             }
         };
     }
@@ -84,12 +83,12 @@ public final class QueueItemListener extends ItemListener {
                 new CustomSelectKitTypeMenu(kitType -> {
                     queueHandler.joinQueue(party, kitType, ranked);
                     player.closeInventory();
-                }, ranked ? selectionAdditionRanked : selectionAdditionUnranked, "Play " + (ranked ? "Ranked" : "Unranked"), ranked).openMenu(player);
+                }, selectionMenuAddition, "Play " + (ranked ? "Ranked" : "Unranked"), ranked).openMenu(player);
             }
         };
     }
 
-    private Function<KitType, CustomSelectKitTypeMenu.CustomKitTypeMeta> selectionMenuAddition(boolean ranked) {
+    private Function<KitType, CustomSelectKitTypeMenu.CustomKitTypeMeta> selectionMenuAddition() {
         return kitType -> {
             MatchHandler matchHandler = PotPvPRP.getInstance().getMatchHandler();
 

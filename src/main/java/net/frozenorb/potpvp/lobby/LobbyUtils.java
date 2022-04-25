@@ -137,15 +137,16 @@ public final class LobbyUtils {
                 inventory.setItem(0, QueueItems.JOIN_SOLO_UNRANKED_QUEUE_ITEM);
                 inventory.setItem(1, QueueItems.JOIN_SOLO_RANKED_QUEUE_ITEM);
                 inventory.setItem(4, LobbyItems.ENABLE_SPEC_MODE_ITEM);
-                //inventory.setItem(7, LobbyItems.PLAYER_STATISTICS);
                 inventory.setItem(8, KitItems.OPEN_EDITOR_ITEM);
 
                 ItemStack eventItem = EventItems.getEventItem();
 
                 if (player.hasPermission("potpvp.admin")) {
-                    inventory.setItem(5, LobbyItems.PLAYER_STATISTICS);
                     if (eventItem != null) {
+                        inventory.setItem(5, LobbyItems.PLAYER_STATISTICS);
                         inventory.setItem(6, eventItem);
+                    } else {
+                        inventory.setItem(6, LobbyItems.PLAYER_STATISTICS);
                     }
 
                     inventory.setItem(7, LobbyItems.MANAGE_ITEM);

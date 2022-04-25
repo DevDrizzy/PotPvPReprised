@@ -7,6 +7,7 @@ import com.qrakn.morpheus.game.Game;
 import com.qrakn.morpheus.game.GameQueue;
 import com.qrakn.morpheus.game.GameState;
 import net.frozenorb.potpvp.util.scoreboard.construct.ScoreGetter;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import net.frozenorb.potpvp.PotPvPRP;
@@ -50,6 +51,11 @@ final class MultiplexingScoreGetter implements ScoreGetter {
                 } else {
                     lobbyScoreGetter.accept(player, scores);
                 }
+            }
+            scores.add("");
+            scores.add("&ctest.refinedev.xyz");
+            if (player.hasMetadata("ModMode")) {
+                scores.add(ChatColor.GRAY.toString() + ChatColor.BOLD + "In Silent Mode");
             }
             scores.add(CC.SB_BAR);
         }
