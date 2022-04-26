@@ -60,7 +60,7 @@ public final class SelectKitTypeMenu extends Menu {
                 continue;
             }
 
-            buttons.put(index, new KitTypeButton(kitType, callback));
+            buttons.put(index, new KitTypeButton(kitType, callback, true));
 
             if ((++index + 1) % 9 != 0) continue;
             index += 2;
