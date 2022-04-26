@@ -49,7 +49,7 @@ public final class DuelCommand implements PotPvPCommand {
                 sender.closeInventory();
 
                 // reassign these fields so that any party changes
-                // (kicks, etc) are reflectednow
+                // (kicks, etc) are reflected now
                 Party newSenderParty = partyHandler.getParty(sender);
                 Party newTargetParty = partyHandler.getParty(target);
 

@@ -1,16 +1,17 @@
 package net.frozenorb.potpvp.hologram;
 
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
+import com.google.gson.reflect.TypeToken;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import net.frozenorb.potpvp.PotPvPRP;
-import net.frozenorb.potpvp.hologram.impl.GlobalHologram;
-import net.frozenorb.potpvp.hologram.impl.KitHologram;
 import net.frozenorb.potpvp.hologram.task.HologramUpdateTask;
-import net.frozenorb.potpvp.kit.kittype.KitType;
-import net.frozenorb.potpvp.util.LocationUtils;
-import net.frozenorb.potpvp.util.config.impl.BasicConfigurationFile;
-import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.Bukkit;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.Reader;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,78 +25,64 @@ import java.util.List;
  */
 
 @Getter
-@RequiredArgsConstructor
-public class HologramHandler {
+public final class HologramHandler {
 
-    private final PotPvPRP plugin;
-    private final BasicConfigurationFile config;
+    private static final String HOLOGRAMS_FILE_NAME = "holograms.json";
     private final List<PracticeHologram> holograms = new ArrayList<>();
 
     /**
      * Load and initiate holograms
      */
-    public final void init() {
-        ConfigurationSection section = config.getConfigurationSection("HOLOGRAMS");
-        if (section == null || section.getKeys(false).isEmpty()) return;
+    public HologramHandler() {
+        File folder = PotPvPRP.getInstance().getDataFolder();
+        File hologramsFile = new File(folder, HOLOGRAMS_FILE_NAME);
 
-        for ( String key : section.getKeys(false) ) {
-            HologramType type;
-
-            try {
-                type = HologramType.valueOf(section.getString(key + ".TYPE"));
-            } catch (Exception e) {
-                plugin.consoleLog("&cInvalid Type in hologram " + section.getString(key) + ", skipping!");
-                continue;
+        try {
+            // parsed as a List<PracticeHologram>
+            if (hologramsFile.exists()) {
+                try (Reader hologramReader = Files.newReader(hologramsFile, Charsets.UTF_8)) {
+                    Type hologramListType = new TypeToken<List<PracticeHologram>>(){}.getType();
+                    List<PracticeHologram> hologramList = PotPvPRP.getGson().fromJson(hologramReader, hologramListType);
+                    hologramList.forEach(PracticeHologram::spawn);
+                    this.holograms.addAll(hologramList);
+                }
             }
-
-            PracticeHologram hologram;
-            ConfigurationSection hologramSection = section.getConfigurationSection(key);
-
-            if (type == HologramType.KIT) {
-                KitType kit = KitType.byId(section.getString(key + ".KIT"));
-                hologram = new KitHologram(plugin, kit);
-            } else {
-                hologram = new GlobalHologram(plugin);
-            }
-
-            this.load(hologram, hologramSection, type);
-            this.holograms.add(hologram);
+        } catch (Exception e) {
+            // Can't recover from this lol
+            throw new RuntimeException(e);
         }
-        plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new HologramUpdateTask(plugin), 20L, 20L);
+
+        Bukkit.getScheduler().runTaskTimerAsynchronously(PotPvPRP.getInstance(), new HologramUpdateTask(), 20L, 20L);
     }
 
     /**
-     * Load a Hologram's meta from config
-     *
-     * @param hologram {@link PracticeHologram} hologram
-     * @param section  {@link ConfigurationSection} the config section of hologram
-     * @param type     {@link HologramType} type of hologram
+     * Save all holograms to the config
      */
-    public final void load(PracticeHologram hologram, ConfigurationSection section, HologramType type) {
-        HologramMeta meta = new HologramMeta();
-
-        meta.setLocation(LocationUtils.deserialize(section.getString("LOCATION")));
-        meta.setName(section.getName());
-        meta.setWorld(meta.getLocation().getWorld());
-        meta.setType(type);
-
-        hologram.setMeta(meta);
-        hologram.spawn();
+    public void save() throws IOException {
+        Files.write(
+                PotPvPRP.getGson().toJson(holograms),
+                new File(PotPvPRP.getInstance().getDataFolder(), HOLOGRAMS_FILE_NAME),
+                Charsets.UTF_8
+        );
     }
 
-    /**
-     * Save a hologram to the config
-     *
-     * @param hologram {@link PracticeHologram} hologram
-     */
-    public final void save(PracticeHologram hologram) {
-        HologramMeta meta = hologram.getMeta();
-        String path = "HOLOGRAMS." + meta.getName() + ".";
+    public void delete(PracticeHologram hologram) {
+        hologram.deSpawn();
+        this.holograms.remove(hologram);
 
-        config.set(path + "LOCATION", LocationUtils.serialize(meta.getLocation()));
-        config.set(path + "TYPE", meta.getType().name());
+        try {
+            this.save();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-        config.save();
+    public final PracticeHologram getByName(String name) {
+        for ( PracticeHologram hologram : this.holograms ) {
+            HologramMeta meta = hologram.getMeta();
+            if (meta.getName().equals(name)) return hologram;
+        }
+        return null;
     }
 
 }

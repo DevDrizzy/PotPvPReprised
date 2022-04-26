@@ -4,6 +4,7 @@ import lombok.Getter;
 import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.util.uuid.bukkit.BukkitUUIDCache;
 import net.frozenorb.potpvp.util.uuid.listener.UUIDListener;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -19,7 +20,6 @@ public final class UUIDCache implements IUUIDCache {
     @Getter private IUUIDCache impl;
 
     public UUIDCache() {
-
         try {
             this.impl = new BukkitUUIDCache();
         } catch (Exception e) {

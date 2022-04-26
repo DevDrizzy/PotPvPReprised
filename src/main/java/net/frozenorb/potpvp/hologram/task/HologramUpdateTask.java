@@ -17,11 +17,9 @@ import net.frozenorb.potpvp.hologram.PracticeHologram;
 @RequiredArgsConstructor
 public class HologramUpdateTask implements Runnable {
 
-    private final PotPvPRP plugin;
-
     @Override
     public void run() {
-        HologramHandler handler = plugin.getHologramHandler();
+        HologramHandler handler = PotPvPRP.getInstance().getHologramHandler();
 
         for ( PracticeHologram hologram : handler.getHolograms() ) {
             if (hologram.updateIn <= 0) {

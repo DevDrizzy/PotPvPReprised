@@ -10,6 +10,7 @@ import net.frozenorb.potpvp.queue.QueueHandler;
 import net.frozenorb.potpvp.profile.setting.Setting;
 import net.frozenorb.potpvp.profile.setting.SettingHandler;
 
+import net.frozenorb.potpvp.tournament.TournamentHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -139,10 +140,10 @@ public final class PotPvPValidation {
             return false;
         }
 
-        /*if (isInTournament(sender)) {
+        if (isInTournament(sender)) {
             initiator.sendMessage(CANNOT_DO_THIS_WHILST_IN_TOURNAMENT);
             return false;
-        }*/
+        }
 
         return true;
     }
@@ -158,10 +159,10 @@ public final class PotPvPValidation {
             return false;
         }
 
-        /*if (isInTournament(target)) {
+        if (isInTournament(target)) {
             initiator.sendMessage(CANNOT_DO_THIS_WHILST_IN_TOURNAMENT);
             return false;
-        }*/
+        }
 
         return true;
     }
@@ -187,10 +188,10 @@ public final class PotPvPValidation {
             return false;
         }
 
-        /*if (isInTournament(party)) {
+        if (isInTournament(party)) {
             player.sendMessage(TARGET_PARTY_IN_TOURNAMENT);
             return false;
-        }*/
+        }
 
         return true;
     }
@@ -373,9 +374,8 @@ public final class PotPvPValidation {
     }
 
     private boolean isInTournament(Party party) {
-        return false;
-        /*TournamentHandler tournamentHandler = PotPvPRP.getInstance().getTournamentHandler();
-        return tournamentHandler.isInTournament(party);*/
+        TournamentHandler tournamentHandler = PotPvPRP.getInstance().getTournamentHandler();
+        return tournamentHandler.isInTournament(party);
     }
 
     private boolean isInSilentMode(Player player) {

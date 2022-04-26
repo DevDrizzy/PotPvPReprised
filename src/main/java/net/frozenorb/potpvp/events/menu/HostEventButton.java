@@ -1,8 +1,9 @@
 package net.frozenorb.potpvp.events.menu;
 
-import com.qrakn.morpheus.game.Game;
-import com.qrakn.morpheus.game.GameQueue;
-import com.qrakn.morpheus.game.event.GameEvent;
+import net.frozenorb.potpvp.PotPvPRP;
+import net.frozenorb.potpvp.events.Game;
+import net.frozenorb.potpvp.events.GameHandler;
+import net.frozenorb.potpvp.events.event.GameEvent;
 import net.frozenorb.potpvp.events.menu.parameter.HostParametersMenu;
 import net.frozenorb.potpvp.util.menu.Button;
 import org.bukkit.ChatColor;
@@ -28,7 +29,7 @@ public class HostEventButton extends Button {
         if (player.hasPermission(event.getPermission())) {
             if (event.getParameters().isEmpty()) {
 
-                for (Game game : GameQueue.INSTANCE.getGames()) {
+                for (Game game : PotPvPRP.getInstance().getGameHandler().getGames()) {
                     if (game.getHost().equals(player)) {
                         player.sendMessage(ChatColor.RED + "You've already queued an event!");
                         player.closeInventory();
@@ -36,10 +37,10 @@ public class HostEventButton extends Button {
                     }
                 }
 
-                if (GameQueue.INSTANCE.size() > 9) {
+                if (PotPvPRP.getInstance().getGameHandler().size() > 9) {
                     player.sendMessage(ChatColor.RED + "The game queue is currently full! Try again later.");
                 } else {
-                    GameQueue.INSTANCE.add(new Game(event, player, new ArrayList<>()));
+                    PotPvPRP.getInstance().getGameHandler().add(new Game(event, player, new ArrayList<>()));
                     player.sendMessage(ChatColor.GREEN + "You've added a " + event.getName().toLowerCase() + " event to the queue.");
                 }
 

@@ -1,7 +1,8 @@
 package net.frozenorb.potpvp.events;
 
-import com.qrakn.morpheus.game.Game;
-import com.qrakn.morpheus.game.GameQueue;
+import net.frozenorb.potpvp.PotPvPRP;
+import net.frozenorb.potpvp.events.Game;
+import net.frozenorb.potpvp.events.GameHandler;
 import lombok.experimental.UtilityClass;
 import net.frozenorb.potpvp.util.ItemBuilder;
 import org.bukkit.Material;
@@ -15,7 +16,7 @@ import static net.md_5.bungee.api.ChatColor.LIGHT_PURPLE;
 public final class EventItems {
 
     public static ItemStack getEventItem() {
-        List<Game> game = GameQueue.INSTANCE.getCurrentGames();
+        List<Game> game = PotPvPRP.getInstance().getGameHandler().getCurrentGames();
 
         if (game.size() > 0) {
             return ItemBuilder.of(Material.EMERALD).name(LIGHT_PURPLE + "Join An Event").build();

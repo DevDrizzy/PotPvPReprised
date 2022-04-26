@@ -1,6 +1,6 @@
 package net.frozenorb.potpvp.events.menu;
 
-import com.qrakn.morpheus.game.event.GameEvent;
+import net.frozenorb.potpvp.events.event.GameEvent;
 import net.frozenorb.potpvp.util.menu.Button;
 import net.frozenorb.potpvp.util.menu.Menu;
 import org.bukkit.ChatColor;

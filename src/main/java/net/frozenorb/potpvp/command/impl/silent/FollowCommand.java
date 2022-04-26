@@ -1,7 +1,6 @@
 package net.frozenorb.potpvp.command.impl.silent;
 
-import com.qrakn.morpheus.game.Game;
-import com.qrakn.morpheus.game.GameQueue;
+import net.frozenorb.potpvp.events.Game;
 import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.command.PotPvPCommand;
 import net.frozenorb.potpvp.profile.follow.FollowHandler;
@@ -41,7 +40,7 @@ public class FollowCommand implements PotPvPCommand {
             }
         }
 
-        Game game = GameQueue.INSTANCE.getCurrentGame(target);
+        Game game = PotPvPRP.getInstance().getGameHandler().getCurrentGame(target);
         if (game != null && game.getPlayers().contains(target)) {
             sender.sendMessage(ChatColor.RED + target.getName() + " is playing an event!");
             return;

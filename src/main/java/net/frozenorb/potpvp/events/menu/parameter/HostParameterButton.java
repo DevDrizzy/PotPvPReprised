@@ -1,7 +1,7 @@
 package net.frozenorb.potpvp.events.menu.parameter;
 
-import com.qrakn.morpheus.game.parameter.GameParameter;
-import com.qrakn.morpheus.game.parameter.GameParameterOption;
+import net.frozenorb.potpvp.events.parameter.GameParameter;
+import net.frozenorb.potpvp.events.parameter.GameParameterOption;
 import lombok.Getter;
 import net.frozenorb.potpvp.util.menu.Button;
 import org.bukkit.ChatColor;

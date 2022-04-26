@@ -1,7 +1,7 @@
 package net.frozenorb.potpvp.events;
 
-import com.qrakn.morpheus.game.Game;
-import com.qrakn.morpheus.game.GameQueue;
+import net.frozenorb.potpvp.events.Game;
+import net.frozenorb.potpvp.events.GameHandler;
 import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.lobby.LobbyHandler;
 import net.frozenorb.potpvp.lobby.LobbyUtils;
@@ -19,8 +19,8 @@ public class EventTask extends BukkitRunnable {
             LobbyHandler handler = PotPvPRP.getInstance().getLobbyHandler();
 
             if (handler.isInLobby(player)) {
-                List<Game> games = GameQueue.INSTANCE.getCurrentGames();
-                Game game = GameQueue.INSTANCE.getCurrentGame(player);
+                List<Game> games = PotPvPRP.getInstance().getGameHandler().getCurrentGames();
+                Game game = PotPvPRP.getInstance().getGameHandler().getCurrentGame(player);
 
                 if (games.isEmpty()) {
                     if (player.getInventory().contains(Material.EMERALD)) {
@@ -34,9 +34,8 @@ public class EventTask extends BukkitRunnable {
                 if (!player.getInventory().contains(EventItems.getEventItem()) && !PotPvPRP.getInstance().getPartyHandler().hasParty(player)) {
                     LobbyUtils.resetInventory(player);
                 }
-
             } else {
-                Game game = GameQueue.INSTANCE.getCurrentGame(player);
+                Game game = PotPvPRP.getInstance().getGameHandler().getCurrentGame(player);
                 if (game != null && game.getPlayers().contains(player) && player.getInventory().contains(EventItems.getEventItem())) {
                     player.getInventory().remove(Material.EMERALD);
                 }

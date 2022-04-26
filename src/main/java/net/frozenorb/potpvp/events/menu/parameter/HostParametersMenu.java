@@ -1,10 +1,11 @@
 package net.frozenorb.potpvp.events.menu.parameter;
 
-import com.qrakn.morpheus.game.Game;
-import com.qrakn.morpheus.game.GameQueue;
-import com.qrakn.morpheus.game.event.GameEvent;
-import com.qrakn.morpheus.game.parameter.GameParameter;
-import com.qrakn.morpheus.game.parameter.GameParameterOption;
+import net.frozenorb.potpvp.PotPvPRP;
+import net.frozenorb.potpvp.events.Game;
+import net.frozenorb.potpvp.events.GameHandler;
+import net.frozenorb.potpvp.events.event.GameEvent;
+import net.frozenorb.potpvp.events.parameter.GameParameter;
+import net.frozenorb.potpvp.events.parameter.GameParameterOption;
 import net.frozenorb.potpvp.util.menu.Button;
 import net.frozenorb.potpvp.util.menu.Menu;
 import org.bukkit.ChatColor;
@@ -62,7 +63,7 @@ public class HostParametersMenu extends Menu {
 
             @Override
             public void clicked(Player player, int slot, ClickType clickType) {
-                for (Game game : GameQueue.INSTANCE.getGames()) {
+                for (Game game : PotPvPRP.getInstance().getGameHandler().getGames()) {
                     if (game.getHost().equals(player)) {
                         player.sendMessage(ChatColor.RED + "You've already queued an event!");
                         player.closeInventory();
@@ -70,7 +71,7 @@ public class HostParametersMenu extends Menu {
                     }
                 }
 
-                if (GameQueue.INSTANCE.size() > 9) {
+                if (PotPvPRP.getInstance().getGameHandler().size() > 9) {
                     player.sendMessage(ChatColor.RED + "The game queue is currently full! Try again later.");
                 } else {
                     List<GameParameterOption> options = new ArrayList<>();
@@ -79,7 +80,7 @@ public class HostParametersMenu extends Menu {
                         options.add(hostParameterButton.getSelectedOption());
                     }
 
-                    GameQueue.INSTANCE.add(new Game(event, player, options));
+                    PotPvPRP.getInstance().getGameHandler().add(new Game(event, player, options));
                     player.sendMessage(ChatColor.GREEN + "You've added a " + event.getName().toLowerCase() + " event to the queue.");
                 }
 

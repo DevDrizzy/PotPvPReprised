@@ -1,11 +1,11 @@
 package net.frozenorb.potpvp.events;
 
-import com.qrakn.morpheus.game.Game;
-import com.qrakn.morpheus.game.GameState;
-import com.qrakn.morpheus.game.bukkit.event.GameStateChangeEvent;
-import com.qrakn.morpheus.game.bukkit.event.PlayerGameInteractionEvent;
-import com.qrakn.morpheus.game.bukkit.event.PlayerJoinGameEvent;
-import com.qrakn.morpheus.game.bukkit.event.PlayerQuitGameEvent;
+import net.frozenorb.potpvp.events.Game;
+import net.frozenorb.potpvp.events.GameState;
+import net.frozenorb.potpvp.events.bukkit.event.GameStateChangeEvent;
+import net.frozenorb.potpvp.events.bukkit.event.PlayerGameInteractionEvent;
+import net.frozenorb.potpvp.events.bukkit.event.PlayerJoinGameEvent;
+import net.frozenorb.potpvp.events.bukkit.event.PlayerQuitGameEvent;
 import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.events.menu.EventsMenu;
 import net.frozenorb.potpvp.util.VisibilityUtils;
@@ -21,8 +21,8 @@ public class EventListeners implements Listener {
         Player player = event.getPlayer();
 
         if (event.getItem() != null && event.getItem().equals(EventItems.getEventItem()) && PotPvPRP.getInstance().getLobbyHandler().isInLobby(player)) {
-            /*if (GameQueue.INSTANCE.getCurrentGames().size() == 1) {
-                Game game = GameQueue.INSTANCE.getCurrentGames().get(0);
+            /*if (PotPvPRP.getInstance().gameHandler.getCurrentGames().size() == 1) {
+                Game game = PotPvPRP.getInstance().gameHandler.getCurrentGames().get(0);
                 if (game.getState() == GameState.STARTING) {
                     if (game.getMaxPlayers() > 0 && game.getPlayers().size() >= game.getMaxPlayers()) {
                         player.sendMessage(ChatColor.RED + "This event is currently full! Sorry!");

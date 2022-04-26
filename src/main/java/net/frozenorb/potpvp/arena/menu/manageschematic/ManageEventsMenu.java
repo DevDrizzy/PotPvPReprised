@@ -1,6 +1,6 @@
 package net.frozenorb.potpvp.arena.menu.manageschematic;
 
-import com.qrakn.morpheus.game.event.GameEvent;
+import net.frozenorb.potpvp.events.event.GameEvent;
 import net.frozenorb.potpvp.arena.ArenaSchematic;
 import net.frozenorb.potpvp.util.menu.Button;
 import net.frozenorb.potpvp.util.menu.Menu;

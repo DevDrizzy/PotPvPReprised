@@ -1,8 +1,9 @@
 package net.frozenorb.potpvp.events.menu;
 
-import com.qrakn.morpheus.game.Game;
-import com.qrakn.morpheus.game.GameQueue;
-import com.qrakn.morpheus.game.GameState;
+import net.frozenorb.potpvp.PotPvPRP;
+import net.frozenorb.potpvp.events.Game;
+import net.frozenorb.potpvp.events.GameHandler;
+import net.frozenorb.potpvp.events.GameState;
 import net.frozenorb.potpvp.util.menu.Button;
 import net.frozenorb.potpvp.util.menu.Menu;
 import org.apache.commons.lang.StringUtils;
@@ -28,7 +29,7 @@ public class EventsMenu extends Menu {
     public Map<Integer, Button> getButtons(Player player) {
         Map<Integer, Button> toReturn = new HashMap<>();
 
-        for (Game game : GameQueue.INSTANCE.getCurrentGames()) {
+        for (Game game : PotPvPRP.getInstance().getGameHandler().getCurrentGames()) {
             toReturn.put(toReturn.size(), new Button() {
                 @Override
                 public String getName(Player player) {

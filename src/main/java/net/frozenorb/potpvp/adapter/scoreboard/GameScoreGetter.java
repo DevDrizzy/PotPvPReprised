@@ -1,7 +1,8 @@
 package net.frozenorb.potpvp.adapter.scoreboard;
 
-import com.qrakn.morpheus.game.Game;
-import com.qrakn.morpheus.game.GameQueue;
+import net.frozenorb.potpvp.PotPvPRP;
+import net.frozenorb.potpvp.events.Game;
+import net.frozenorb.potpvp.events.GameHandler;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -11,7 +12,7 @@ final class GameScoreGetter implements BiConsumer<Player, List<String>> {
 
     @Override
     public void accept(Player player, List<String> scores) {
-        Game game = GameQueue.INSTANCE.getCurrentGame(player);
+        Game game = PotPvPRP.getInstance().getGameHandler().getCurrentGame(player);
 
         if (game == null) return;
         if (!game.getPlayers().contains(player)) return;

@@ -88,6 +88,12 @@ public final class ArenaHandler {
             // just rethrow, can't recover from arenas failing to load
             throw new RuntimeException(ex);
         }
+
+        for (World world : Bukkit.getWorlds()) {
+            world.setGameRuleValue("doDaylightCycle", "false");
+            world.setGameRuleValue("doMobSpawning", "false");
+            world.setTime(6_000L);
+        }
     }
 
     @SneakyThrows

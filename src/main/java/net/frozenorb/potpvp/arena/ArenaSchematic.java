@@ -2,7 +2,7 @@ package net.frozenorb.potpvp.arena;
 
 import com.google.common.base.Preconditions;
 
-import com.qrakn.morpheus.game.event.GameEvent;
+import net.frozenorb.potpvp.events.event.GameEvent;
 import com.sk89q.worldedit.Vector;
 
 import java.io.File;

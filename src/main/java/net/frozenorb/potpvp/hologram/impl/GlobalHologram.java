@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 
 import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.hologram.PracticeHologram;
-import net.frozenorb.potpvp.util.config.impl.BasicConfigurationFile;
+import org.bukkit.configuration.Configuration;
 
 import java.util.Map;
 
@@ -32,7 +32,7 @@ public class GlobalHologram extends PracticeHologram {
     public void spawn() {
         Preconditions.checkNotNull(this.meta, "Hologram Meta can not be null!");
 
-        BasicConfigurationFile config = plugin.getHologramsConfig();
+        Configuration config = plugin.getConfig();
 
         Hologram apiHologram = HologramsAPI.createHologram(plugin, meta.getLocation());
         apiHologram.clearLines();

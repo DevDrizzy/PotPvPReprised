@@ -11,3 +11,35 @@ MONGO:
   URI:
     DATABASE: PotPvPRP
     CONNECTION_STRING: mongodb://127.0.0.1:27017/PotPvPRP
+
+SETTINGS:
+  UPDATE-TIME: 20 # Seconds
+  DEFAULT:
+    FORMAT: '&b<number># &f<name> &7» &f<value> &7» <division>'
+    LINES:
+      - "&b&lPractice <type>"
+      - "&b&lLeaderboards"
+      - "&7"
+      - "<top>"
+      - "&7"
+      - "&fNext update in &b<update>"
+  CLAN:
+    FORMAT: '&b<number># &f<name> &7» &f<value>'
+    LINES:
+      - "&b&lPractice Clan"
+      - "&b&lLeaderboards"
+      - "&7"
+      - "<top>"
+      - "&7"
+      - "&fNext update in &b<update>"
+  KIT:
+    FORMAT: '&b<number># &f<name> &7» &f<value>'
+    LINES:
+      - "&b&lPractice <kit_name>"
+      - "&b&lLeaderboards"
+      - "&7"
+      - "&a◉ <kit> ◉"
+      - "&7"
+      - "<top>"
+      - "&7"
+      - "&fNext update in &b<update>"
