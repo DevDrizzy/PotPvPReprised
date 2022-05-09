@@ -25,13 +25,12 @@ public final class LobbyItems {
     public static final ItemStack PLAYER_STATISTICS = new ItemStack(Material.SKULL_ITEM, 1, (byte) 3);
 
     static {
-        ItemUtils.setDisplayName(SPECTATE_RANDOM_ITEM, BLUE.toString() + BOLD + "» " + YELLOW + BOLD + "Spectate Random Match" + BLUE.toString() + BOLD + " «");
-        ItemUtils.setDisplayName(SPECTATE_MENU_ITEM, BLUE.toString() + BOLD + "» " + GREEN + BOLD + "Spectate Menu" + BLUE.toString() + BOLD + " «");
-        ItemUtils.setDisplayName(ENABLE_SPEC_MODE_ITEM, BLUE.toString() + BOLD + "» " + AQUA + BOLD + "Enable Spectator Mode" + BLUE.toString() + BOLD + " «");
-        ItemUtils.setDisplayName(DISABLE_SPEC_MODE_ITEM, BLUE.toString() + BOLD + "» " + AQUA + BOLD + "Disable Spectator Mode" + BLUE.toString() + BOLD + " «");
-        ItemUtils.setDisplayName(MANAGE_ITEM, BLUE.toString() + BOLD + "» " + RED + BOLD + "Manage PotPvP" + BLUE.toString() + BOLD + " «");
-        ItemUtils.setDisplayName(UNFOLLOW_ITEM, BLUE.toString() + BOLD + "» " + RED + BOLD + "Stop Following" + BLUE.toString() + BOLD + " «");
-        ItemUtils.setDisplayName(PLAYER_STATISTICS, LEFT_ARROW + ChatColor.LIGHT_PURPLE.toString() + BOLD + "Statistics" + RIGHT_ARROW);
+        ItemUtils.setDisplayName(SPECTATE_RANDOM_ITEM,  RED + "Spectate Random Match");
+        ItemUtils.setDisplayName(SPECTATE_MENU_ITEM,  RED + "Spectate Menu");
+        ItemUtils.setDisplayName(ENABLE_SPEC_MODE_ITEM, RED + "Create Party");
+        ItemUtils.setDisplayName(MANAGE_ITEM, RED + "Manage PotPvP");
+        ItemUtils.setDisplayName(UNFOLLOW_ITEM, RED + "Stop Following");
+        ItemUtils.setDisplayName(PLAYER_STATISTICS, RED + "Statistics");
     }
 
 }

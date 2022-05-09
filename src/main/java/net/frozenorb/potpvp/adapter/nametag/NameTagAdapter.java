@@ -19,7 +19,7 @@ import java.util.UUID;
 public final class NameTagAdapter extends NameTagProvider {
 
     public NameTagAdapter() {
-        super("PotPvP Provider", 1);
+        super("PotPvP Provider", 5);
     }
 
     @Override
@@ -74,9 +74,9 @@ public final class NameTagAdapter extends NameTagProvider {
 
         // we have predefined colors for 'normal' matches
         if (teams.size() == 2) {
-            // team 1 = LIGHT_PURPLE, team 2 = AQUA
+            // team 1 = RED, team 2 = AQUA
             if (toRefreshTeam == teams.get(0)) {
-                return ChatColor.LIGHT_PURPLE;
+                return ChatColor.RED;
             } else {
                 return ChatColor.AQUA;
             }

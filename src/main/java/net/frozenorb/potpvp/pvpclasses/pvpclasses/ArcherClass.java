@@ -32,11 +32,11 @@ public class ArcherClass extends PvPClass {
 
     public static final int MARK_SECONDS = 10;
 
-    private static Map<String, Long> lastSpeedUsage = new HashMap<>();
-    private static Map<String, Long> lastJumpUsage = new HashMap<>();
-    @Getter private static Map<String, Long> markedPlayers = new ConcurrentHashMap<>();
+    @Getter private static final Map<String, Long> markedPlayers = new ConcurrentHashMap<>();
+    @Getter private static final Map<String, Set<Pair<String, Long>>> markedBy = new HashMap<>();
 
-    @Getter private static Map<String, Set<Pair<String, Long>>> markedBy = new HashMap<>();
+    private final Map<String, Long> lastSpeedUsage = new HashMap<>();
+    private final Map<String, Long> lastJumpUsage = new HashMap<>();
 
     public ArcherClass() {
         super("Archer", 15, "LEATHER_", Arrays.asList(Material.SUGAR, Material.FEATHER));
@@ -242,11 +242,8 @@ public class ArcherClass extends PvPClass {
                     return false;
                 }
             }
-
-            return true;
-        } else {
-            return true;
         }
+        return true;
     }
 
 }

@@ -38,10 +38,8 @@ public class TablistAdapter implements TabAdapter {
     public List<TabEntry> getLines(Player player) {
         List<TabEntry> entries = new ArrayList<>();
         //These are always displayed, no checks for these
-        entries.add(new TabEntry(0, 1, ChatColor.GRAY + "Online: " + Bukkit.getOnlinePlayers().size()));
-        entries.add(new TabEntry(1, 0, "&c&lPractice"));
+        entries.add(new TabEntry(1, 0, "&c&lRefine &7┃ &fPractice"));
         entries.add(new TabEntry(1, 1, ChatColor.GRAY + "Your Connection", Math.max(((PlayerUtils.getPing(player) + 5) / 10) * 10, 1)));
-        entries.add(new TabEntry(2, 1, ChatColor.GRAY + "In Fights: " + PotPvPRP.getInstance().getCache().getFightsCount()));
 
         Match match = PotPvPRP.getInstance().getMatchHandler().getMatchPlayingOrSpectating(player);     
         
@@ -60,7 +58,7 @@ public class TablistAdapter implements TabAdapter {
                     continue;
                 }
 
-                entries.add(new TabEntry(x++, y, ChatColor.GREEN + kitType.getDisplayName() + " - " + eloHandler.getElo(player, kitType)));
+                entries.add(new TabEntry(x++, y, ChatColor.GRAY + kitType.getDisplayName() + " - " + eloHandler.getElo(player, kitType)));
 
                 if (x == 3) {
                     x = 0;

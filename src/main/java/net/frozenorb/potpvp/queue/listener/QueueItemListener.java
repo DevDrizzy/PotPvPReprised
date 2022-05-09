@@ -14,6 +14,7 @@ import net.frozenorb.potpvp.validation.PotPvPValidation;
 import net.md_5.bungee.api.ChatColor;
 
 import org.bukkit.entity.Player;
+import xyz.refinedev.spigot.utils.CC;
 
 import java.util.UUID;
 import java.util.function.Consumer;
@@ -28,7 +29,8 @@ import static net.md_5.bungee.api.ChatColor.BOLD;
 // harder to follow, but saves us from a lot of duplication
 public final class QueueItemListener extends ItemListener {
 
-    private final Function<KitType, CustomSelectKitTypeMenu.CustomKitTypeMeta> selectionMenuAddition = selectionMenuAddition();
+    private final Function<KitType, CustomSelectKitTypeMenu.CustomKitTypeMeta> selectionAdditionRanked = selectionMenuAddition(true);
+    private final Function<KitType, CustomSelectKitTypeMenu.CustomKitTypeMeta> selectionAdditionUnranked = selectionMenuAddition(false);
     private final QueueHandler queueHandler;
 
     public QueueItemListener(QueueHandler queueHandler) {
@@ -62,7 +64,7 @@ public final class QueueItemListener extends ItemListener {
                 new CustomSelectKitTypeMenu(kitType -> {
                     queueHandler.joinQueue(player, kitType, ranked);
                     player.closeInventory();
-                }, selectionMenuAddition, ChatColor.GRAY + "" + ChatColor.BOLD + "Join " + (ranked ? "Ranked" : "Unranked") + " Queue...", ranked).openMenu(player);
+                }, ranked ? selectionAdditionRanked : selectionAdditionUnranked, "Join " + (ranked ? "Ranked" : "Unranked") + " Queue...", ranked).openMenu(player);
             }
         };
     }
@@ -83,27 +85,33 @@ public final class QueueItemListener extends ItemListener {
                 new CustomSelectKitTypeMenu(kitType -> {
                     queueHandler.joinQueue(party, kitType, ranked);
                     player.closeInventory();
-                }, selectionMenuAddition, "Play " + (ranked ? "Ranked" : "Unranked"), ranked).openMenu(player);
+                }, ranked ? selectionAdditionRanked : selectionAdditionUnranked, "Play " + (ranked ? "Ranked" : "Unranked"), ranked).openMenu(player);
             }
         };
     }
 
-    private Function<KitType, CustomSelectKitTypeMenu.CustomKitTypeMeta> selectionMenuAddition() {
+    private Function<KitType, CustomSelectKitTypeMenu.CustomKitTypeMeta> selectionMenuAddition(boolean ranked) {
         return kitType -> {
             MatchHandler matchHandler = PotPvPRP.getInstance().getMatchHandler();
 
-            int inFightsRanked = matchHandler.countPlayersPlayingMatches(m -> m.getKitType() == kitType);
-            int inQueueRanked = queueHandler.countPlayersQueued(kitType);
+            int inFightsRanked = matchHandler.countPlayersPlayingMatches(m -> m.getKitType() == kitType && m.isRanked());
+            int inQueueRanked = queueHandler.countPlayersQueued(kitType, true);
+
+            int inFightsUnranked = matchHandler.countPlayersPlayingMatches(m -> m.getKitType() == kitType && !m.isRanked());
+            int inQueueUnranked = queueHandler.countPlayersQueued(kitType, false);
 
             return new CustomSelectKitTypeMenu.CustomKitTypeMeta(
-                Math.max(1, Math.min(64, inQueueRanked + inFightsRanked)),
-                ImmutableList.of(
-                        ChatColor.WHITE + " ",
-                        "&c&lQueue",
-                        " &fIn fights: " + ChatColor.RED + inFightsRanked,
-                        " &fIn queue: " + ChatColor.RED + inQueueRanked,
-                        " ",
-                        ChatColor.RED + "Click to play!")
+                    // clamp value to >= 1 && <= 64
+                    Math.max(1, Math.min(64, ranked ? inQueueRanked + inFightsRanked : inQueueUnranked + inFightsUnranked)),
+                    ranked ? ImmutableList.of(
+                            " ",
+                            ChatColor.DARK_RED.toString() + ChatColor.BOLD + "┃" + CC.RESET + " Fighting: " + ChatColor.RED + inFightsRanked,
+                            ChatColor.DARK_RED.toString() + ChatColor.BOLD + "┃" + CC.RESET + " Queueing: " + ChatColor.RED + inQueueRanked) :
+                            ImmutableList.of(
+                                    " ",
+                                    ChatColor.DARK_RED.toString() + ChatColor.BOLD + "┃" + CC.RESET + " Fighting: " + ChatColor.RED + inFightsUnranked,
+                                    ChatColor.DARK_RED.toString() + ChatColor.BOLD + "┃" + CC.RESET + " Queueing: " + ChatColor.RED + inQueueUnranked
+                            )
             );
         };
     }

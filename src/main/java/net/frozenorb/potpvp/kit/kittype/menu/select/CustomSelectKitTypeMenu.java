@@ -1,27 +1,20 @@
 package net.frozenorb.potpvp.kit.kittype.menu.select;
 
 import com.google.common.base.Preconditions;
-
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.frozenorb.potpvp.kit.kittype.KitType;
 import net.frozenorb.potpvp.util.Callback;
 import net.frozenorb.potpvp.util.InventoryUtils;
-import net.frozenorb.potpvp.util.ItemBuilder;
 import net.frozenorb.potpvp.util.menu.Button;
 import net.frozenorb.potpvp.util.menu.Menu;
-
 import org.bukkit.ChatColor;
-import org.bukkit.DyeColor;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 
 /**
  * Similar to {@link SelectKitTypeMenu} but allows the user to set custom
@@ -57,7 +50,7 @@ public final class CustomSelectKitTypeMenu extends Menu {
     @Override
     public Map<Integer, Button> getButtons(Player player) {
         Map<Integer, Button> buttons = new HashMap<>();
-        int index = 10;
+        int index = 0;
 
         for (KitType kitType : KitType.getAllTypes()) {
             if (!player.isOp() && kitType.isHidden()) {
@@ -70,13 +63,6 @@ public final class CustomSelectKitTypeMenu extends Menu {
 
             CustomKitTypeMeta meta = metaFunc.apply(kitType);
             buttons.put(index, new KitTypeButton(kitType, callback, meta.getDescription(), meta.getQuantity(), false));
-
-            if ((++index + 1) % 9 != 0) continue;
-            index += 2;
-
-            for (int i = 0; i < this.size(player); ++i) {
-                buttons.putIfAbsent(i, Button.placeholder(Material.STAINED_GLASS_PANE, (byte) 15));
-            }
         }
 
         return buttons;

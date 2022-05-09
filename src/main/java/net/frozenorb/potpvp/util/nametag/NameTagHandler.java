@@ -84,7 +84,7 @@ public class NameTagHandler {
             } else {
                 Player refreshForPlayer = Bukkit.getPlayer(nametagUpdate.getRefreshFor());
 
-                if(refreshForPlayer != null) {
+                if (refreshForPlayer != null) {
                     reloadPlayerInternal(toRefreshPlayer, refreshForPlayer);
                 }
             }

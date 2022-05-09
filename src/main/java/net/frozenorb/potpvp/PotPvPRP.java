@@ -11,8 +11,7 @@ import net.frozenorb.potpvp.adapter.nametag.NameTagAdapter;
 import net.frozenorb.potpvp.adapter.scoreboard.ScoreboardAdapter;
 import net.frozenorb.potpvp.adapter.tablist.TablistAdapter;
 import net.frozenorb.potpvp.arena.ArenaHandler;
-import net.frozenorb.potpvp.command.binds.HologramProvider;
-import net.frozenorb.potpvp.command.binds.HologramTypeProvider;
+import net.frozenorb.potpvp.command.binds.*;
 import net.frozenorb.potpvp.command.impl.*;
 import net.frozenorb.potpvp.command.impl.duel.AcceptCommand;
 import net.frozenorb.potpvp.command.impl.duel.DuelCommand;
@@ -79,6 +78,7 @@ import xyz.refinedev.spigot.utils.CC;
 import xyz.refinedev.tablist.TablistHandler;
 
 import java.util.Calendar;
+import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -151,7 +151,12 @@ public final class PotPvPRP extends JavaPlugin {
         this.setupMongo();
 
         this.uuidCache = new UUIDCache();
-
+		
+        this.commandHandler = new CommandHandler(this);
+        this.commandHandler.bind(KitType.class).toProvider(new KitTypeProvider());
+        this.commandHandler.bind(ChatColor.class).toProvider(new ChatColorProvider());
+        this.commandHandler.bind(UUID.class).toProvider(new UUIDDrinkProvider());
+		
         this.registerExpansions();
         this.registerCommands();
         this.registerPermission();
