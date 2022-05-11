@@ -28,7 +28,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public final class KitHandler {
 
     public static final String MONGO_COLLECTION_NAME = "playerKits";
-    public static final int KITS_PER_TYPE = 4;
+    public static final int KITS_PER_TYPE = 5;
 
     private final Map<UUID, List<Kit>> kitData = new ConcurrentHashMap<>();
 

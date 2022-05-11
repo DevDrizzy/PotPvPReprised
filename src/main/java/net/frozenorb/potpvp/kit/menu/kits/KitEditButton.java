@@ -33,20 +33,21 @@ final class KitEditButton extends Button {
 
     @Override
     public String getName(Player player) {
-        return ChatColor.GREEN.toString() + ChatColor.BOLD + "Load/Edit";
+        return ChatColor.GREEN.toString() + ChatColor.BOLD + "Edit " + kitType.getDisplayName() + " #" + slot;
     }
 
     @Override
     public List<String> getDescription(Player player) {
-        return ImmutableList.of(
-            "",
-            ChatColor.YELLOW + "Click to edit this kit."
-        );
+        return kitOpt.map(kit -> ImmutableList.of(
+                "",
+                ChatColor.GREEN + "Heals: " + ChatColor.WHITE + kit.countHeals(),
+                ChatColor.RED + "Debuffs: " + ChatColor.WHITE + kit.countDebuffs()
+        )).orElse(ImmutableList.of());
     }
 
     @Override
     public Material getMaterial(Player player) {
-        return Material.BOOK;
+        return kitOpt.isPresent() ? Material.DIAMOND_SWORD : Material.STONE_SWORD;
     }
 
     @Override

@@ -220,7 +220,7 @@ public final class PotPvPRP extends JavaPlugin {
             this.mongoClient = MongoClients.create(this.getConfig().getString("MONGO.URI.CONNECTION_STRING"));
             this.mongoDatabase = mongoClient.getDatabase(this.getConfig().getString("MONGO.URI.DATABASE"));
 
-            this.logger("Initialized MongoDB successfully!");
+            this.logger("&7Initialized &cMongoDB &7successfully!");
             return;
         }
 
@@ -240,7 +240,7 @@ public final class PotPvPRP extends JavaPlugin {
         this.mongoClient = MongoClients.create(uri);
         this.mongoDatabase = mongoClient.getDatabase(this.getConfig().getString("MONGO.URI.DATABASE"));
 
-        this.logger("Initialized MongoDB successfully!");
+        this.logger("&7Initialized &cMongoDB &7successfully!");
     }
 
     // kaya was here
@@ -286,7 +286,7 @@ public final class PotPvPRP extends JavaPlugin {
         commandHandler.register(new DuelCommand(), "duel");
 
         commandHandler.registerCommands();
-        this.logger("Registered commands!");
+        this.logger("&7Registering &ccommands&7...");
     }
 
     private void registerPermission() {
@@ -298,7 +298,7 @@ public final class PotPvPRP extends JavaPlugin {
         pm.addPermission(new Permission("potpvp.spectate", PermissionDefault.OP));
 
         this.commandHandler.registerPermissions();
-        this.logger("Registered permissions!");
+        this.logger("&7Registering &cpermissions&7...");
     }
 
     private void registerExpansions() {
@@ -317,7 +317,7 @@ public final class PotPvPRP extends JavaPlugin {
         this.tablistHandler.registerAdapter(tablistAdapter, 20L);
 
         if (this.getServer().getPluginManager().isPluginEnabled("HolographicDisplays")) {
-            this.logger("&7Found &cHolographicDisplays&7, Hooking holograms....");
+            this.logger("&7Found &cHolographicDisplays&7, Hooking holograms...");
             this.hologramHandler = new HologramHandler();
 
             this.commandHandler.bind(PracticeHologram.class).toProvider(new HologramProvider());

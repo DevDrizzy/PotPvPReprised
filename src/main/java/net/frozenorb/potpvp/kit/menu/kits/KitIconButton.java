@@ -33,21 +33,17 @@ final class KitIconButton extends Button {
 
     @Override
     public String getName(Player player) {
-        return ChatColor.GREEN.toString() + ChatColor.BOLD + (kitOpt.map(Kit::getName).orElse("Create Kit"));
+        return ChatColor.GREEN.toString() + ChatColor.BOLD + "Create Kit";
     }
 
     @Override
     public List<String> getDescription(Player player) {
-        return kitOpt.map(kit -> ImmutableList.of(
-            "",
-            ChatColor.GREEN + "Heals: " + ChatColor.WHITE + kit.countHeals(),
-            ChatColor.RED + "Debuffs: " + ChatColor.WHITE + kit.countDebuffs()
-        )).orElse(ImmutableList.of());
+        return ImmutableList.of();
     }
 
     @Override
     public Material getMaterial(Player player) {
-        return kitOpt.isPresent() ? Material.DIAMOND_SWORD : Material.STONE_SWORD;
+        return Material.BOOK;
     }
 
     @Override

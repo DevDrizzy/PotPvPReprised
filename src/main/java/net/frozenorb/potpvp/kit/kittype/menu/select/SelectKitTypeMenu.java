@@ -48,22 +48,19 @@ public final class SelectKitTypeMenu extends Menu {
     @Override
     public Map<Integer, Button> getButtons(Player player) {
         Map<Integer, Button> buttons = new HashMap<>();
-        int index = 10;
+        int index = 0;
 
-        List<KitType> kitTypes = new ArrayList<>(KitType.getAllTypes());
-
-        Party party = PotPvPRP.getInstance().getPartyHandler().getParty(player);
-        if (party != null) kitTypes.add(KitType.teamFight);
-
-        for (KitType kitType : kitTypes) {
+        for (KitType kitType : KitType.getAllTypes()) {
             if (!player.isOp() && kitType.isHidden()) {
                 continue;
             }
 
-            buttons.put(index, new KitTypeButton(kitType, callback, true));
+            buttons.put(index++, new KitTypeButton(kitType, callback));
+        }
 
-            if ((++index + 1) % 9 != 0) continue;
-            index += 2;
+        Party party = PotPvPRP.getInstance().getPartyHandler().getParty(player);
+        if (party != null) {
+            buttons.put(8, new KitTypeButton(KitType.teamFight, callback));
         }
 
         return buttons;

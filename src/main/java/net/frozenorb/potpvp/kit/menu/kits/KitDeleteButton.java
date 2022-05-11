@@ -2,27 +2,23 @@ package net.frozenorb.potpvp.kit.menu.kits;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-
 import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.kit.KitHandler;
 import net.frozenorb.potpvp.kit.kittype.KitType;
 import net.frozenorb.potpvp.util.menu.Button;
-
 import org.bukkit.ChatColor;
-import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
-import org.bukkit.inventory.InventoryView;
 
 import java.util.List;
 
-final class KitDeleteButton extends Button {
+public final class KitDeleteButton extends Button {
 
     private final KitType kitType;
     private final int slot;
 
-    KitDeleteButton(KitType kitType, int slot) {
+    public KitDeleteButton(KitType kitType, int slot) {
         this.kitType = Preconditions.checkNotNull(kitType, "kitType");
         this.slot = slot;
     }
@@ -44,12 +40,7 @@ final class KitDeleteButton extends Button {
 
     @Override
     public Material getMaterial(Player player) {
-        return Material.WOOL;
-    }
-
-    @Override
-    public byte getDamageValue(Player player) {
-        return DyeColor.RED.getWoolData();
+        return Material.REDSTONE_BLOCK;
     }
 
     @Override

@@ -10,6 +10,7 @@ import net.frozenorb.potpvp.util.menu.Button;
 import net.frozenorb.potpvp.util.menu.Menu;
 
 import net.frozenorb.potpvp.util.menu.buttons.BackButton;
+import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -36,7 +37,7 @@ public final class KitsMenu extends Menu {
 
     @Override
     public String getTitle(Player player) {
-        return "Viewing " + kitType.getDisplayName() + " kits";
+        return ChatColor.RED + "Viewing " + kitType.getDisplayName() + " kits";
     }
 
     @Override
@@ -47,23 +48,24 @@ public final class KitsMenu extends Menu {
         // kit slots are 1-indexed
         for (int kitSlot = 1; kitSlot <= KitHandler.KITS_PER_TYPE; kitSlot++) {
             Optional<Kit> kitOpt = kitHandler.getKit(player, kitType, kitSlot);
-            int column = (kitSlot * 2) - 1; // - 1 to compensate for this being 0-indexed
-
-            buttons.put(getSlot(column, 0), new KitIconButton(kitOpt, kitType, kitSlot));
-            buttons.put(getSlot(column, 2), new KitEditButton(kitOpt, kitType, kitSlot));
+            int column = kitSlot + 1; // + 1 to compensate for this being 0-indexed
 
             if (kitOpt.isPresent()) {
-                buttons.put(getSlot(column, 3), new KitRenameButton(kitOpt.get()));
-                buttons.put(getSlot(column, 4), new KitDeleteButton(kitType, kitSlot));
+                buttons.put(getSlot(column, 1), new KitEditButton(kitOpt, kitType, kitSlot));
             } else {
-                buttons.put(getSlot(column, 3), Button.placeholder(Material.STAINED_GLASS_PANE, DyeColor.GRAY.getWoolData(), ""));
-                buttons.put(getSlot(column, 4), Button.placeholder(Material.STAINED_GLASS_PANE, DyeColor.GRAY.getWoolData(), ""));
+                buttons.put(getSlot(column, 1), new KitIconButton(kitOpt, kitType, kitSlot));
             }
         }
 
-        buttons.put(getSlot(0, 4), new BackButton(new SelectKitTypeMenu(kitType -> new KitsMenu(kitType).openMenu(player), "Select a kit type...")));
+        buttons.put(getSlot(8, 2), new BackButton(new SelectKitTypeMenu(kitType -> new KitsMenu(kitType).openMenu(player), "Select a kit type...")));
 
         return buttons;
+    }
+
+
+    @Override
+    public int size(Player player) {
+        return 9 * 3;
     }
 
 }

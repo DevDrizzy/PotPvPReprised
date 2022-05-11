@@ -34,10 +34,9 @@ final class LobbyScoreGetter implements BiConsumer<Player, List<String>> {
         MatchQueueEntry entry = getQueueEntry(player);
         Tournament tournament = PotPvPRP.getInstance().getTournamentHandler().getTournament();
 
-        scores.add("&7┃ &c&lLobby");
-        scores.add("  &fOnline: &c" + PotPvPRP.getInstance().getCache().getOnlineCount());
-        scores.add("  &fFighting: &c" + PotPvPRP.getInstance().getCache().getFightsCount());
-        scores.add("  &fQueueing: &c" + PotPvPRP.getInstance().getCache().getQueuesCount());
+        scores.add("&7┃ &fOnline: &c" + PotPvPRP.getInstance().getCache().getOnlineCount());
+        scores.add("&7┃ &fFighting: &c" + PotPvPRP.getInstance().getCache().getFightsCount());
+        scores.add("&7┃ &fQueueing: &c" + PotPvPRP.getInstance().getCache().getQueuesCount());
         
         // this definitely can be a .ifPresent, however creating the new lambda that often
         // was causing some performance issues, so we do this less pretty (but more efficient)
@@ -60,9 +59,9 @@ final class LobbyScoreGetter implements BiConsumer<Player, List<String>> {
             MatchQueue queue = entry.getQueue();
 
             scores.add("");
-            scores.add("&7┃ &c&lQueuing");
-            scores.add("  &fType: &c" + (queue.isRanked() ? "Ranked" : "Unranked") + " " + queue.getKitType().getDisplayName());
-            scores.add("  &fTime: &c" + waitTimeFormatted);
+            scores.add("&c&lQueuing");
+            scores.add(" &fType: &c" + (queue.isRanked() ? "Ranked" : "Unranked") + " " + queue.getKitType().getDisplayName());
+            scores.add(" &fTime: &c" + waitTimeFormatted);
             if (queue.isRanked()) {
                 int elo = eloHandler.getElo(entry.getMembers(), queue.getKitType());
                 int window = entry.getWaitSeconds() * QueueHandler.RANKED_WINDOW_GROWTH_PER_SECOND;
@@ -70,22 +69,22 @@ final class LobbyScoreGetter implements BiConsumer<Player, List<String>> {
             }
         } else if (tournament != null) {
             scores.add("");
-            scores.add("&7┃ &c7lTournament");
+            scores.add("&c&lTournament");
 
             if (tournament.getStage() == Tournament.TournamentStage.WAITING_FOR_TEAMS) {
                 int teamSize = tournament.getRequiredPartySize();
-                scores.add("&f   Kit&7: &c" + tournament.getType().getDisplayName());
-                scores.add("&f   Team Size&7: " + teamSize + "v" + teamSize);
+                scores.add("&f Kit&7: &c" + tournament.getType().getDisplayName());
+                scores.add("&f Team Size&7: " + teamSize + "v" + teamSize);
                 int multiplier = teamSize < 3 ? teamSize : 1;
-                scores.add("&f   " + (teamSize < 3 ? "Players"  : "Teams") + "&7: &c" + (tournament.getActiveParties().size() * multiplier + "/" + tournament.getRequiredPartiesToStart() * multiplier));
+                scores.add("&f " + (teamSize < 3 ? "Players"  : "Teams") + "&7: &c" + (tournament.getActiveParties().size() * multiplier + "/" + tournament.getRequiredPartiesToStart() * multiplier));
             } else if (tournament.getStage() == Tournament.TournamentStage.COUNTDOWN) {
                 if (tournament.getCurrentRound() == 0) {
                     scores.add("");
-                    scores.add("&7   Begins in &c" + tournament.getBeginNextRoundIn() + "&7 second" + (tournament.getBeginNextRoundIn() == 1 ? "." : "s."));
+                    scores.add("&7 Begins in &c" + tournament.getBeginNextRoundIn() + "&7 second" + (tournament.getBeginNextRoundIn() == 1 ? "." : "s."));
                 } else {
                     scores.add("");
-                    scores.add("&c   Round " + (tournament.getCurrentRound() + 1));
-                    scores.add("&7   Begins in &c" + tournament.getBeginNextRoundIn() + "&7 second" + (tournament.getBeginNextRoundIn() == 1 ? "." : "s."));
+                    scores.add("&c Round " + (tournament.getCurrentRound() + 1));
+                    scores.add("&7 Begins in &c" + tournament.getBeginNextRoundIn() + "&7 second" + (tournament.getBeginNextRoundIn() == 1 ? "." : "s."));
                 }
             } else if (tournament.getStage() == Tournament.TournamentStage.IN_PROGRESS) {
                 scores.add("&c Round&7: " + tournament.getCurrentRound());
@@ -98,9 +97,9 @@ final class LobbyScoreGetter implements BiConsumer<Player, List<String>> {
             }
         } else if (playerParty != null) {
             scores.add("");
-            scores.add("&7┃ &c&lParty: ");
-            scores.add("&f   Leader: " + ChatColor.RED + PotPvPRP.getInstance().getUuidCache().name(playerParty.getLeader()));
-            scores.add("&f   Members: " + ChatColor.RED + playerParty.getMembers().size() + "/" + Party.MAX_SIZE);
+            scores.add("&c&lParty: ");
+            scores.add("&f Leader: " + ChatColor.RED + PotPvPRP.getInstance().getUuidCache().name(playerParty.getLeader()));
+            scores.add("&f Members: " + ChatColor.RED + playerParty.getMembers().size() + "/" + Party.MAX_SIZE);
         }
     }
 

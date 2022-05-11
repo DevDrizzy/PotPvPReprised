@@ -53,7 +53,7 @@ final class MultiplexingScoreGetter implements ScoreGetter {
                 }
             }
             scores.add("");
-            scores.add("&c7test.refinedev.xyz");
+            scores.add("&7test.refinedev.xyz");
             if (player.hasMetadata("ModMode")) {
                 scores.add(ChatColor.GRAY.toString() + ChatColor.BOLD + "In Silent Mode");
             }

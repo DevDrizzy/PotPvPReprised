@@ -19,11 +19,11 @@ import org.bukkit.inventory.InventoryView;
 
 import java.util.List;
 
-final class KitRenameButton extends Button {
+public final class KitRenameButton extends Button {
 
     private final Kit kit;
 
-    KitRenameButton(Kit kit) {
+    public KitRenameButton(Kit kit) {
         this.kit = Preconditions.checkNotNull(kit, "kit");
     }
 

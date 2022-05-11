@@ -62,7 +62,7 @@ public final class CustomSelectKitTypeMenu extends Menu {
             }
 
             CustomKitTypeMeta meta = metaFunc.apply(kitType);
-            buttons.put(index, new KitTypeButton(kitType, callback, meta.getDescription(), meta.getQuantity(), false));
+            buttons.put(index++, new KitTypeButton(kitType, callback, meta.getDescription(), meta.getQuantity()));
         }
 
         return buttons;

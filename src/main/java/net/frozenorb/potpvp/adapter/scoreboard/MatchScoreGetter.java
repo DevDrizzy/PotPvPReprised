@@ -27,7 +27,7 @@ import net.frozenorb.potpvp.match.MatchTeam;
 // 'MatchScoreGetter' and press Control+Q
 /**
  * Implements the scoreboard as defined in {@link net.frozenorb.potpvp.util.scoreboard}<br />
- * This class is divided up into multiple prodcedures to reduce overall complexity<br /><br />
+ * This class is divided up into multiple procedures to reduce overall complexity<br /><br />
  *
  * Although there are many possible outcomes, for a 4v4 match this code would take the
  * following path:<br /><br />
@@ -162,22 +162,22 @@ final class MatchScoreGetter implements BiConsumer<Player, List<String>> {
         String bardEnergyScore = getBardEnergyScore(player);
 
         if (archerMarkScore != null) {
-            scores.add("   &fArcher Mark&7: &c" + archerMarkScore);
+            scores.add(" &fArcher Mark&7: &c" + archerMarkScore);
         }
 
         if (bardEffectScore != null) {
-            scores.add("   &fBard Effect&7: &c" + bardEffectScore);
+            scores.add(" &fBard Effect&7: &c" + bardEffectScore);
         }
 
         if (bardEnergyScore != null) {
-            scores.add("   &fBard Energy&7: &c" + bardEnergyScore);
+            scores.add(" &fBard Energy&7: &c" + bardEnergyScore);
         }
 
         return ping;
     }
 
     private void render1v1MatchLines(List<String> scores, MatchTeam otherTeam) {
-        scores.add("&c&lOpponent: &f" + PotPvPRP.getInstance().getUuidCache().name(otherTeam.getFirstMember()));
+        scores.add(" &fOpponent: &c" + PotPvPRP.getInstance().getUuidCache().name(otherTeam.getFirstMember()));
 
     }
 
@@ -245,10 +245,10 @@ final class MatchScoreGetter implements BiConsumer<Player, List<String>> {
 
             scores.add(namePrefix + PotPvPRP.getInstance().getUuidCache().name(partnerUuid));
             scores.add(healthStr + healsStr);
-            scores.add("&b");
+            scores.add("");
         }
 
-        scores.add("&c&lOpponents");
+        scores.add(" &c&lOpponents");
         scores.addAll(renderTeamMemberOverviewLines(otherTeam));
 
         // Removes the space
@@ -259,10 +259,10 @@ final class MatchScoreGetter implements BiConsumer<Player, List<String>> {
 
     private void render4v4MatchLines(List<String> scores, MatchTeam ourTeam, MatchTeam otherTeam) {
         // Above a 2v2, but up to a 4v4.
-        scores.add("   &fTeam &a(" + ourTeam.getAliveMembers().size() + "/" + ourTeam.getAllMembers().size() + ")");
+        scores.add(" &fTeam &a(" + ourTeam.getAliveMembers().size() + "/" + ourTeam.getAllMembers().size() + ")");
         scores.addAll(renderTeamMemberOverviewLinesWithHearts(ourTeam));
         scores.add(" ");
-        scores.add("   &fOpponents &c(" + otherTeam.getAliveMembers().size() + "/" + otherTeam.getAllMembers().size() + ")");
+        scores.add(" &fOpponents &c(" + otherTeam.getAliveMembers().size() + "/" + otherTeam.getAllMembers().size() + ")");
         scores.addAll(renderTeamMemberOverviewLines(otherTeam));
         if (PotPvPRP.getInstance().getMatchHandler().getMatchPlaying(Bukkit.getPlayer(ourTeam.getFirstAliveMember())).getState() == MatchState.IN_PROGRESS) {
             scores.add("&c");
@@ -271,21 +271,21 @@ final class MatchScoreGetter implements BiConsumer<Player, List<String>> {
 
     private void renderLargeMatchLines(List<String> scores, MatchTeam ourTeam, MatchTeam otherTeam) {
         // We just display THEIR team's names, and the other team is a number.
-        scores.add("   &fTeam &a(" + ourTeam.getAliveMembers().size() + "/" + ourTeam.getAllMembers().size() + ")");
+        scores.add(" &fTeam &a(" + ourTeam.getAliveMembers().size() + "/" + ourTeam.getAllMembers().size() + ")");
         scores.addAll(renderTeamMemberOverviewLinesWithHearts(ourTeam));
         scores.add(" ");
-        scores.add("   &fOpponents: &c" + otherTeam.getAliveMembers().size() + "/" + otherTeam.getAllMembers().size());
+        scores.add(" &fOpponents: &c" + otherTeam.getAliveMembers().size() + "/" + otherTeam.getAllMembers().size());
     }
 
     private void renderJumboMatchLines(List<String> scores, MatchTeam ourTeam, MatchTeam otherTeam) {
         // We just display numbers.
-        scores.add("   &fTeam: &c" + ourTeam.getAliveMembers().size() + "/" + ourTeam.getAllMembers().size());
-        scores.add("   &fOpponents: &c" + otherTeam.getAliveMembers().size() + "/" + otherTeam.getAllMembers().size());
+        scores.add(" &fTeam: &c" + ourTeam.getAliveMembers().size() + "/" + ourTeam.getAllMembers().size());
+        scores.add(" &fOpponents: &c" + otherTeam.getAliveMembers().size() + "/" + otherTeam.getAllMembers().size());
     }
 
     private void renderSpectatorLines(List<String> scores, Match match, MatchTeam oldTeam) {
         String rankedStr = match.isRanked() ? " (R)" : "";
-        scores.add("   &fKit: &c" + match.getKitType().getColoredDisplayName() + rankedStr);
+        scores.add(" &fKit: &c" + match.getKitType().getColoredDisplayName() + rankedStr);
 
         List<MatchTeam> teams = match.getTeams();
 
@@ -298,13 +298,13 @@ final class MatchScoreGetter implements BiConsumer<Player, List<String>> {
                 // spectators who were on a team see teams as they relate
                 // to them, not just one/two.
                 if (oldTeam == null) {
-                    scores.add("   &fTeam A: &c" + teamOne.getAliveMembers().size() + "/" + teamOne.getAllMembers().size());
-                    scores.add("   &fTeam B: &c" + teamTwo.getAliveMembers().size() + "/" + teamTwo.getAllMembers().size());
+                    scores.add(" &fTeam A: &c" + teamOne.getAliveMembers().size() + "/" + teamOne.getAllMembers().size());
+                    scores.add(" &fTeam B: &c" + teamTwo.getAliveMembers().size() + "/" + teamTwo.getAllMembers().size());
                 } else {
                     MatchTeam otherTeam = oldTeam == teamOne ? teamTwo : teamOne;
 
-                    scores.add("   &fTeam: &c" + oldTeam.getAliveMembers().size() + "/" + oldTeam.getAllMembers().size());
-                    scores.add("   &fOpponents: &c" + otherTeam.getAliveMembers().size() + "/" + otherTeam.getAllMembers().size());
+                    scores.add(" &fTeam: &c" + oldTeam.getAliveMembers().size() + "/" + oldTeam.getAllMembers().size());
+                    scores.add(" &fOpponents: &c" + otherTeam.getAliveMembers().size() + "/" + otherTeam.getAllMembers().size());
                 }
             }
         }
@@ -330,8 +330,8 @@ final class MatchScoreGetter implements BiConsumer<Player, List<String>> {
         }
 
         // spectators don't have any bold entries on their scoreboard
-        scores.add("&7┃ &c&lMatch");
-        scores.add("   &fDuration: &c" + formattedDuration);
+        scores.add("&c&lMatch");
+        scores.add(" &fDuration: &c" + formattedDuration);
     }
 
     private void renderPingLines(List<String> scores, Match match, Player ourPlayer) {
@@ -346,10 +346,10 @@ final class MatchScoreGetter implements BiConsumer<Player, List<String>> {
 
             if (firstTeamPlayers.size() == 1 && secondTeamPlayers.size() == 1) {
                 scores.add(" ");
-                scores.add("  &fYour Ping: &c" + PlayerUtils.getPing(ourPlayer));
+                scores.add(" &fYour Ping: &c" + PlayerUtils.getPing(ourPlayer));
                 Player otherPlayer = Bukkit.getPlayer(match.getTeam(ourPlayer.getUniqueId()) == firstTeam ? secondTeam.getFirstMember() : firstTeam.getFirstMember());
                 if (otherPlayer == null) return;
-                scores.add("  &fTheir Ping: &c" + PlayerUtils.getPing(otherPlayer));
+                scores.add(" &fTheir Ping: &c" + PlayerUtils.getPing(otherPlayer));
             }
         }
     }
@@ -365,9 +365,9 @@ final class MatchScoreGetter implements BiConsumer<Player, List<String>> {
         // + color differently
         for (UUID teamMember : team.getAllMembers()) {
             if (team.isAlive(teamMember)) {
-                aliveLines.add("  &f" + PotPvPRP.getInstance().getUuidCache().name(teamMember) + " " + getHeartString(team, teamMember));
+                aliveLines.add(" &f" + PotPvPRP.getInstance().getUuidCache().name(teamMember) + " " + getHeartString(team, teamMember));
             } else {
-                deadLines.add("  &7&m" + PotPvPRP.getInstance().getUuidCache().name(teamMember));
+                deadLines.add(" &7&m" + PotPvPRP.getInstance().getUuidCache().name(teamMember));
             }
         }
 
@@ -387,9 +387,9 @@ final class MatchScoreGetter implements BiConsumer<Player, List<String>> {
         // + color differently
         for (UUID teamMember : team.getAllMembers()) {
             if (team.isAlive(teamMember)) {
-                aliveLines.add("  &f" + PotPvPRP.getInstance().getUuidCache().name(teamMember));
+                aliveLines.add(" &f" + PotPvPRP.getInstance().getUuidCache().name(teamMember));
             } else {
-                deadLines.add("  &7&m" + PotPvPRP.getInstance().getUuidCache().name(teamMember));
+                deadLines.add(" &7&m" + PotPvPRP.getInstance().getUuidCache().name(teamMember));
             }
         }
 
