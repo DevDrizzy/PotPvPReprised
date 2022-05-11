@@ -12,6 +12,7 @@ import java.util.List;
 public class AssembleThread extends Thread {
 
     private final ScoreboardHandler scoreboardHandler;
+    private volatile boolean running = true;
 
     /**
      * ScoreboardHandler Thread.
@@ -19,22 +20,25 @@ public class AssembleThread extends Thread {
      * @param scoreboardHandler instance.
      */
     AssembleThread(ScoreboardHandler scoreboardHandler) {
-        this.scoreboardHandler=scoreboardHandler;
+        this.scoreboardHandler = scoreboardHandler;
         this.start();
     }
 
     @Override
     public void run() {
-        while(true) {
+        while (running) {
             try {
-                tick();
+                this.tick();
                 Thread.sleep(scoreboardHandler.getTicks() * 50);
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (InterruptedException e) {
+                this.stopExecuting();
             }
         }
     }
 
+    public void stopExecuting() {
+        this.running = false;
+    }
 
     /**
      * Tick logic for thread.

@@ -147,7 +147,6 @@ public final class PotPvPRP extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        this.consoleLog("&c------------------------------------------------");
         this.setupMongo();
 
         this.uuidCache = new UUIDCache();
@@ -187,15 +186,12 @@ public final class PotPvPRP extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new EventListeners(), this);
         this.getServer().getPluginManager().registerEvents(new TournamentListener(), this);
         this.getServer().getPluginManager().registerEvents(new ButtonListener(), this);
-        this.logger("Registering listeners...");
+        this.logger("&7Registering &clisteners&7...");
 
         this.setupHourEvents();
 
         this.getServer().getScheduler().runTaskTimerAsynchronously(this, cache, 20L, 20L);
-
-        this.consoleLog("");
         this.consoleLog("&7Initialized &cPotPvP &7Successfully!");
-        this.consoleLog("&c------------------------------------------------");
     }
 
     @Override
@@ -308,7 +304,7 @@ public final class PotPvPRP extends JavaPlugin {
 
         this.scoreboardHandler = new ScoreboardHandler(this, scoreboardAdapter);
         this.scoreboardHandler.setAssembleStyle(AssembleStyle.KOHI);
-        this.scoreboardHandler.setTicks(2);
+        this.scoreboardHandler.setTicks(2L);
 
         this.nameTagHandler = new NameTagHandler(this);
         this.nameTagHandler.registerAdapter(nameTagAdapter);

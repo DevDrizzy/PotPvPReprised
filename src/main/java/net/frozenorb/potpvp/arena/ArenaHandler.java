@@ -101,7 +101,7 @@ public final class ArenaHandler {
             world.setTime(6_000L);
         }
 
-        Bukkit.getScheduler().runTaskLater(PotPvPRP.getInstance(), this::preLoadChunks, 1L); // Pre-load chunks because that's how we do shit lol
+        this.preLoadChunks(); // Pre-load chunks because that's how we do shit lol
     }
 
     /**

@@ -55,7 +55,8 @@ public class ScoreboardHandler {
 
 		// Ensure that the thread has stopped running.
 		if (this.thread != null) {
-			this.thread.stop();
+			this.thread.stopExecuting();
+			this.thread.interrupt();
 			this.thread = null;
 		}
 
@@ -82,7 +83,7 @@ public class ScoreboardHandler {
 	public void shutdown() {
 		// Stop thread.
 		if (this.thread != null) {
-			this.thread.stop();
+			this.thread.interrupt();
 			this.thread = null;
 		}
 
