@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
 import java.lang.reflect.Type;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,10 +15,14 @@ import java.util.TreeMap;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Predicate;
 
+import com.google.common.collect.Sets;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import lombok.SneakyThrows;
 import net.frozenorb.potpvp.arena.listener.ArenaItemResetListener;
+import net.frozenorb.potpvp.util.TimeUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
+import org.bukkit.Location;
 import org.bukkit.World;
 import com.google.gson.reflect.TypeToken;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -94,7 +99,41 @@ public final class ArenaHandler {
             world.setGameRuleValue("doMobSpawning", "false");
             world.setTime(6_000L);
         }
+
+        this.preLoadChunks(); // Pre-load chunks because that's how we do shit lol
     }
+
+    /**
+     * Pre-load chunks in a asynchronous manner
+     */
+    public void preLoadChunks() {
+        long timeStamp = System.currentTimeMillis();
+        for ( ArenaSchematic arenaSchematic : schematics.values() ) {
+            for ( Arena arena : arenaInstances.get(arenaSchematic.getName()).values() ) {
+                Set<Chunk> chunks = Sets.newConcurrentHashSet();
+                Location minPoint = arena.getBounds().getUpperSW();
+                Location maxPoint = arena.getBounds().getLowerNE();
+                World world = minPoint.getWorld();
+
+                // definitely a better way to increment than += 1 but arenas
+                // are small enough this doesn't matter
+                for (int x = minPoint.getBlockX(); x <= maxPoint.getBlockX(); x++) {
+                    for (int z = minPoint.getBlockZ(); z <= maxPoint.getBlockZ(); z++) {
+                        world.getChunkAtAsync(x >> 4, z >> 4, chunks::add);
+                    }
+                }
+
+                // force load all chunks
+                // that are at all covered by this map.
+                // Only do this if chunk is NOT loaded
+                chunks.forEach(chunk -> {
+                    if (!chunk.isLoaded()) chunk.load();
+                });
+            }
+        }
+        PotPvPRP.getInstance().logger("&7Pre-loaded chunks in &c" + Duration.ofMillis(System.currentTimeMillis() - timeStamp).toString() + " &7...");
+    }
+
 
     @SneakyThrows
     public void saveSchematics() {
