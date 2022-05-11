@@ -36,6 +36,7 @@ import lombok.Getter;
 import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.arena.event.ArenaAllocatedEvent;
 import net.frozenorb.potpvp.arena.event.ArenaReleasedEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  * Facilitates easy access to {@link ArenaSchematic}s and to {@link Arena}s
@@ -100,7 +101,7 @@ public final class ArenaHandler {
             world.setTime(6_000L);
         }
 
-        this.preLoadChunks(); // Pre-load chunks because that's how we do shit lol
+        Bukkit.getScheduler().runTaskLater(PotPvPRP.getInstance(), this::preLoadChunks, 1L); // Pre-load chunks because that's how we do shit lol
     }
 
     /**
@@ -109,7 +110,10 @@ public final class ArenaHandler {
     public void preLoadChunks() {
         long timeStamp = System.currentTimeMillis();
         for ( ArenaSchematic arenaSchematic : schematics.values() ) {
-            for ( Arena arena : arenaInstances.get(arenaSchematic.getName()).values() ) {
+
+            if (!arenaSchematic.isEnabled()) continue;
+
+            for ( Arena arena : this.getArenas(arenaSchematic)) {
                 Set<Chunk> chunks = Sets.newConcurrentHashSet();
                 Location minPoint = arena.getBounds().getUpperSW();
                 Location maxPoint = arena.getBounds().getLowerNE();

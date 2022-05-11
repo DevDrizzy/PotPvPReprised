@@ -327,7 +327,7 @@ public final class PotPvPRP extends JavaPlugin {
     }
 
     public void logger(String message) {
-        this.getServer().getConsoleSender().sendMessage(CC.translate("&c• " + message));
+        this.getServer().getConsoleSender().sendMessage(CC.translate("&7[&cPotPvPRP&7] &r" + message));
     }
 
     public void consoleLog(String string) {
