@@ -27,7 +27,8 @@ public final class LobbyItems {
     static {
         ItemUtils.setDisplayName(SPECTATE_RANDOM_ITEM,  RED + "Spectate Random Match");
         ItemUtils.setDisplayName(SPECTATE_MENU_ITEM,  RED + "Spectate Menu");
-        ItemUtils.setDisplayName(ENABLE_SPEC_MODE_ITEM, RED + "Create Party");
+        ItemUtils.setDisplayName(DISABLE_SPEC_MODE_ITEM, RED + "Leave Spectator Mode");
+        ItemUtils.setDisplayName(ENABLE_SPEC_MODE_ITEM, RED + "Enable Spectator Mode");
         ItemUtils.setDisplayName(MANAGE_ITEM, RED + "Manage PotPvP");
         ItemUtils.setDisplayName(UNFOLLOW_ITEM, RED + "Stop Following");
         ItemUtils.setDisplayName(PLAYER_STATISTICS, RED + "Statistics");
