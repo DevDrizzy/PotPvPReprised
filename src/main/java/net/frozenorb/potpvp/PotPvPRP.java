@@ -191,7 +191,7 @@ public final class PotPvPRP extends JavaPlugin {
         this.setupHourEvents();
 
         this.getServer().getScheduler().runTaskTimerAsynchronously(this, cache, 20L, 20L);
-        this.consoleLog("&7Initialized &cPotPvP &7Successfully!");
+        this.logger("&7Initialized &cPotPvP &7Successfully!");
     }
 
     @Override
@@ -324,10 +324,6 @@ public final class PotPvPRP extends JavaPlugin {
 
     public void logger(String message) {
         this.getServer().getConsoleSender().sendMessage(CC.translate("&7[&cPotPvPRP&7] &r" + message));
-    }
-
-    public void consoleLog(String string) {
-        this.getServer().getConsoleSender().sendMessage(CC.translate(string));
     }
 
     //fuck you kotlin

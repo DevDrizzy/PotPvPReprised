@@ -27,7 +27,7 @@ final class CancelKitEditButton extends Button {
 
     @Override
     public String getName(Player player) {
-        return ChatColor.RED.toString() + ChatColor.BOLD + "Cancel";
+        return ChatColor.RED + "Cancel";
     }
 
     @Override
@@ -41,12 +41,7 @@ final class CancelKitEditButton extends Button {
 
     @Override
     public Material getMaterial(Player player) {
-        return Material.WOOL;
-    }
-
-    @Override
-    public byte getDamageValue(Player player) {
-        return DyeColor.RED.getWoolData();
+        return Material.REDSTONE;
     }
 
     @Override

@@ -2,11 +2,10 @@ package net.frozenorb.potpvp.kit.menu.kits;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-
 import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.kit.Kit;
+import net.frozenorb.potpvp.kit.menu.editkit.EditKitMenu;
 import net.frozenorb.potpvp.util.menu.Button;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.conversations.ConversationContext;
@@ -15,7 +14,6 @@ import org.bukkit.conversations.Prompt;
 import org.bukkit.conversations.StringPrompt;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
-import org.bukkit.inventory.InventoryView;
 
 import java.util.List;
 
@@ -29,7 +27,7 @@ public final class KitRenameButton extends Button {
 
     @Override
     public String getName(Player player) {
-        return ChatColor.YELLOW.toString() + ChatColor.BOLD + "Rename";
+        return ChatColor.RED.toString() + ChatColor.BOLD + "Rename";
     }
 
     @Override
@@ -42,7 +40,7 @@ public final class KitRenameButton extends Button {
 
     @Override
     public Material getMaterial(Player player) {
-        return Material.SIGN;
+        return Material.NAME_TAG;
     }
 
     @Override
@@ -67,7 +65,7 @@ public final class KitRenameButton extends Button {
 
                 ctx.getForWhom().sendRawMessage(ChatColor.YELLOW + "Kit renamed.");
                 if (!PotPvPRP.getInstance().getMatchHandler().isPlayingMatch(player)) {
-                    new KitsMenu(kit.getType()).openMenu(player);
+                    new EditKitMenu(kit).openMenu(player);
                 }
                 return Prompt.END_OF_CONVERSATION;
             }

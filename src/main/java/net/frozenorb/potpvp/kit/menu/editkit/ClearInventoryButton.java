@@ -19,7 +19,7 @@ final class ClearInventoryButton extends Button {
 
     @Override
     public String getName(Player player) {
-        return ChatColor.YELLOW.toString() + ChatColor.BOLD + "Clear Inventory";
+        return ChatColor.YELLOW + "Clear Inventory";
     }
 
     @Override
@@ -33,12 +33,12 @@ final class ClearInventoryButton extends Button {
 
     @Override
     public Material getMaterial(Player player) {
-        return Material.WOOL;
+        return Material.INK_SACK;
     }
 
     @Override
     public byte getDamageValue(Player player) {
-        return DyeColor.YELLOW.getWoolData();
+        return DyeColor.RED.getDyeData();
     }
 
     @Override

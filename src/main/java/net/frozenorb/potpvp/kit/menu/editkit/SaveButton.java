@@ -30,7 +30,7 @@ final class SaveButton extends Button {
 
     @Override
     public String getName(Player player) {
-        return ChatColor.GREEN.toString() + ChatColor.BOLD + "Save";
+        return ChatColor.GREEN + "Save";
     }
 
     @Override
@@ -43,12 +43,12 @@ final class SaveButton extends Button {
 
     @Override
     public Material getMaterial(Player player) {
-        return Material.WOOL;
+        return Material.INK_SACK;
     }
 
     @Override
     public byte getDamageValue(Player player) {
-        return DyeColor.LIME.getWoolData();
+        return DyeColor.LIME.getDyeData();
     }
 
     @Override
@@ -64,7 +64,7 @@ final class SaveButton extends Button {
         new KitsMenu(kit.getType()).openMenu(player);
 
         ItemStack[] defaultInventory = kit.getType().getDefaultInventory();
-        int foodInDefault = ItemUtils.countStacksMatching(defaultInventory, v -> v.getType().isEdible());
+        int foodInDefault = ItemUtils.countStacksMatching(defaultInventory, ItemUtils.EDIBLE_PREDICATE);
         int pearlsInDefault = ItemUtils.countStacksMatching(defaultInventory, v -> v.getType() == Material.ENDER_PEARL);
 
         if (foodInDefault > 0 && kit.countFood() == 0) {

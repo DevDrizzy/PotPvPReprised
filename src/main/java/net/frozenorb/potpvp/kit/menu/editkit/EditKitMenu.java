@@ -1,32 +1,24 @@
 package net.frozenorb.potpvp.kit.menu.editkit;
 
 import com.google.common.base.Preconditions;
-
 import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.kit.Kit;
-import net.frozenorb.potpvp.kit.kittype.menu.select.SelectKitTypeMenu;
 import net.frozenorb.potpvp.kit.menu.kits.KitDeleteButton;
 import net.frozenorb.potpvp.kit.menu.kits.KitRenameButton;
-import net.frozenorb.potpvp.kit.menu.kits.KitsMenu;
 import net.frozenorb.potpvp.util.InventoryUtils;
 import net.frozenorb.potpvp.util.menu.Button;
 import net.frozenorb.potpvp.util.menu.Menu;
-
-import net.frozenorb.potpvp.util.menu.buttons.BackButton;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.Potion;
-import org.bukkit.potion.PotionType;
-import org.checkerframework.checker.units.qual.K;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public final class EditKitMenu extends Menu {
 
-    private static final int EDITOR_X_OFFSET = 1;
+    private static final int EDITOR_X_OFFSET = 2;
     private static final int EDITOR_Y_OFFSET = 2;
 
     private final Kit kit;
@@ -34,6 +26,7 @@ public final class EditKitMenu extends Menu {
     public EditKitMenu(Kit kit) {
         setNoncancellingInventory(true);
         setUpdateAfterClick(false);
+        setPlaceholder(true);
 
         this.kit = Preconditions.checkNotNull(kit, "kit");
     }

@@ -105,12 +105,13 @@ public final class QueueItemListener extends ItemListener {
                     Math.max(1, Math.min(64, ranked ? inQueueRanked + inFightsRanked : inQueueUnranked + inFightsUnranked)),
                     ranked ? ImmutableList.of(
                             " ",
-                            ChatColor.DARK_RED.toString() + ChatColor.BOLD + "┃" + CC.RESET + " Fighting: " + ChatColor.RED + inFightsRanked,
-                            ChatColor.DARK_RED.toString() + ChatColor.BOLD + "┃" + CC.RESET + " Queueing: " + ChatColor.RED + inQueueRanked) :
+                            ChatColor.GRAY + "┃" + CC.WHITE + " Fighting: " + ChatColor.RED + inFightsRanked,
+                            ChatColor.GRAY + "┃" + CC.WHITE + " Queueing: " + ChatColor.RED + inQueueRanked
+                            ) :
                             ImmutableList.of(
-                                    " ",
-                                    ChatColor.DARK_RED.toString() + ChatColor.BOLD + "┃" + CC.RESET + " Fighting: " + ChatColor.RED + inFightsUnranked,
-                                    ChatColor.DARK_RED.toString() + ChatColor.BOLD + "┃" + CC.RESET + " Queueing: " + ChatColor.RED + inQueueUnranked
+                            " ",
+                            ChatColor.GRAY + "┃" + CC.WHITE + " Fighting: " + ChatColor.RED + inFightsUnranked,
+                            ChatColor.GRAY + "┃" + CC.WHITE + " Queueing: " + ChatColor.RED + inQueueUnranked
                             )
             );
         };
