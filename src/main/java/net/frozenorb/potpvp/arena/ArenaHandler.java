@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.Reader;
 import java.lang.reflect.Type;
 import java.time.Duration;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -108,13 +110,13 @@ public final class ArenaHandler {
      * Pre-load chunks in a asynchronous manner
      */
     public void preLoadChunks() {
-        long timeStamp = System.currentTimeMillis();
+        Instant timeStamp = Instant.now();
         for ( ArenaSchematic arenaSchematic : schematics.values() ) {
 
             if (!arenaSchematic.isEnabled()) continue;
 
             for ( Arena arena : this.getArenas(arenaSchematic)) {
-                Set<Chunk> chunks = Sets.newConcurrentHashSet();
+                Set<Chunk> chunks = Sets.newHashSet();
                 Location minPoint = arena.getBounds().getUpperSW();
                 Location maxPoint = arena.getBounds().getLowerNE();
                 World world = minPoint.getWorld();
@@ -123,7 +125,7 @@ public final class ArenaHandler {
                 // are small enough this doesn't matter
                 for (int x = minPoint.getBlockX(); x <= maxPoint.getBlockX(); x++) {
                     for (int z = minPoint.getBlockZ(); z <= maxPoint.getBlockZ(); z++) {
-                        world.getChunkAtAsync(x >> 4, z >> 4, chunks::add);
+                        chunks.add(world.getChunkAt(x >> 4, z >> 4));
                     }
                 }
 
@@ -135,7 +137,9 @@ public final class ArenaHandler {
                 });
             }
         }
-        PotPvPRP.getInstance().logger("&7Pre-loaded chunks in &c" + Duration.ofMillis(System.currentTimeMillis() - timeStamp).toString() + " &7...");
+
+        int seconds = (int) ChronoUnit.SECONDS.between(timeStamp, Instant.now());
+        PotPvPRP.getInstance().logger("&7Pre-loaded chunks in &c" + TimeUtils.formatIntoMMSS(seconds) + " &7...");
     }
 
 

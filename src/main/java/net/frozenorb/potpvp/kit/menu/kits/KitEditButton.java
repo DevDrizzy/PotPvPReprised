@@ -40,6 +40,7 @@ final class KitEditButton extends Button {
     public List<String> getDescription(Player player) {
         return kitOpt.map(kit -> ImmutableList.of(
                 "",
+                ChatColor.YELLOW + "Name: " + ChatColor.WHITE + kit.getName(),
                 ChatColor.GREEN + "Heals: " + ChatColor.WHITE + kit.countHeals(),
                 ChatColor.RED + "Debuffs: " + ChatColor.WHITE + kit.countDebuffs()
         )).orElse(ImmutableList.of());
