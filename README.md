@@ -7,6 +7,8 @@ This fork has also changed all APIs utilized by the plugin like Scoreboard and N
 Meanwhile, I have removed TablistAPI because I don't have an API that I can give out for free.
 Although in the future, I might add an open source TablistAPI in this later but right now I don't have the time to do that.
 
+If you want access to the APIs in "refine" branch of this project to able to use it, please contact me in DMs. I'm willing to sell our private TablistAPI.
+
 ## Changes
 
 - Added UN-TESTED holograms w/config (Might not work and could be buggy af)
