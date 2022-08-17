@@ -11,7 +11,7 @@ If you want access to the APIs in "refine" branch of this project to able to use
 
 ## Changes
 
-- Added UN-TESTED holograms w/config (Might not work and could be buggy af)
+- Added UN-TESTED holograms w/config (Translate text with CC.translate and register the update task to fix)
 - Removed Redis and its usages
 - Removed PlayerMoveEvent usage to hold player at spawn point and utilized PlayerUtil#denyMovement
 - Removed Token based Stats resetting and made it admin only
