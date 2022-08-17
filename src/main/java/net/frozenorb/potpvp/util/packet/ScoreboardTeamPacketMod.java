@@ -16,7 +16,7 @@ public final class ScoreboardTeamPacketMod {
     private final static String fieldSuffix = "d";
     private final static String fieldPlayers = "g";
     private final static String fieldTeamName = "a";
-    private final static String fieldParamInt = "f";
+    private final static String fieldParamInt = "h";
     private final static String fieldPackOption = "i";
     private final static String fieldDisplayName = "b";
 
