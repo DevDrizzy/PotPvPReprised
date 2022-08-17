@@ -17,7 +17,7 @@ If you want access to the APIs in "refine" branch of this project to able to use
 - Removed Token based Stats resetting and made it admin only
 - Completely changed all permissions
 - New CommandAPI
-- Ported NameTagAPI (Still not working for some reason?)
+- Ported NameTagAPI
 - Removed a lot of junk from kotlin qLib
 - Removed unused dependencies
 - Cleaned up general code
