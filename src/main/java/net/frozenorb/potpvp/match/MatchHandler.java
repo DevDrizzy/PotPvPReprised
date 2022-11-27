@@ -88,6 +88,10 @@ public final class MatchHandler {
             for (UUID member : team.getAllMembers()) {
                 Player memberPlayer = Bukkit.getPlayer(member);
 
+                if (memberPlayer == null) {
+                    throw new IllegalArgumentException("Member player was found to be null!");
+                }
+
                 if (!anyOps && memberPlayer.isOp()) {
                     anyOps = true;
                 }

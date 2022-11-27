@@ -27,7 +27,7 @@ public class HologramUpdateTask implements Runnable {
                 return;
             }
 
-            hologram.updateIn -= 1;
+            hologram.updateIn--;
         }
     }
 }

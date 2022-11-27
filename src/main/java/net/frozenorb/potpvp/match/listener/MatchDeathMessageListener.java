@@ -93,12 +93,7 @@ public final class MatchDeathMessageListener implements Listener {
     }
 
     private void sendLightningPacket(Player target, PacketContainer packet) {
-        try {
-            ProtocolLibrary.getProtocolManager().sendServerPacket(target, packet);
-        } catch (InvocationTargetException ignored) {
-            // will never happen, ProtocolWrapper (the lib this code was from)
-            // ignores this exception as well
-        }
+        ProtocolLibrary.getProtocolManager().sendServerPacket(target, packet);
     }
 
 }

@@ -1,7 +1,6 @@
 package net.frozenorb.potpvp.match.listener;
 
 import net.frozenorb.potpvp.PotPvPRP;
-import net.frozenorb.potpvp.events.Game;
 import net.frozenorb.potpvp.kit.kittype.HealingMethod;
 import net.frozenorb.potpvp.match.Match;
 import net.frozenorb.potpvp.match.MatchHandler;
@@ -27,9 +26,8 @@ public final class MatchSoupListener implements Listener {
         MatchHandler matchHandler = PotPvPRP.getInstance().getMatchHandler();
         Player player = event.getPlayer();
         Match match = matchHandler.getMatchPlaying(player);
-        Game game = PotPvPRP.getInstance().getGameHandler().getCurrentGame(player);
 
-        if ((game != null && game.getPlayers().contains(player)) || (match != null && match.getKitType().getHealingMethod() == HealingMethod.SOUP && player.getHealth() <= 19)) {
+        if (match != null && match.getKitType().getHealingMethod() == HealingMethod.SOUP && player.getHealth() <= 19) {
             double current = player.getHealth();
             double max = player.getMaxHealth();
 

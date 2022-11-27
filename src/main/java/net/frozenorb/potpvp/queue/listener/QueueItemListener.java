@@ -14,7 +14,7 @@ import net.frozenorb.potpvp.validation.PotPvPValidation;
 import net.md_5.bungee.api.ChatColor;
 
 import org.bukkit.entity.Player;
-import xyz.refinedev.spigot.utils.CC;
+import xyz.refinedev.command.util.CC;;
 
 import java.util.UUID;
 import java.util.function.Consumer;

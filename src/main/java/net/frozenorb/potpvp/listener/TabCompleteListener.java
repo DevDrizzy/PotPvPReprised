@@ -1,5 +1,6 @@
 package net.frozenorb.potpvp.listener;
 
+import com.destroystokyo.paper.event.server.AsyncTabCompleteEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,17 +12,18 @@ import java.util.Collection;
 
 public final class TabCompleteListener implements Listener {
 
-    // we basically copy+paste the CraftBukkit code but modify the
-    // visiblity check to work better with how PotPvP uses invis
     @EventHandler
-    public void onPlayerChatTabComplete(PlayerChatTabCompleteEvent event) {
-        String token = event.getLastToken();
-        Collection<String> completions = event.getTabCompletions();
+    public void onPlayerChatTabComplete(AsyncTabCompleteEvent event) {
+        if (!(event.getSender() instanceof Player)) return;
+
+        Player sender = (Player) event.getSender();
+        String token = event.getBuffer();
+        Collection<String> completions = event.getCompletions();
 
         completions.clear();
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (!event.getPlayer().canSee(player) && player.hasMetadata("invisible")) {
+            if (!sender.canSee(player) && player.hasMetadata("invisible")) {
                 continue;
             }
 

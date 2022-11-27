@@ -216,7 +216,7 @@ public final class MatchGeneralListener implements Listener {
         }
 
 
-        event.setCancelled(true);
+        //event.setCancelled(true);
     }
 
     @EventHandler
@@ -230,8 +230,6 @@ public final class MatchGeneralListener implements Listener {
 
         ItemStack itemStack = event.getItemDrop().getItemStack();
         Material itemType = itemStack.getType();
-        String itemTypeName = itemType.name().toLowerCase();
-        int heldSlot = player.getInventory().getHeldItemSlot();
 
         // glass bottles and bowls are removed from inventories but
         // don't spawn items on the ground

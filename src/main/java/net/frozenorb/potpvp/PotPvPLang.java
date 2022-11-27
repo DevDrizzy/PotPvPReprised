@@ -37,19 +37,19 @@ public final class PotPvPLang {
      * (default) Minecraft chat box. 53 is chosen for no reason other than its width
      * being almost equal to that of the chat box.
      * @see HelpCommand
-     * @see net.frozenorb.potpvp.party.command.PartyHelpCommand
+     * @see net.frozenorb.potpvp.command.impl.PartyCommands
      */
     public static final String LONG_LINE = ChatColor.STRIKETHROUGH + StringUtils.repeat("-", 53);
 
     /**
      * `&cYou are not in a party.` - Self explanatory
-     * @see net.frozenorb.potpvp.party.command
+     * @see net.frozenorb.potpvp.command
      */
     public static final String NOT_IN_PARTY = ChatColor.RED + "You are not in a party.";
 
     /**
      * `&cYou are not the leader of your party.` - Self explanatory
-     * @see net.frozenorb.potpvp.party.command
+     * @see net.frozenorb.potpvp.command
      */
     public static final String NOT_LEADER_OF_PARTY = ChatColor.RED + "You are not the leader of your party.";
 

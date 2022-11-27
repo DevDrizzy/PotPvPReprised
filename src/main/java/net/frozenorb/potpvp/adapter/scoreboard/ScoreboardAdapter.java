@@ -13,8 +13,7 @@ public class ScoreboardAdapter extends ScoreboardConfiguration {
         this.setScoreGetter(
                 new MultiplexingScoreGetter(
                         new MatchScoreGetter(),
-                        new LobbyScoreGetter(),
-                        new GameScoreGetter()
+                        new LobbyScoreGetter()
                 ));
     }
 

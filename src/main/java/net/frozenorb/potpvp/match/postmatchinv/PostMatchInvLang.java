@@ -78,7 +78,7 @@ public final class PostMatchInvLang {
         component.setText(memberName);
         component.setColor(ChatColor.YELLOW);
         component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatColor.GREEN + "Click to view inventory of " + ChatColor.GOLD + memberName).create()));
-        component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/_ " + memberName));
+        component.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/_ " + member.toString()));
 
         return component;
     }

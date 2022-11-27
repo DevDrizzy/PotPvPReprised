@@ -99,6 +99,7 @@ final class MatchScoreGetter implements BiConsumer<Player, List<String>> {
 
         if (match.getState() == MatchState.ENDING) {
             scores.add(ChatColor.WHITE + "Match ended");
+            return;
         }
 
         boolean participant = match.getTeam(player.getUniqueId()) != null;

@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 import xyz.refinedev.command.annotation.Command;
 import xyz.refinedev.command.annotation.Require;
 import xyz.refinedev.command.annotation.Sender;
-import xyz.refinedev.spigot.utils.CC;
+import xyz.refinedev.command.util.CC;;
 
 import java.io.File;
 

@@ -5,18 +5,17 @@ import net.frozenorb.potpvp.profile.follow.FollowHandler;;
 import net.frozenorb.potpvp.match.Match;
 import net.frozenorb.potpvp.match.MatchHandler;
 import net.frozenorb.potpvp.match.MatchTeam;
-import net.frozenorb.potpvp.util.nametag.construct.NameTagInfo;
 import net.frozenorb.potpvp.pvpclasses.pvpclasses.ArcherClass;
 
-import net.frozenorb.potpvp.util.nametag.provider.NameTagProvider;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import xyz.refinedev.nametag.setup.NameTagInfo;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public final class NameTagAdapter extends NameTagProvider {
+public final class NameTagAdapter extends xyz.refinedev.nametag.adapter.NameTagAdapter {
 
     public NameTagAdapter() {
         super("PotPvP Provider", 5);

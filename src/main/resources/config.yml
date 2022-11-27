@@ -3,7 +3,7 @@ MONGO:
   NORMAL:
     HOST: 127.0.0.1
     PORT: 27017
-    DATABASE: Array
+    DATABASE: PotPvPRP
     AUTHENTICATION:
       ENABLED: false
       USERNAME: ''
@@ -15,18 +15,9 @@ MONGO:
 SETTINGS:
   UPDATE-TIME: 20 # Seconds
   DEFAULT:
-    FORMAT: '&b<number># &f<name> &7» &f<value> &7» <division>'
-    LINES:
-      - "&b&lPractice <type>"
-      - "&b&lLeaderboards"
-      - "&7"
-      - "<top>"
-      - "&7"
-      - "&fNext update in &b<update>"
-  CLAN:
     FORMAT: '&b<number># &f<name> &7» &f<value>'
     LINES:
-      - "&b&lPractice Clan"
+      - "&b&lPractice <type>"
       - "&b&lLeaderboards"
       - "&7"
       - "<top>"

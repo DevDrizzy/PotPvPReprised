@@ -2,6 +2,7 @@ package net.frozenorb.potpvp.match.postmatchinv;
 
 import com.google.common.collect.ImmutableList;
 
+import lombok.AllArgsConstructor;
 import net.frozenorb.potpvp.kit.kittype.HealingMethod;
 
 import net.frozenorb.potpvp.util.PlayerUtils;
@@ -14,6 +15,7 @@ import java.util.UUID;
 
 import lombok.Getter;
 
+@AllArgsConstructor
 public final class PostMatchPlayer {
 
     @Getter private final UUID playerUuid;
@@ -43,5 +45,4 @@ public final class PostMatchPlayer {
         this.missedPots = missedPots;
         this.ping = PlayerUtils.getPing(player);
     }
-
 }

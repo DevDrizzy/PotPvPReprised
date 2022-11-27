@@ -5,7 +5,6 @@ import net.frozenorb.potpvp.match.duel.DuelHandler;
 import net.frozenorb.potpvp.profile.follow.FollowHandler;
 import net.frozenorb.potpvp.kit.KitItems;
 import net.frozenorb.potpvp.kit.menu.editkit.EditKitMenu;
-import net.frozenorb.potpvp.events.EventItems;
 import net.frozenorb.potpvp.party.Party;
 import net.frozenorb.potpvp.party.PartyHandler;
 import net.frozenorb.potpvp.party.PartyItems;
@@ -19,7 +18,6 @@ import net.frozenorb.potpvp.util.menu.Menu;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import lombok.experimental.UtilityClass;
@@ -136,26 +134,16 @@ public final class LobbyUtils {
             } else {
                 inventory.setItem(0, QueueItems.JOIN_SOLO_UNRANKED_QUEUE_ITEM);
                 inventory.setItem(1, QueueItems.JOIN_SOLO_RANKED_QUEUE_ITEM);
-                inventory.setItem(4, LobbyItems.ENABLE_SPEC_MODE_ITEM);
-                inventory.setItem(8, KitItems.OPEN_EDITOR_ITEM);
 
-                ItemStack eventItem = EventItems.getEventItem();
+                inventory.setItem(4, LobbyItems.ENABLE_SPEC_MODE_ITEM);
 
                 if (player.hasPermission("potpvp.admin")) {
-                    if (eventItem != null) {
-                        inventory.setItem(5, LobbyItems.PLAYER_STATISTICS);
-                        inventory.setItem(6, eventItem);
-                    } else {
-                        inventory.setItem(6, LobbyItems.PLAYER_STATISTICS);
-                    }
-
+                    inventory.setItem(6, LobbyItems.PLAYER_STATISTICS);
                     inventory.setItem(7, LobbyItems.MANAGE_ITEM);
                 } else {
-                    if (eventItem != null) {
-                        inventory.setItem(6, LobbyItems.PLAYER_STATISTICS);
-                        inventory.setItem(7, eventItem);
-                    }
+                    inventory.setItem(7, LobbyItems.PLAYER_STATISTICS);
                 }
+                inventory.setItem(8, KitItems.OPEN_EDITOR_ITEM);
             }
         }
     }

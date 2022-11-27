@@ -6,6 +6,7 @@ import net.frozenorb.potpvp.match.postmatchinv.PostMatchInvHandler;
 import net.frozenorb.potpvp.match.postmatchinv.PostMatchPlayer;
 import net.frozenorb.potpvp.match.postmatchinv.menu.PostMatchMenu;
 
+import net.frozenorb.potpvp.util.menu.Menu;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import xyz.refinedev.command.annotation.Command;
@@ -16,29 +17,20 @@ import java.util.UUID;
 
 public class CheckPostMatchInvCommand implements PotPvPCommand {
 
-    @Command(name = "" , usage = "<target-uuid>", desc = "View inventory menu")
-    public void checkPostMatchInv(@Sender Player sender, String target) {
-
-        UUID uuid;
-        try {
-            uuid = UUID.fromString(target);
-        } catch (Exception e) {
-            UUID cached = PotPvPRP.getInstance().getUuidCache().uuid(target);
-            if (cached == null) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cUUID does not exist!"));
-                return;
-            }
-            uuid = cached;
-        }
-
+    @Command(name = "" , usage = "<target>", desc = "View inventory menu")
+    public void checkPostMatchInv(@Sender Player sender, UUID target) {
         PostMatchInvHandler postMatchInvHandler = PotPvPRP.getInstance().getPostMatchInvHandler();
         Map<UUID, PostMatchPlayer> players = postMatchInvHandler.getPostMatchData(sender.getUniqueId());
+        PostMatchPlayer inv = players.get(target);
 
-        if (players.containsKey(uuid)) {
-            new PostMatchMenu(players.get(uuid)).openMenu(sender);
-        } else {
-            sender.sendMessage(ChatColor.RED + "Data for " + PotPvPRP.getInstance().getUuidCache().name(uuid) + " not found.");
+        if (inv == null) {
+            String name = PotPvPRP.getInstance().getUuidCache().name(target);
+            sender.sendMessage(ChatColor.RED + "Data for " + name + " not found.");
         }
+
+        Menu menu = new PostMatchMenu(players.get(target));
+        menu.openMenu(sender);
+
     }
 
     @Override

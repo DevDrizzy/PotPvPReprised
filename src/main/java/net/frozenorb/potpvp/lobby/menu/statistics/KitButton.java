@@ -38,7 +38,7 @@ public class KitButton extends Button {
         int counter = 1;
 
         for (Entry<String, Integer> entry : eloHandler.topElo(kitType).entrySet()) {
-            String color = (counter <= 3 ? ChatColor.DARK_PURPLE : ChatColor.GRAY).toString();
+            String color = (counter <= 3 ? ChatColor.RED : ChatColor.GRAY).toString();
             description.add(color + counter + ChatColor.GRAY.toString() + ChatColor.BOLD + " | " + entry.getKey() + ChatColor.GRAY + ": " + ChatColor.WHITE + entry.getValue());
 
             counter++;

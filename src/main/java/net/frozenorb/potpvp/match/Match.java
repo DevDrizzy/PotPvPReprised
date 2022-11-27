@@ -30,7 +30,6 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
@@ -55,6 +54,8 @@ import net.frozenorb.potpvp.util.ItemListener;
 import net.frozenorb.potpvp.util.MongoUtils;
 import net.frozenorb.potpvp.util.PatchedPlayerUtils;
 import net.frozenorb.potpvp.util.VisibilityUtils;
+import xyz.refinedev.spigot.api.knockback.KnockbackAPI;
+import xyz.refinedev.spigot.knockback.KnockbackProfile;
 
 @Getter
 public final class Match {
@@ -118,26 +119,32 @@ public final class Match {
         if (kitType.isBuildingAllowed())
             this.arena.takeSnapshot();
     }
-    
+
     void startCountdown() {
         state = MatchState.COUNTDOWN;
-        
+
+        if (!this.arena.getTeam1Spawn().getChunk().isLoaded()) {
+            this.arena.getTeam1Spawn().getChunk().load();
+        }
+
+        if (!this.arena.getTeam2Spawn().getChunk().isLoaded()) {
+            this.arena.getTeam2Spawn().getChunk().load();
+        }
+
         Map<UUID, Match> playingCache = PotPvPRP.getInstance().getMatchHandler().getPlayingMatchCache();
-        Set<Player> updateVisiblity = new HashSet<>();
-        
+        Set<Player> visible = new HashSet<>();
         for (MatchTeam team : this.getTeams()) {
             for (UUID playerUuid : team.getAllMembers()) {
-                
+
                 if (!team.isAlive(playerUuid))
                     continue;
-                
+
                 Player player = Bukkit.getPlayer(playerUuid);
-                
                 playingCache.put(player.getUniqueId(), this);
-                
+
                 Location spawn = (team == teams.get(0) ? arena.getTeam1Spawn() : arena.getTeam2Spawn()).clone();
                 Vector oldDirection = spawn.getDirection();
-                
+
                 Block block = spawn.getBlock();
                 while (block.getRelative(BlockFace.DOWN).getType() == Material.AIR) {
                     block = block.getRelative(BlockFace.DOWN);
@@ -150,133 +157,194 @@ public final class Match {
                 spawn = block.getLocation();
                 spawn.setDirection(oldDirection);
                 spawn.add(0.5, 0, 0.5);
-                
                 player.teleport(spawn);
                 player.getInventory().setHeldItemSlot(0);
-                
+
+
+                player.setNoDamageTicks(20);
+                player.setMaximumNoDamageTicks(20);
+
+                KnockbackProfile knockback = KnockbackAPI.getInstance().getProfile(kitType.getId().toLowerCase());
+                player.carbon().setKnockbackProfile(knockback);
+
                 PotPvPRP.getInstance().getNameTagHandler().reloadPlayer(player);
                 PotPvPRP.getInstance().getNameTagHandler().reloadOthersFor(player);
-                
-                updateVisiblity.add(player);
+
+                visible.add(player);
+
                 PatchedPlayerUtils.resetInventory(player, GameMode.SURVIVAL);
             }
         }
-        
+
         // we wait to update visibility until everyone's been put in the player cache
         // then we update vis, otherwise the update code will see 'partial' views of the
         // match
-        updateVisiblity.forEach(VisibilityUtils::updateVisibilityFlicker);
-        
+        visible.forEach(VisibilityUtils::updateVisibilityFlicker);
+
         Bukkit.getPluginManager().callEvent(new MatchCountdownStartEvent(this));
-        
+
         new BukkitRunnable() {
-            
+
             int countdownTimeRemaining = kitType.getId().equals("SUMO") ? 5 : 5;
-            
+
             public void run() {
                 if (state != MatchState.COUNTDOWN) {
                     cancel();
                     return;
                 }
-                
+
                 if (countdownTimeRemaining == 0) {
-                    playSoundAll(Sound.FIREWORK_BLAST, 1F);
+                    playSoundAll(Sound.NOTE_PLING, 2F);
                     startMatch();
                     return; // so we don't send '0...' message
                 } else if (countdownTimeRemaining <= 3) {
-                    playSoundAll(Sound.CLICK, 1F);
+                    playSoundAll(Sound.NOTE_PLING, 1F);
                 }
-                
-                messageAll(ChatColor.WHITE + "Match starting in " + ChatColor.RED + this.countdownTimeRemaining + ChatColor.WHITE + "...");
+
+                messageAll(ChatColor.YELLOW.toString() + countdownTimeRemaining + "...");
                 countdownTimeRemaining--;
             }
-            
+
         }.runTaskTimer(PotPvPRP.getInstance(), 0L, 20L);
     }
-    
+
     private void startMatch() {
         state = MatchState.IN_PROGRESS;
         startedAt = new Date();
 
-        messageAll(ChatColor.WHITE + "Match started.");
-        messageAll("");
-        messageAll(ChatColor.DARK_RED + ChatColor.BOLD.toString() + "(WARNING) " + ChatColor.RED + "Butterfly clicking / Block glitch is allowed. and they may resulting into a ban.");
-        messageAll("");
-
+        messageAll(ChatColor.GREEN + "Match started.");
         Bukkit.getPluginManager().callEvent(new MatchStartEvent(this));
     }
-    
+
     public void endMatch(MatchEndReason reason) {
+        this.endMatch(reason, false);
+    }
+
+    public void endMatch(MatchEndReason reason, boolean botMatch) {
         // prevent duplicate endings
         if (state == MatchState.ENDING || state == MatchState.TERMINATED) {
             return;
         }
-        
+
         state = MatchState.ENDING;
         endedAt = new Date();
         endReason = reason;
-        
+
         try {
             for (MatchTeam matchTeam : this.getTeams()) {
                 for (UUID playerUuid : matchTeam.getAllMembers()) {
                     allPlayers.add(playerUuid);
-                    if (!matchTeam.isAlive(playerUuid))
-                        continue;
+
+                    if (!matchTeam.isAlive(playerUuid)) continue;
+
                     Player player = Bukkit.getPlayer(playerUuid);
-                    
                     postMatchPlayers.computeIfAbsent(playerUuid, v -> new PostMatchPlayer(player, kitType.getHealingMethod(), totalHits.getOrDefault(player.getUniqueId(), 0), longestCombo.getOrDefault(player.getUniqueId(), 0), missedPots.getOrDefault(player.getUniqueId(), 0)));
                 }
             }
-            
+
             messageAll(ChatColor.RED + "Match ended.");
             Bukkit.getPluginManager().callEvent(new MatchEndEvent(this));
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        
+
         int delayTicks = MATCH_END_DELAY_SECONDS * 20;
         if (JavaPlugin.getProvidingPlugin(this.getClass()).isEnabled()) {
-            Bukkit.getScheduler().runTaskLater(PotPvPRP.getInstance(), this::terminateMatch, delayTicks);
+            Bukkit.getScheduler().runTaskLater(PotPvPRP.getInstance(), this::customTerminate, delayTicks);
         } else {
-            this.terminateMatch();
+            if (botMatch) {
+                this.customTerminate();
+            } else {
+                this.terminateMatch();
+            }
         }
     }
-    
-    private void terminateMatch() {
+
+    private void customTerminate() {
         // prevent double terminations
         if (state == MatchState.TERMINATED) {
             return;
         }
-        
+
         state = MatchState.TERMINATED;
-        
+
         // if the match ends before the countdown ends
         // we have to set this to avoid a NPE in Date#from
         if (startedAt == null) {
             startedAt = new Date();
         }
-        
+
         // if endedAt wasn't set before (if terminateMatch was called directly)
         // we want to make sure we set an ending time. Otherwise we keep the
         // technically more accurate time set in endMatch
         if (endedAt == null) {
             endedAt = new Date();
         }
-        
+
+        MatchHandler matchHandler = PotPvPRP.getInstance().getMatchHandler();
+        LobbyHandler lobbyHandler = PotPvPRP.getInstance().getLobbyHandler();
+
+        Map<UUID, Match> playingCache = matchHandler.getPlayingMatchCache();
+        Map<UUID, Match> spectateCache = matchHandler.getSpectatingMatchCache();
+
+        if (kitType.isBuildingAllowed()) arena.restore();
+        PotPvPRP.getInstance().getArenaHandler().releaseArena(arena);
+        matchHandler.removeMatch(this);
+
+        getTeams().forEach(team -> team.getAllMembers().forEach(player -> {
+            if (team.isAlive(player)) {
+                playingCache.remove(player);
+                spectateCache.remove(player);
+                if (Bukkit.getPlayer(player) != null) {
+                    lobbyHandler.returnToLobby(Bukkit.getPlayer(player));
+                }
+            }
+        }));
+
+        spectators.forEach(player -> {
+            if (Bukkit.getPlayer(player) != null) {
+                playingCache.remove(player);
+                spectateCache.remove(player);
+                lobbyHandler.returnToLobby(Bukkit.getPlayer(player));
+            }
+        });
+    }
+
+    private void terminateMatch() {
+        // prevent double terminations
+        if (state == MatchState.TERMINATED) {
+            return;
+        }
+
+        state = MatchState.TERMINATED;
+
+        // if the match ends before the countdown ends
+        // we have to set this to avoid a NPE in Date#from
+        if (startedAt == null) {
+            startedAt = new Date();
+        }
+
+        // if endedAt wasn't set before (if terminateMatch was called directly)
+        // we want to make sure we set an ending time. Otherwise we keep the
+        // technically more accurate time set in endMatch
+        if (endedAt == null) {
+            endedAt = new Date();
+        }
+
         this.winningPlayers = winner.getAllMembers();
         this.losingPlayers = teams.stream().filter(team -> team != winner).flatMap(team -> team.getAllMembers().stream()).collect(Collectors.toSet());
-        
+
         Bukkit.getPluginManager().callEvent(new MatchTerminateEvent(this));
-        
+
         // we have to make a few edits to the document so we use Gson (which has
         // adapters
         // for things like Locations) and then edit it
         JsonObject document = PotPvPRP.getGson().toJsonTree(this).getAsJsonObject();
-        
+
         document.addProperty("winner", teams.indexOf(winner)); // replace the full team with their index in the full list
         document.addProperty("arena", arena.getSchematic()); // replace the full arena with its schematic (website doesn't care which copy we
-                                                             // used)
-        
+        // used)
+
         Bukkit.getScheduler().runTaskAsynchronously(PotPvPRP.getInstance(), () -> {
             // The Document#parse call really sucks. It generates literally thousands of
             // objects per call.
@@ -288,28 +356,27 @@ public final class Match {
             parsedDocument.put("endedAt", endedAt);
             MongoUtils.getCollection(MatchHandler.MONGO_COLLECTION_NAME).insertOne(parsedDocument);
         });
-        
+
         MatchHandler matchHandler = PotPvPRP.getInstance().getMatchHandler();
         LobbyHandler lobbyHandler = PotPvPRP.getInstance().getLobbyHandler();
-        
+
         Map<UUID, Match> playingCache = matchHandler.getPlayingMatchCache();
         Map<UUID, Match> spectateCache = matchHandler.getSpectatingMatchCache();
-        
-        if (kitType.isBuildingAllowed())
-            arena.restore();
+
+        if (kitType.isBuildingAllowed()) arena.restore();
         PotPvPRP.getInstance().getArenaHandler().releaseArena(arena);
         matchHandler.removeMatch(this);
-        
-        getTeams().forEach(team -> {
-            team.getAllMembers().forEach(player -> {
-                if (team.isAlive(player)) {
-                    playingCache.remove(player);
-                    spectateCache.remove(player);
+
+        getTeams().forEach(team -> team.getAllMembers().forEach(player -> {
+            if (team.isAlive(player)) {
+                playingCache.remove(player);
+                spectateCache.remove(player);
+                if (Bukkit.getPlayer(player) != null) {
                     lobbyHandler.returnToLobby(Bukkit.getPlayer(player));
                 }
-            });
-        });
-        
+            }
+        }));
+
         spectators.forEach(player -> {
             if (Bukkit.getPlayer(player) != null) {
                 playingCache.remove(player);
@@ -318,42 +385,42 @@ public final class Match {
             }
         });
     }
-    
+
     public Set<UUID> getSpectators() {
         return ImmutableSet.copyOf(spectators);
     }
-    
+
     public Map<UUID, PostMatchPlayer> getPostMatchPlayers() {
         return ImmutableMap.copyOf(postMatchPlayers);
     }
-    
+
     private void checkEnded() {
         if (state == MatchState.ENDING || state == MatchState.TERMINATED) {
             return;
         }
-        
+
         List<MatchTeam> teamsAlive = new ArrayList<>();
-        
+
         for (MatchTeam team : teams) {
             if (!team.getAliveMembers().isEmpty()) {
                 teamsAlive.add(team);
             }
         }
-        
+
         if (teamsAlive.size() == 1) {
             this.winner = teamsAlive.get(0);
             endMatch(MatchEndReason.ENEMIES_ELIMINATED);
         }
     }
-    
+
     public boolean isSpectator(UUID uuid) {
         return spectators.contains(uuid);
     }
-    
+
     public void addSpectator(Player player, Player target) {
         addSpectator(player, target, false);
     }
-    
+
     // fromMatch indicates if they were a player immediately before spectating.
     // we use this for things like teleporting and messages
     public void addSpectator(Player player, Player target, boolean fromMatch) {
@@ -361,20 +428,20 @@ public final class Match {
             player.sendMessage(ChatColor.RED + "This match is no longer available for spectating.");
             return;
         }
-        
+
         Map<UUID, Match> spectateCache = PotPvPRP.getInstance().getMatchHandler().getSpectatingMatchCache();
-        
+
         spectateCache.put(player.getUniqueId(), this);
         spectators.add(player.getUniqueId());
-        
+
         if (!fromMatch) {
             Location tpTo = arena.getSpectatorSpawn();
-            
+
             if (target != null) {
                 // we tp them a bit up so they're not inside of their target
                 tpTo = target.getLocation().clone().add(0, 1.5, 0);
             }
-            
+
             player.teleport(tpTo);
             player.sendMessage(ChatColor.YELLOW + "Now spectating " + ChatColor.AQUA + getSimpleDescription(true) + ChatColor.YELLOW + "...");
             sendSpectatorMessage(player, ChatColor.AQUA + player.getName() + ChatColor.YELLOW + " is now spectating.");
@@ -382,37 +449,37 @@ public final class Match {
             // so players don't accidentally click the item to stop spectating
             player.getInventory().setHeldItemSlot(0);
         }
-        
+
         PotPvPRP.getInstance().getNameTagHandler().reloadPlayer(player);
         PotPvPRP.getInstance().getNameTagHandler().reloadOthersFor(player);
-        
+
         VisibilityUtils.updateVisibility(player);
         PatchedPlayerUtils.resetInventory(player, GameMode.CREATIVE, true); // because we're about to reset their inv on a timer
         InventoryUtils.resetInventoryDelayed(player);
         player.setAllowFlight(true);
         player.setFlying(true); // called after PlayerUtils reset, make sure they don't fall out of the sky
         ItemListener.addButtonCooldown(player, 1_500);
-        
+
         Bukkit.getPluginManager().callEvent(new MatchSpectatorJoinEvent(player, this));
     }
-    
+
     public void removeSpectator(Player player) {
         removeSpectator(player, true);
     }
-    
+
     public void removeSpectator(Player player, boolean returnToLobby) {
         Map<UUID, Match> spectateCache = PotPvPRP.getInstance().getMatchHandler().getSpectatingMatchCache();
-        
+
         spectateCache.remove(player.getUniqueId());
         spectators.remove(player.getUniqueId());
         ItemListener.addButtonCooldown(player, 1_500);
-        
+
         sendSpectatorMessage(player, ChatColor.AQUA + player.getName() + ChatColor.YELLOW + " is no longer spectating.");
-        
+
         if (returnToLobby) {
             PotPvPRP.getInstance().getLobbyHandler().returnToLobby(player);
         }
-        
+
         Bukkit.getPluginManager().callEvent(new MatchSpectatorLeaveEvent(player, this));
     }
     

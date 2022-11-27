@@ -20,7 +20,7 @@ import net.frozenorb.potpvp.party.PartyHandler;
 import net.frozenorb.potpvp.queue.MatchQueue;
 import net.frozenorb.potpvp.queue.MatchQueueEntry;
 import net.frozenorb.potpvp.queue.QueueHandler;
-import xyz.refinedev.spigot.utils.CC;
+import xyz.refinedev.command.util.CC;;
 
 final class LobbyScoreGetter implements BiConsumer<Player, List<String>> {
 

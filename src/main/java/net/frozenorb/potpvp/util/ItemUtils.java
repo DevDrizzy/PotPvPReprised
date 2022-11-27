@@ -1,14 +1,19 @@
 package net.frozenorb.potpvp.util;
 
 import lombok.experimental.UtilityClass;
+import net.citizensnpcs.nms.v1_8_R3.util.NMSImpl;
 import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.util.NumberUtils;
+import net.minecraft.server.v1_8_R3.EntityPlayer;
 import org.apache.commons.io.IOUtils;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.Potion;
@@ -23,8 +28,6 @@ import java.util.function.Predicate;
 
 @UtilityClass
 public final class ItemUtils {
-
-    private final Map<String, ItemData> NAME_MAP = new HashMap<>();
 
     /**
      * Checks if a {@link ItemStack} is an instant heal potion (if its type is {@link PotionType#INSTANT_HEAL})
@@ -119,55 +122,6 @@ public final class ItemUtils {
         return data.toArray(new ItemData[data.size()]);
     }
 
-    public void load() {
-        NAME_MAP.clear();
-
-        List<String> lines = readLines();
-
-        for (String line : lines) {
-            String[] parts = line.split(",");
-
-            NAME_MAP.put(parts[0], new ItemData(Material.getMaterial(Integer.parseInt(parts[1])), Short.parseShort(parts[2])));
-        }
-    }
-
-    public ItemStack get(String input, int amount) {
-        ItemStack item = get(input);
-
-        if (item != null) item.setAmount(amount);
-
-        return item;
-    }
-
-    public ItemStack get(String input) {
-        if (NumberUtils.isInteger(input)) {
-            return new ItemStack(Material.getMaterial(Integer.parseInt(input)));
-        }
-
-        if (input.contains(":")) {
-            if (NumberUtils.isShort(input.split(":")[1])) {
-                if (NumberUtils.isInteger(input.split(":")[0])) {
-                    return new ItemStack(Material.getMaterial(Integer.parseInt(input.split(":")[0])), 1, Short.parseShort(input.split(":")[1]));
-                } else {
-                    if (!NAME_MAP.containsKey(input.split(":")[0].toLowerCase())) {
-                        return null;
-                    }
-
-                    ItemData data = NAME_MAP.get(input.split(":")[0].toLowerCase());
-                    return new ItemStack(data.getMaterial(), 1, Short.parseShort(input.split(":")[1]));
-                }
-            } else {
-                return null;
-            }
-        }
-
-        if (!NAME_MAP.containsKey(input)) {
-            return null;
-        }
-
-        return NAME_MAP.get(input).toItemStack();
-    }
-
     public String getName(ItemStack item) {
         if (item.getDurability() != 0) {
             net.minecraft.server.v1_8_R3.ItemStack nmsStack = CraftItemStack.asNMSCopy(item);
@@ -207,15 +161,6 @@ public final class ItemUtils {
         return ItemBuilder.of(type);
     }
 
-    private List<String> readLines() {
-        try {
-            return IOUtils.readLines(PotPvPRP.class.getClassLoader().getResourceAsStream("items.csv"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     @Getter
     @AllArgsConstructor
     public class ItemData {
@@ -247,6 +192,53 @@ public final class ItemUtils {
 
     public enum SwordType {
         DIAMOND, IRON, GOLD, STONE
+    }
+
+
+    public boolean isEating(Player player) {
+        EntityPlayer entityPlayer = ((CraftPlayer)player).getHandle();
+        ItemStack item = player.getItemInHand();
+        boolean eatingProtocol = (entityPlayer.getDataWatcher().getByte(0) & 0x10) != 0;
+        return eatingProtocol && (isFood(item) || isSpeedOrFire(item));
+    }
+
+    private boolean isSpeedOrFire(ItemStack item) {
+        if (item == null) return false;
+
+        if (item.getType() != Material.POTION) {
+            return false;
+        }
+
+        PotionType potionType = Potion.fromItemStack(item).getType();
+        return potionType == PotionType.FIRE_RESISTANCE || potionType == PotionType.SPEED;
+    }
+
+    public boolean isHeal(ItemStack item) {
+        if (item == null) return false;
+
+        Material type = item.getType();
+        if (type.equals(Material.POTION)) return item.getDurability() == 16421 || item.getDurability() == 16453;
+
+        return type.equals(Material.MUSHROOM_SOUP) || type.equals(Material.GOLDEN_APPLE);
+    }
+
+    public boolean isFood(ItemStack item) {
+        Material type = item.getType();
+        return type.equals(Material.COOKED_FISH)
+                || type.equals(Material.GRILLED_PORK)
+                || type.equals(Material.COOKED_CHICKEN)
+                || type.equals(Material.COOKED_BEEF)
+                || type.equals(Material.PUMPKIN_PIE)
+                || type.equals(Material.BAKED_POTATO)
+                || type.equals(Material.GOLDEN_CARROT);
+    }
+
+    public void swapItem(Inventory inv, int i, int j) {
+        ItemStack item1 = inv.getItem(i);
+        ItemStack item2 = inv.getItem(j);
+
+        inv.setItem(i, item2);
+        inv.setItem(j, item1);
     }
 
 

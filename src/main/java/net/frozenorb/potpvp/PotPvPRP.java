@@ -1,22 +1,21 @@
 package net.frozenorb.potpvp;
 
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
+
 import lombok.Getter;
+
 import net.frozenorb.potpvp.adapter.nametag.NameTagAdapter;
 import net.frozenorb.potpvp.adapter.scoreboard.ScoreboardAdapter;
-import net.frozenorb.potpvp.adapter.tablist.TablistAdapter;
 import net.frozenorb.potpvp.arena.ArenaHandler;
 import net.frozenorb.potpvp.command.binds.*;
 import net.frozenorb.potpvp.command.impl.*;
 import net.frozenorb.potpvp.command.impl.duel.AcceptCommand;
 import net.frozenorb.potpvp.command.impl.duel.DuelCommand;
-import net.frozenorb.potpvp.command.impl.events.ForceEndCommand;
-import net.frozenorb.potpvp.command.impl.events.HostCommand;
 import net.frozenorb.potpvp.command.impl.match.LeaveCommand;
 import net.frozenorb.potpvp.command.impl.match.MapCommand;
 import net.frozenorb.potpvp.command.impl.match.SpectateCommand;
@@ -31,8 +30,6 @@ import net.frozenorb.potpvp.command.impl.silent.SilentFollowCommand;
 import net.frozenorb.potpvp.command.impl.silent.UnfollowCommand;
 import net.frozenorb.potpvp.command.impl.stats.EloSetCommands;
 import net.frozenorb.potpvp.command.impl.stats.StatsResetCommands;
-import net.frozenorb.potpvp.events.EventListeners;
-import net.frozenorb.potpvp.events.GameHandler;
 import net.frozenorb.potpvp.hologram.HologramHandler;
 import net.frozenorb.potpvp.hologram.HologramType;
 import net.frozenorb.potpvp.hologram.PracticeHologram;
@@ -53,17 +50,18 @@ import net.frozenorb.potpvp.profile.statistics.StatisticsHandler;
 import net.frozenorb.potpvp.pvpclasses.PvPClassHandler;
 import net.frozenorb.potpvp.queue.QueueHandler;
 import net.frozenorb.potpvp.tournament.TournamentHandler;
-import net.frozenorb.potpvp.tournament.TournamentListener;
 import net.frozenorb.potpvp.util.ChunkSnapshotAdapter;
-import net.frozenorb.potpvp.util.event.HalfHourEvent;
 import net.frozenorb.potpvp.util.menu.ButtonListener;
-import net.frozenorb.potpvp.util.nametag.NameTagHandler;
 import net.frozenorb.potpvp.util.scoreboard.api.AssembleStyle;
 import net.frozenorb.potpvp.util.scoreboard.api.ScoreboardHandler;
 import net.frozenorb.potpvp.util.serialization.*;
 import net.frozenorb.potpvp.util.uuid.UUIDCache;
+
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
@@ -73,19 +71,15 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.util.BlockVector;
 import org.bukkit.util.Vector;
 import xyz.refinedev.command.CommandHandler;
-import xyz.refinedev.spigot.chunk.ChunkSnapshot;
-import xyz.refinedev.spigot.utils.CC;
-import xyz.refinedev.tablist.TablistHandler;
+import xyz.refinedev.nametag.NameTagHandler;
+import xyz.refinedev.spigot.api.chunk.ChunkSnapshot;
 
-import java.util.Calendar;
 import java.util.UUID;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 @Getter
 public final class PotPvPRP extends JavaPlugin {
 
+    @Getter
     private static PotPvPRP instance;
 
     @Getter
@@ -124,7 +118,6 @@ public final class PotPvPRP extends JavaPlugin {
     private PostMatchInvHandler postMatchInvHandler;
     private FollowHandler followHandler;
     private EloHandler eloHandler;
-    private GameHandler gameHandler;
     private PvPClassHandler pvpClassHandler;
     private TournamentHandler tournamentHandler;
 
@@ -132,7 +125,6 @@ public final class PotPvPRP extends JavaPlugin {
     public HologramHandler hologramHandler;
     public CommandHandler commandHandler;
     public NameTagHandler nameTagHandler;
-    public TablistHandler tablistHandler;
 
     public UUIDCache uuidCache;
 
@@ -143,26 +135,24 @@ public final class PotPvPRP extends JavaPlugin {
     public void onLoad() {
         instance = this;
         saveDefaultConfig();
+        this.setupMongo();
     }
 
     @Override
     public void onEnable() {
-        this.setupMongo();
-
         this.uuidCache = new UUIDCache();
-		
+
         this.commandHandler = new CommandHandler(this);
         this.commandHandler.bind(KitType.class).toProvider(new KitTypeProvider());
         this.commandHandler.bind(ChatColor.class).toProvider(new ChatColorProvider());
         this.commandHandler.bind(UUID.class).toProvider(new UUIDDrinkProvider());
-		
+
         this.registerExpansions();
         this.registerCommands();
         this.registerPermission();
 
         kitHandler = new KitHandler();
         eloHandler = new EloHandler();
-        gameHandler = new GameHandler();
         duelHandler = new DuelHandler();
         lobbyHandler = new LobbyHandler();
         arenaHandler = new ArenaHandler();
@@ -183,15 +173,19 @@ public final class PotPvPRP extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new PearlCooldownListener(), this);
         this.getServer().getPluginManager().registerEvents(new TabCompleteListener(), this);
         this.getServer().getPluginManager().registerEvents(new StatisticsHandler(), this);
-        this.getServer().getPluginManager().registerEvents(new EventListeners(), this);
-        this.getServer().getPluginManager().registerEvents(new TournamentListener(), this);
         this.getServer().getPluginManager().registerEvents(new ButtonListener(), this);
-        this.logger("&7Registering &clisteners&7...");
-
-        this.setupHourEvents();
-
         this.getServer().getScheduler().runTaskTimerAsynchronously(this, cache, 20L, 20L);
-        this.logger("&7Initialized &cPotPvP &7Successfully!");
+
+        Bukkit.getServer().getWorlds().forEach(world -> {
+            world.setGameRuleValue("doDayLightCycle", "false");
+            world.setGameRuleValue("doWeatherCycle", "false");
+            world.setGameRuleValue("doMobSpawning", "false");
+
+            world.getEntities().stream().filter(entity -> entity.getType() != EntityType.PLAYER && entity.getType() != EntityType.ITEM_FRAME).forEach(Entity::remove);
+            world.setStorm(false);
+            world.setThundering(false);
+            world.setTime(0L);
+        });
     }
 
     @Override
@@ -201,22 +195,10 @@ public final class PotPvPRP extends JavaPlugin {
         scoreboardHandler.shutdown();
     }
 
-    //TODO: Get rid of this
-    private void setupHourEvents() {
-        ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor((new ThreadFactoryBuilder()).setNameFormat("PotPvP - Hour Event Thread").setDaemon(true).build());
-        int minOfHour = Calendar.getInstance().get(Calendar.MINUTE);
-        int minToHour = 60 - minOfHour;
-        int minToHalfHour = (minToHour >= 30) ? minToHour : (30 - minOfHour);
-
-        executor.scheduleAtFixedRate(() -> this.getServer().getScheduler().runTask(this, () -> this.getServer().getPluginManager().callEvent(new HalfHourEvent())), minToHalfHour, 30L, TimeUnit.MINUTES);
-    }
-
     private void setupMongo() {
         if (this.getConfig().getBoolean("MONGO.URI-MODE")) {
             this.mongoClient = MongoClients.create(this.getConfig().getString("MONGO.URI.CONNECTION_STRING"));
             this.mongoDatabase = mongoClient.getDatabase(this.getConfig().getString("MONGO.URI.DATABASE"));
-
-            this.logger("&7Initialized &cMongoDB &7successfully!");
             return;
         }
 
@@ -235,8 +217,6 @@ public final class PotPvPRP extends JavaPlugin {
 
         this.mongoClient = MongoClients.create(uri);
         this.mongoDatabase = mongoClient.getDatabase(this.getConfig().getString("MONGO.URI.DATABASE"));
-
-        this.logger("&7Initialized &cMongoDB &7successfully!");
     }
 
     // kaya was here
@@ -275,14 +255,10 @@ public final class PotPvPRP extends JavaPlugin {
         commandHandler.register(new MapCommand(), "map");
         commandHandler.register(new LeaveCommand(), "leave", "spawn");
 
-        commandHandler.register(new ForceEndCommand(), "forceend");
-        commandHandler.register(new HostCommand(), "host", "events");
-
         commandHandler.register(new AcceptCommand(), "accept");
         commandHandler.register(new DuelCommand(), "duel");
 
         commandHandler.registerCommands();
-        this.logger("&7Registering &ccommands&7...");
     }
 
     private void registerPermission() {
@@ -294,13 +270,11 @@ public final class PotPvPRP extends JavaPlugin {
         pm.addPermission(new Permission("potpvp.spectate", PermissionDefault.OP));
 
         this.commandHandler.registerPermissions();
-        this.logger("&7Registering &cpermissions&7...");
     }
 
     private void registerExpansions() {
         ScoreboardAdapter scoreboardAdapter = new ScoreboardAdapter();
         NameTagAdapter nameTagAdapter = new NameTagAdapter();
-        TablistAdapter tablistAdapter = new TablistAdapter();
 
         this.scoreboardHandler = new ScoreboardHandler(this, scoreboardAdapter);
         this.scoreboardHandler.setAssembleStyle(AssembleStyle.KOHI);
@@ -309,11 +283,7 @@ public final class PotPvPRP extends JavaPlugin {
         this.nameTagHandler = new NameTagHandler(this);
         this.nameTagHandler.registerAdapter(nameTagAdapter);
 
-        this.tablistHandler = new TablistHandler(this);
-        this.tablistHandler.registerAdapter(tablistAdapter, 20L);
-
         if (this.getServer().getPluginManager().isPluginEnabled("HolographicDisplays")) {
-            this.logger("&7Found &cHolographicDisplays&7, Hooking holograms...");
             this.hologramHandler = new HologramHandler();
 
             this.commandHandler.bind(PracticeHologram.class).toProvider(new HologramProvider());
@@ -321,16 +291,4 @@ public final class PotPvPRP extends JavaPlugin {
             this.commandHandler.register(new HologramCommands(), "prachologram");
         }
     }
-
-    public void logger(String message) {
-        this.getServer().getConsoleSender().sendMessage(CC.translate("&7[&cPotPvPRP&7] &r" + message));
-    }
-
-    //fuck you kotlin
-    public static PotPvPRP getInstance() { return instance; }
-
-    public ArenaHandler getArenaHandler() { return arenaHandler; }
-
-    public GameHandler getGameHandler() { return gameHandler; }
-    // fuck your mother, kotlin
 }

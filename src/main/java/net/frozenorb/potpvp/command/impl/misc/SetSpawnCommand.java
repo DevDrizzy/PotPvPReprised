@@ -18,14 +18,6 @@ public class SetSpawnCommand implements PotPvPCommand {
 
         sender.getWorld().setSpawnLocation(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
 
-        ((CraftWorld)sender.getWorld()).getHandle().setSpawn(
-            loc.getBlockX(),
-            loc.getBlockY(),
-            loc.getBlockZ(),
-            loc.getYaw(),
-            loc.getPitch()
-        );
-
         sender.sendMessage(ChatColor.YELLOW + "Spawn point updated!");
     }
 

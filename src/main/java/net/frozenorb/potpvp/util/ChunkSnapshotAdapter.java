@@ -3,7 +3,7 @@ package net.frozenorb.potpvp.util;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import xyz.refinedev.spigot.chunk.ChunkSnapshot;
+import xyz.refinedev.spigot.api.chunk.ChunkSnapshot;
 
 import java.io.IOException;
 

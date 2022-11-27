@@ -1,12 +1,13 @@
 package net.frozenorb.potpvp.pvpclasses.pvpclasses;
 
-import kotlin.Pair;
 import lombok.Getter;
 import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.util.TimeUtils;
 import net.frozenorb.potpvp.match.MatchTeam;
 import net.frozenorb.potpvp.pvpclasses.PvPClass;
 import net.frozenorb.potpvp.pvpclasses.PvPClassHandler;
+import org.apache.commons.lang3.tuple.MutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -131,7 +132,7 @@ public class ArcherClass extends PvPClass {
                 getMarkedPlayers().put(player.getName(), System.currentTimeMillis() + (MARK_SECONDS * 1000));
 
                 getMarkedBy().putIfAbsent(shooter.getName(), new HashSet<>());
-                getMarkedBy().get(shooter.getName()).add(new Pair<>(player.getName(), System.currentTimeMillis() + (MARK_SECONDS * 1000)));
+                getMarkedBy().get(shooter.getName()).add(new MutablePair<>(player.getName(), System.currentTimeMillis() + (MARK_SECONDS * 1000)));
 
                 PotPvPRP.getInstance().getNameTagHandler().reloadPlayer(player);
 
@@ -238,7 +239,7 @@ public class ArcherClass extends PvPClass {
 
         if (markedBy.containsKey(player.getName())) {
             for (Pair<String, Long> pair : markedBy.get(player.getName())) {
-                if (victim.getName().equals(pair.getFirst()) && pair.getSecond() > System.currentTimeMillis()) {
+                if (victim.getName().equals(pair.getLeft()) && pair.getRight() > System.currentTimeMillis()) {
                     return false;
                 }
             }

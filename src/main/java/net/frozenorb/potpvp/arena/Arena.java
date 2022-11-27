@@ -20,10 +20,9 @@ import com.google.common.collect.Maps;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.entity.EntityType;
-import xyz.refinedev.spigot.chunk.ChunkSnapshot;
 import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.util.AngleUtils;
+import xyz.refinedev.spigot.api.chunk.ChunkSnapshot;
 
 /**
  * Represents a pasted instance of an {@link ArenaSchematic}.

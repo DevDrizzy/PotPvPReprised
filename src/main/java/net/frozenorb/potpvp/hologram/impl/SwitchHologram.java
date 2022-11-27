@@ -3,7 +3,6 @@ package net.frozenorb.potpvp.hologram.impl;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.google.common.base.Preconditions;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.hologram.PracticeHologram;
@@ -11,23 +10,25 @@ import net.frozenorb.potpvp.kit.kittype.KitType;
 import org.bukkit.configuration.Configuration;
 import xyz.refinedev.command.util.CC;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
- * This Project is property of Refine Development © 2021
+ * This Project is property of Refine Development © 2021 - 2022
  * Redistribution of this Project is not allowed
  *
  * @author Drizzy
- * Created: 9/15/2021
- * Project: PotPvPRP
+ * Created: 8/21/2022
+ * Project: potpvp-reprised
  */
 
-@Getter
 @RequiredArgsConstructor
-public class KitHologram extends PracticeHologram {
+public class SwitchHologram extends PracticeHologram {
+
 
     private final PotPvPRP plugin;
-    private final KitType kit;
+    private KitType kit;
 
     /**
      * Spawn the hologram for all players on the server
@@ -35,6 +36,10 @@ public class KitHologram extends PracticeHologram {
      */
     public void spawn() {
         Preconditions.checkNotNull(this.meta, "Hologram Meta can not be null!");
+
+        if (kit == null) {
+            this.findNextKit();
+        }
 
         Configuration config = plugin.getConfig();
 
@@ -60,7 +65,7 @@ public class KitHologram extends PracticeHologram {
             }
 
             String replace = line.replace("<kit>", kit.getDisplayName())
-                                 .replace("<update>", String.valueOf(updateIn));
+                    .replace("<update>", String.valueOf(updateIn));
 
             apiHologram.appendTextLine(CC.translate(replace));
         }
@@ -80,11 +85,25 @@ public class KitHologram extends PracticeHologram {
     }
 
     /**
-     * Update the hologram and its
+     * Update the hologram and its contents
+     * respectively, this will change the hologram's kit
+     * in the {@link SwitchHologram} otherwise it will update
      * the leaderboard being displayed
      */
     public void update() {
         this.deSpawn();
+        this.findNextKit();
         this.spawn();
+    }
+
+    public void findNextKit() {
+        List<KitType> kits =  KitType.getAllTypes().stream().filter(KitType::isSupportsRanked).collect(Collectors.toList());
+        int index = kits.indexOf(kit);
+
+        if (index + 2 >= kits.size()) {
+            this.kit = kits.get(0);
+        }
+
+        this.kit = kits.get(index + 1);
     }
 }

@@ -282,6 +282,42 @@ public class Cuboid implements Iterable<Block>, Cloneable, ConfigurationSerializ
     }
 
     /**
+     * Get a list of the chunks which are fully or partially contained in this cuboid.
+     *
+     * @return a list of Chunk objects
+     */
+    public List<Chunk> getChunks() {
+        List<Chunk> chunks = new ArrayList<>();
+
+        World w = getWorld();
+
+        // These operators get the lower bound of the chunk, by complementing 0xf (15) into 16
+        // and using an OR gate on the integer coordinate
+
+        int x1 = getLowerX() & ~0xf;
+        int x2 = getUpperX() & ~0xf;
+        int z1 = getLowerZ() & ~0xf;
+        int z2 = getUpperZ() & ~0xf;
+
+        for (int x = x1; x <= x2; x += 16) {
+            for (int z = z1; z <= z2; z += 16) {
+                chunks.add(w.getChunkAt(x >> 4, z >> 4));
+            }
+        }
+
+        return chunks;
+    }
+
+    public void loadChunks() {
+        this.getChunks().forEach(Chunk::load);
+    }
+
+    public void unloadChunks() {
+        this.getChunks().forEach(Chunk::unload);
+    }
+
+
+    /**
      * Expand the Cuboid in the given direction by the given amount.  Negative amounts will shrink the Cuboid in the given direction.  Shrinking a cuboid's face past the opposite face is not an error and will return a valid Cuboid.
      *
      * @param dir    - The direction in which to expand
@@ -564,26 +600,6 @@ public class Cuboid implements Iterable<Block>, Cloneable, ConfigurationSerializ
         return w.getBlockAt(this.x1 + x, y1 + y, this.z1 + z);
     }
 
-    /**
-     * Get a list of the chunks which are fully or partially contained in this cuboid.
-     *
-     * @return A list of Chunk objects
-     */
-    public List<Chunk> getChunks() {
-        List<Chunk> res = new ArrayList<Chunk>();
-
-        World w = this.getWorld();
-        int x1 = this.getLowerX() & ~0xf;
-        int x2 = this.getUpperX() & ~0xf;
-        int z1 = this.getLowerZ() & ~0xf;
-        int z2 = this.getUpperZ() & ~0xf;
-        for (int x = x1; x <= x2; x += 16) {
-            for (int z = z1; z <= z2; z += 16) {
-                res.add(w.getChunkAt(x >> 4, z >> 4));
-            }
-        }
-        return res;
-    }
 
     public Iterator<Block> iterator() {
         return new CuboidIterator(this.getWorld(), this.x1, this.y1, this.z1, this.x2, this.y2, this.z2);

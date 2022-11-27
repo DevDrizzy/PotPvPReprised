@@ -1,8 +1,9 @@
-name: PotPvP
-author: Drizzy, MineHQ
-version: 1.8.8
+name: PotPvP-RP
+author: DevDrizzy, MineHQ
+version: 2.0
 main: net.frozenorb.potpvp.PotPvPRP
 depend:
   - ProtocolLib
+  - Citizens
 softdepend:
   - HolographicDisplays

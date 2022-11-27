@@ -2,10 +2,8 @@ package net.frozenorb.potpvp.util;
 
 import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.util.EntityUtils;
-import net.minecraft.server.v1_8_R3.MinecraftServer;
-import net.minecraft.server.v1_8_R3.PacketPlayOutEntityDestroy;
-import net.minecraft.server.v1_8_R3.PacketPlayOutEntityStatus;
-import net.minecraft.server.v1_8_R3.PacketPlayOutNamedEntitySpawn;
+import net.minecraft.server.v1_8_R3.*;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.util.Vector;
 
@@ -88,6 +86,12 @@ public final class PlayerUtils {
     public static boolean hasOtherInventoryOpen(Player player) {
         return ((CraftPlayer)player).getHandle().activeContainer.windowId != 0;
     }
+
+    public static CraftEntity getLastAttacker(Player p) {
+        final EntityLiving lastAttacker = ((CraftPlayer)p).getHandle().lastDamager;
+        return (lastAttacker == null) ? null : lastAttacker.getBukkitEntity();
+    }
+
 
     public static int getPing(Player player) {
         return ((CraftPlayer)player).getHandle().ping;
@@ -184,6 +188,42 @@ public final class PlayerUtils {
             ex.printStackTrace();
         }
 
+    }
+
+    public static String repeat(String string, int count) {
+        return new String(new char[count]).replace("\0", string);
+    }
+
+    public static String compile(Object[] objs) {
+        return compile(objs, " ");
+    }
+
+    public static String compile(Object[] objs, String seperator) {
+        StringBuilder builder = new StringBuilder();
+        for ( Object s : objs ) {
+            if (builder.length() != 0) builder.append(seperator);
+            builder.append(s.toString());
+        }
+        return builder.toString();
+    }
+
+    public static String compile(int[] ints, String seperator) {
+        StringBuilder builder = new StringBuilder();
+        for ( Object s : ints ) {
+            if (builder.length() != 0) builder.append(seperator);
+            builder.append(s.toString());
+        }
+        return builder.toString();
+    }
+
+    public static String compile(Object[] objs, String seperator, int start) {
+        StringBuilder builder = new StringBuilder();
+        for ( int i = start; i < objs.length; i++ ) {
+            Object s = objs[i];
+            if (builder.length() != 0) builder.append(seperator);
+            builder.append(s.toString());
+        }
+        return builder.toString();
     }
 
 }

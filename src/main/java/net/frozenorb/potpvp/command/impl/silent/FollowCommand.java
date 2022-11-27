@@ -1,6 +1,5 @@
 package net.frozenorb.potpvp.command.impl.silent;
 
-import net.frozenorb.potpvp.events.Game;
 import net.frozenorb.potpvp.PotPvPRP;
 import net.frozenorb.potpvp.command.PotPvPCommand;
 import net.frozenorb.potpvp.profile.follow.FollowHandler;
@@ -38,12 +37,6 @@ public class FollowCommand implements PotPvPCommand {
                 sender.sendMessage(ChatColor.RED + target.getName() + " doesn't allow spectators at the moment.");
                 return;
             }
-        }
-
-        Game game = PotPvPRP.getInstance().getGameHandler().getCurrentGame(target);
-        if (game != null && game.getPlayers().contains(target)) {
-            sender.sendMessage(ChatColor.RED + target.getName() + " is playing an event!");
-            return;
         }
 
         followHandler.getFollowing(sender).ifPresent(fo -> new UnfollowCommand().unfollow(sender));

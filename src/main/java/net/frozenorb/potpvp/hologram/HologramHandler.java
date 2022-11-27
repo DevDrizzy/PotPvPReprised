@@ -52,7 +52,7 @@ public final class HologramHandler {
             throw new RuntimeException(e);
         }
 
-        Bukkit.getScheduler().runTaskTimerAsynchronously(PotPvPRP.getInstance(), new HologramUpdateTask(), 20L, 20L);
+        Bukkit.getScheduler().runTaskTimer(PotPvPRP.getInstance(), new HologramUpdateTask(), 20L, 20L);
     }
 
     /**
