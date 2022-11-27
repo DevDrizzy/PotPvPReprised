@@ -26,14 +26,26 @@ If you want access to the APIs in "refine" branch of this project to able to use
 
 ## Compiling
 You are required to compile this with Java 8+ and must use maven.
+
 Secondly, this also requires Refine's fork of Drink CommandAPI.
 You can download it here,
 
 [Download Here](https://cdn.discordapp.com/attachments/826102925805092885/966575292460179536/CommandAPI-1.1-SNAPSHOT.jar)
 
+Thirdly, this also requires Refine's NameTagAPI.
+You can download it here,
+[Download Here](https://cdn.discordapp.com/attachments/826102925805092885/1046383678202314782/NameTagAPI-1.2.jar)
+
+
 After downloading, run this maven command with cmd or your IDE.
+(FOR COMMANDAPI)
 ```
 mvn install:install-file -Dfile=<DOWNLOADED JAR FILE LOCATION.jar> -DgroupId=xyz.refinedev.api -DartifactId=CommandAPI -Dversion=1.1-SNAPSHOT -Dpackaging=jar
+```
+
+(FOR NAMETAGAPI)
+```
+mvn install:install-file -Dfile=<DOWNLOADED JAR FILE LOCATION.jar> -DgroupId=xyz.refinedev.api -DartifactId=NameTagAPI -Dversion=1.2-SNAPSHOT -Dpackaging=jar
 ```
 
 ## Note
